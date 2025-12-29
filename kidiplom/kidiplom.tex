@@ -1,6 +1,6 @@
 %%%  Ukázkový text a dokumentace stylu pro text závěrečné (bakalářské a
 %%%  diplomové) práce na KI PřF UP v Olomouci
-%%%  Copyright (C) 2012 Martin Rotter, <rotter.martinos@gmail.com>
+%%%  Copyright (C) 2012 Jesse Sadowý, <rotter.martinos@gmail.com>
 %%%  Copyright (C) 2014 Jan Outrata, <jan.outrata@upol.cz>
 
 
@@ -77,59 +77,55 @@
 %% použitím makra s uvedením jazyka jako nepovinného parametru.
 
 %% Název práce, česky a anglicky. Měl by se vysázet na jeden řádek.
-\title{Styl pro text závěrečné práce}
-\title[english]{A style for thesis}
+\title{Procedurální generování dungeonů ve 2D hrách}
+\title[english]{Procedural Generation of Dungeons in 2D Games}
 
 %% Volitelný podnázev práce, česky a anglicky. Měl by se vysázet na
 %% jeden řádek. Výchozí je prázdný.
-\subtitle{Ukázkový text a dokumentace stylu v \LaTeX{}u}
-\subtitle[english]{Sample text and documentation of the \LaTeX{} style}
+%\subtitle{Ukázkový text a dokumentace stylu v \LaTeX{}u}
+%\subtitle[english]{Sample text and documentation of the \LaTeX{} style}
 
 %% Jméno autora práce. Makro nemá nepovinný parametr pro uvedení
 %% jazyka.
-\author{Martin Rotter}
+\author{Jesse Sadowý}
 
 %% Jméno vedoucího práce (včetně titulů). Makro nemá nepovinný
 %% parametr pro uvedení jazyka.
-\supervisor{doc. Mgr. Jan Outrata, Ph.D.}
+\supervisor{doc. RNDr. Jan Konečný, Ph.D.}
 
 %% Volitelný rok odevzdání práce. Výchozí je aktuální (kalendářní)
 %% rok. Makro nemá nepovinný parametr pro uvedení jazyka.
-%\yearofsubmit{\the\year}
+\yearofsubmit{2026}
 
 %% Anotace práce, včetně anglické (obvykle překlad z jazyka
 %% práce). Jeden odstavec!
-\annotation{Ukázkový text závěrečné práce na Katedře informatiky
-  Přírodovědecké fakulty Univerzity Palackého v Olomouci, který je
-  zároveň dokumentací stylu pro text práce v \LaTeX{}u. Zdrojový text
-  v \LaTeX{}u je doporučeno použít jako šablonu pro text skutečné
-  závěrečné práce studenta.}
+\annotation{Bakalářská práce se zabývá procedurálním generováním dungeonů ve 2D hrách. Zkoumá různé metody a techniky používané pro generování a následně porovnává jejich efektivitu a výkonnost v prostředí herního enginu Godot.}
 
-\annotation[english]{Sample text of thesis at the \kitextdepten,
-  \kitextfacultyen, \kitextuniven{} and, at the same time,
-  documentation of the \LaTeX{} style for the text. The source text in
-  \LaTeX{} is recommended to be used as a template for real student's
-  thesis text.}
+\annotation[english]{Bachelor's thesis focuses on procedural generation of dungeons in 2D games. It explores various methods and techniques used for generation and subsequently compares their efficiency and performance within the Godot game engine environment.}
 
 %% Klíčová slova práce, včetně anglických. Oddělená (obvykle) středníkem.
-\keywords{styl textu; závěrečná práce; dokumentace; ukázkový text}
-\keywords[english]{text style; thesis; documentation; sample text}
+\keywords{procedurální generování; dungeon; 2D hry; Godot; herní engine}
+\keywords[english]{procedural generation; dungeon; 2D games; Godot; game engine}
 
 %% Volitelná specifikace příloh textu práce, i anglicky. Výchozí je
 %% 'elektronická data v systému katedry informatiky / electronic data
 %% in system of department of computer science'.
 %\supplements{nejlepší software všech dob}
+\supplements{test}
 %\supplements[english]{the best software of all times}
 
 %% Volitelné poděkování. Stručné! Výchozí je prázdné. Makro nemá
 %% nepovinný parametr pro uvedení jazyka.
-\thanks{Děkuji, děkuji, děkuji.}
+\thanks{Děkuji vedoucímu práce, panu doc. RNDr. Janu Konečnému, Ph.D. za vedení a cenné rady. Dále bych rád poděkoval své rodině a přátelům za podporu během studia.}
 
 %% Cesta k souboru s bibliografií pro její sazbu pomocí BibLaTeXu
 %% (zvolenou nepovinným parametrem biblatex makra
 %% \documentclass). Použijte pouze při této sazbě, ne při (výchozí)
 %% sazbě v prostředí thebibliography.
 \bibliography{bibliografie.bib}
+
+%% Nastavení biblatex pro odstranění varování
+\ExecuteBibliographyOptions{seconds=true}
 
 %% Další dodatečné styly (balíky) potřebné pro sazbu vlastního textu
 %% práce.
@@ -155,8 +151,158 @@
 %   dokumentace stylu, vyjma přílohy~\ref{sec:ObsahData}, je rozpracovaná
 %   a (značně) neúplná verze!!!}
 
-\section{Styly pro psaní bakalářských a diplomových prací}
-Toto jsou styly pro psaní bakalářských a diplomových prací přes typografický systém \LaTeX{}, tedy \textbf{kistyles}.
+\section{Úvod}
+
+Tato kapitola se věnuje uvedení do problematiky procedurálního generování obsahu v počítačových hrách.
+Je zde popsána motivace práce, její hlavní cíl a stručný přehled struktury následujících kapitol.
+
+\section{Procedurální generování obsahu}
+
+\subsection{Základní vymezení pojmu}
+
+Tato podkapitola vysvětluje pojem procedurální generování obsahu a jeho obecné principy
+v kontextu digitálních her a interaktivních aplikací.
+
+\subsection{Přínosy a omezení procedurálního přístupu}
+
+Podkapitola se zaměřuje na výhody a nevýhody procedurálního generování,
+zejména z pohledu variability obsahu, náročnosti vývoje a kontroly nad výsledkem.
+
+\subsection{Využití v herním průmyslu}
+
+Zde jsou stručně uvedeny příklady her, které procedurální generování využívají,
+a způsoby, jakými je tento přístup aplikován v praxi.
+
+\section{Dungeony ve 2D hrách}
+
+\subsection{Charakteristické vlastnosti dungeonů}
+
+Tato část popisuje typické rysy dungeonových map,
+jako jsou místnosti, chodby, konektivita a herní čitelnost.
+
+\subsection{Základní stavební prvky dungeonových map}
+
+Podkapitola se věnuje jednotlivým prvkům,
+ze kterých jsou dungeony nejčastěji tvořeny,
+a jejich významu pro herní zážitek.
+
+\subsection{Přehled vybraných metod generování dungeonů}
+
+\subsubsection{Generování pomocí náhodného umístění místností}
+
+\subsubsection{Rozdělování prostoru metodou Binary Space Partitioning}
+
+\subsubsection{Generování pomocí buněčných automatů}
+
+\subsubsection{Metoda náhodné procházky}
+
+\section{Použité technologie}
+
+\subsection{Herní engine Godot}
+
+Tato podkapitola stručně představuje herní engine Godot
+a odůvodňuje jeho volbu pro praktickou část práce.
+
+\subsection{Skriptovací jazyk GDScript}
+
+Zde je popsán jazyk GDScript a jeho role při implementaci generovacích algoritmů.
+
+\subsection{Práce s dlaždicovou mapou}
+
+Podkapitola se zaměřuje na způsob reprezentace herní mapy pomocí dlaždic
+a nástroje poskytované enginem Godot.
+
+\section{Návrh řešení}
+
+\subsection{Datová reprezentace mapy}
+
+Tato část popisuje způsob ukládání a zpracování mapy
+pro účely procedurálního generování.
+
+\subsection{Struktura generátoru}
+
+Zde je popsán návrh architektury generátoru
+a oddělení logiky generování od vykreslování.
+
+\subsection{Obecný průběh generování}
+
+Podkapitola shrnuje základní kroky,
+které jsou společné pro implementované generovací metody.
+
+\section{Implementace generovacích metod}
+
+\subsection{Metoda náhodného umístění místností}
+
+\subsubsection{Princip metody}
+
+\subsubsection{Postup generování}
+
+\subsubsection{Propojování místností chodbami}
+
+\subsubsection{Ukázky generovaných map}
+
+\subsection{Metoda Binary Space Partitioning}
+
+\subsubsection{Princip rozdělování prostoru}
+
+\subsubsection{Postup generování mapy}
+
+\subsubsection{Výsledné struktury dungeonů}
+
+\subsubsection{Ukázky generovaných map}
+
+\subsection{Metoda buněčných automatů}
+
+\subsubsection{Základní princip}
+
+\subsubsection{Použitá pravidla transformace}
+
+\subsubsection{Charakter výsledných map}
+
+\subsubsection{Ukázky generovaných map}
+
+\section{Vyhodnocení a porovnání metod}
+
+\subsection{Zvolená kritéria hodnocení}
+
+Tato podkapitola definuje kritéria,
+na jejichž základě jsou jednotlivé metody porovnávány.
+
+\subsection{Srovnání výsledků}
+
+Zde je provedeno porovnání implementovaných metod
+z hlediska struktury map, variability a výpočetní náročnosti.
+
+\subsection{Zhodnocení dosažených výsledků}
+
+Podkapitola shrnuje pozorované rozdíly mezi metodami
+a jejich vhodnost pro různé typy her.
+
+\section{Diskuze}
+
+\subsection{Zkušenosti z implementace}
+
+Tato část reflektuje praktické zkušenosti získané během vývoje
+a identifikuje problematická místa řešení.
+
+\subsection{Možnosti dalšího rozšíření}
+
+Zde jsou nastíněny možné směry dalšího vývoje
+a rozšíření implementovaného řešení.
+
+\section{Závěr}
+
+Tato kapitola shrnuje dosažené cíle práce,
+hodnotí splnění zadání a uzavírá celý text.
+
+\section*{Seznam použité literatury}
+
+\appendix
+\section{Přílohy}
+
+\subsection{Ukázky zdrojového kódu}
+
+\subsection{Odkaz na repozitář projektu}
 
 \subsection{Požadavky a podprovaná prostředí}
 Sada balíku \textbf{kistyles} podporuje následující distribuce systému \LaTeX{}:
@@ -251,7 +397,7 @@ encoding & utf8 & Kódování souboru dokumentu, doporučuje se ponechat výchoz
 bibencoding & utf8 & Kódování souboru bibliografie. Tato volba má
 smysl pouze, pokud je použita bibliografie skrze balíček \BibLaTeX{}. \\
 
-program & \vtop{\hbox{\strut infpvs}\hbox{\strut ainfvs}} & Specifikuje studijní program/obor (specializaci):\newline
+program & \vtop{\hbox{\strut itk}\hbox{\strut ainfvs}} & Specifikuje studijní program/obor (specializaci):\newline
 \begin{description}
 \item[infoi] Informatika (Obecná informatika)\,--\,bakalářský i navazující magisterský,
 \item[infpvs] Informatika (Programování a vývoj software)\,--\,bakalářský,
@@ -275,7 +421,10 @@ program & \vtop{\hbox{\strut infpvs}\hbox{\strut ainfvs}} & Specifikuje studijn�
 \subsection{Geometrie stránky}
 Tento styl používá list velikosti $A4$. Pro sazbu prací je třeba použít jednostrannou sazbu. Levý okraj je rozšířen s ohledem na vazbu výsledné knižní podoby práce.
 
-\section{Sazba částí dokumentu}
+\subsection{Definice procedurálního generování}
+\subsection{Výhody a nevýhody procedurálního generování}
+\subsection{Využití procedurálního generování ve hrách}
+
 \subsection{Sazba úvodní strany či obsahu}
 Vysázení všech podstatných částí úvodu práce obstará makro \kiinlinecode{TeX}{!}{\\maketitle}. Pro správné vysázení všech částí a meta-informací je potřeba použí makra \kiinlinecode{TeX}{!}{\\title}, \mbox{\kiinlinecode{TeX}{!}{\\author}} a další. Jejich přehled lze najít ve zdrojovém souboru tohoto dokumentu. V případě použítí \textbf{pdf} výstupu se generuje i dodatečná hlavička souboru s meta-informacemi jako je autor dokumentu, název práce či dalšími.
 
