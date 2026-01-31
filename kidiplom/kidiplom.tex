@@ -154,30 +154,53 @@
 \section{Procedurální generování obsahu ve hrách}
 
 \subsection{Vymezení a definice pojmu}
+Procedurální generování obsahu ve hrách lze vymezit jakožto algoritmickou tvorbu herního obsahu s limitovaným nebo nepřímým zásahem člověka. Tento přístup nám umožňuje automatizovanou tvorbu různých prvků hry bez nutnosti jejich ruční úpravy. Herní obsah zahrnuje široké spektrum prvků jako jsou mapy, úrovně, pravidla, úkoly, zbraně či předměty.
 
-Procedurální generování obsahu ve hrách lze vymezit jakožto algoritmickou tvorbu herního obsahu s limitovaným nebo nepřímým zásahem hráče. Tento přístup nám umožňuje automatizovanou tvorbu různých prvků hry bez nutnosti jejich úpravy. Herní obsah zahrnuje široké spektrum prvků jako jsou mapy, úrovně, pravidla, úkoly, zbraně či předměty.
+PCG se tedy neomezuje pouze na herní prostřední, ale může být aplikováno i na další složky herního systému. V závislosti na konkrétním návrhu může ovlivnit nejen prostorovou strukturu hry, ale také její mechaniky, obtížnost či samotný průběh hraní.
 
-PCG se tedy neomezuje pouze na herní prostřední, ale také i na výše zmíněné prvky.
+V současné době je pojem generování obsahu často spojován s využitím metod umělé inteligence, avšak v této práci se pojednává výhradně o algoritmické metody, založené na předem definovaných pravidlech a postupech, nikoli na adaptivním či učícím se chování systémů umělé inteligence.
 
-V současné době je pojem generování obsahu často spojován s využitím metod AI, avšak zde se pojednává výhradně o algoritmické metody, založené na předem definovaných pravidlech a postupech.
+Klíčovým pojmem v této souvislosti jsou samotné hry, jejichž definice je dosti problematická. Pro účely této práce se jendá především o digitální videohry určené pro osobní počítače, případně další platformy
 
-Nedílným klíčovým pojmem jsou hry, který je však těžké definovat a je nutno zmínit, že v tomto případě se jedná o video hry především pro dnešní počítače.
-
-Termíny "procedurální" a "generování" zdůrazňují, že se zabýváme počítačovými procedurami a algoritmy, které nám generují obsah. PCG spustí člověk na počítači a "něco" nám vygeneruje.
+Termíny "procedurální" a "generování" zdůrazňují skutečnost, že se jedná o proces realizovaný prostřednictvím počítačových procedur a algoritmů, jejichž spuštění zahájí člověk, ale výsledkem procesu je automaticky vytvoření herní obsah, který není pevně předem definován, ale vzniká za běhu programu.
 
 \subsection{Motivace a důvody využití procedurálního generování}
 
 Hlavním důvodem pro použití PCG je, že obsah je v podstatě generován sám, takže odstraňuje nutnost kreslit každou novou mapu či položku zvlášť, vytvrářet logiku pro další úrovně, případně v každé truhle, kterou ve hře najdeme, specifikovat, co tam bude. Nejenže tím zjedodušíme tvorbu, ale výrazně ušetříme čas i náklady na vývoj dané hry.
 
 Dalším výrazným přínosem je to, že PCG přidává momenty překvapení a znovuhratelonsti, jelikož obsah se bude při každém průchodu lišit a hráč tím pádem nikdy neví, co se stane a jaká výzva ho čeká. Dále nám to umožňuje hru přizpůsobit samotnému hráči podle toho, jak hraje. Příkladem může být proměnlivá obtížnost, která zůstane vyvážená a hra tím nebude příliš jednoduchá či složitá.
-Vhodné je použít PCG i při umisťování herních předmětů či nepřátel, tím pádem bude každý průchod jedinečný a opět to dodá hře unikátnost a znovuhratelnost.
+Vhodné je použít PCG i při umisťování herních předmětů či nepřátel, tím pádem bude každý průchod jedinečný a opět to dodá hře unikátnost a znovuhratelnost, jelikož hráč se nemohl spoléhat na zapamatováni si rozložení herního světa z předhcozích průchodů.
 
 Na první pohled to tak nemusí vypadat, ale tento způsob dodává hře i více kreativních prvků, jelikož daný algoritmus může přinést výsledky, na které by vývojář nemusel nikdy přijít. Člověk má tendenci používat to, co už někdy viděl a tímto bude obsah tvořen zcela novým a nečekaným způsobem.
 
-Nakonec je vhodné podotknout, že díky PCG se naučíme porozumět i designu her samotných. Jak uvádí Shaker et al. \cite{pcgbook}, proces tvorby generátoru vyžaduje hluboké porozumění herním mechanikám a principům dobrého designu, které musíme převést do algoritmické podoby.
+Nakonec je vhodné podotknout, že díky PCG se naučíme porozumět i designu samotných her. Jak uvádí Shaker et al. \cite{pcgbook}, proces tvorby generátoru vyžaduje hluboké porozumění herním mechanikám a principům dobrého designu, které musíme převést do algoritmické podoby.
 
 \subsection{Nevýhody procedurálního přístupu}
-\subsection{Využití v herním průmyslu}
+
+TODO
+
+\subsection{Využití procedurálního generování v herním průmyslu}
+V dnešní době se s procedurálním generováním setkáváme témeř v každé moderní videohře, avšak jeho počátky spadají již do 70. let 20. století. V tomto období byl výpočetní výkon, a zejména dostupná paměť RAM, velmi omezený. Tyto limity omezovaly množstí ručně vytvářeného herního obsahu a vývojáři tedy museli hledat způsoby, jak tato omezení překonat a jak implementovat variabilní herní prostředí s minimálním nárokem na paměť. A právě tady se začaly prosazovat procedurální přístupy.
+
+\subsection{Rouglike hry a jejich vztah k procedurálnímu generování}
+V kontextu procedurálního generování je nutné zmínit i pojem roguelike, který označuje specifický herní subžánr úzce spojený s náhodně generovaným herním obsahem. Název žánru je odvozen od hry Rouge, která významně ovlivnila podobu mnoha pozdějších titulů.
+
+Roguelike hry jsou často charakteristické procedurálně generovanými úrovněmi, tahovým systémem hry, permanentní smrtí postavy, tzv. permadeath, a vysokou mírou obtížnosti. Náhodné generování prostředí zde hraje klíčovou roli neboť představuje unkinátní herní zážitek při každém průchodu. Dále se jedná i o významný designový prvek, který podporuje průzkum, strategické rozhodování a adaptaci hráče na neustále se měnící prostředí. Právě díky těmto vlastnostem se rougelike hry staly jedním z nevýraznějších příkladů praktivkého a systematického generování v herním průmyslu.
+
+
+\subsubsection{Beneath Apple Manor}
+Jednou z prvních her, která PCG implementovala, se objevila už v roce 1978 pod názvem Beneath Apple Manor. Za tímo titulem stojí Don Worth a vydání zajistilo herní studio The Software Factory, hra byla primárně vyvíjena pro počítač Apple II.
+
+Herní prostředí v Beneath Apple Manor bylo generováno algoritmicky při každém novém spuštění hry. Tento přístup zajistil, že rozložení místností, chodeb a jednotlivých herních prvků či nepřátel nebolo nikdy totožné, čímž se výrazně zvětšila znovuhratelnost.
+
+Autor hry čerpal inspiraci z programu Dragon Maze, který rovněž využíval náhodné výpočety ke generování bludišť. Jeho vlastní algoritmus však tento princip dále rozvinul a navrh algoritmus, který vytvářel funkční a hratelnou strukturu dungeonů skládající se s místnosti propojených chodbami. Hra navíc umožňovala hrači ovlivnit některé parametry samotného generování, jako například nastavit počet místností na jednotlivých patrech, zvolit si variantu černobílou nebo barvenou, a nakonec i obtížnost. Po vygenerování struktury úrovně algoritmus náhodně rozmístil i nepřátelé, poklady či další herní objekty. S rostoucí hloubkou dungeonů se zároveň i zvyšovala obtížnost hry, a to zejména síla nepřátel.
+
+Použitý algoritmický přístup lze zařadit mezi rané příklady způsobu generování založených na místnostech a chodbách, které se později stalo jedním ze základních modelů využívaných v hrách typu roguelike. Beneath Apple Manor tak představuje významný historický příklad využití těchto metod, jehož principy byly dále rozvíjeny v následujících dekádách.
+
+
+\subsubsection{Rogue}
+
+\subsubsection{Elite}
 
 \section{Dungeony ve 2D hrách}
 
@@ -192,6 +215,8 @@ Nakonec je vhodné podotknout, že díky PCG se naučíme porozumět i designu h
 \subsubsection{Generování pomocí buněčných automatů}
 \subsubsection{Metoda náhodné procházky}
 
+
+% praktická část
 \section{Použité technologie}
 \subsection{Herní engine Godot}
 \subsection{Skriptovací jazyk GDScript}
@@ -265,7 +290,7 @@ Nakonec je vhodné podotknout, že díky PCG se naučíme porozumět i designu h
 % TODO: Doplnit odkaz na repozitář
 
 \section{Zkratky}
-PGC - Procedural Content Generation
+PCG - Procedural Content Generation
 % TODO doplnit zkratky
 
 %% Obsah elektronických dat.
