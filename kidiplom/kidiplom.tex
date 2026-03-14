@@ -1,4 +1,4 @@
-%%%  Ukázkový text a dokumentace stylu pro text závěrečné (bakalářské a diplomové) práce na KI PřF UP v Olomouci
+%  Ukázkový text a dokumentace stylu pro text závěrečné (bakalářské a diplomové) práce na KI PřF UP v Olomouci
 %%%  Copyright (C) 2026 Jesse Sadowý, <jesse.sadowy23@gmail.com>
 %%%  Copyright (C) 2026 Jan Konečný, <jan.konecny@upol.cz>
 
@@ -98,7 +98,7 @@
 
 %% Anotace práce, včetně anglické (obvykle překlad z jazyka
 %% práce). Jeden odstavec!
-\annotation{%#TODO 
+\annotation{%#TODO Up to 10 lines
 10-20 řádků Bakalářská práce se zabývá procedurálním generováním dungeonů ve 2D hrách. Zkoumá různé metody a techniky používané pro generování a následně porovnává jejich efektivitu a výkonnost v prostředí herního enginu Godot.}
 
 \annotation[english]{Bachelor's thesis focuses on procedural generation of dungeons in 2D games. It explores various methods and techniques used for generation and subsequently compares their efficiency and performance within the Godot game engine environment.}
@@ -130,6 +130,7 @@
 %% práce.
 \usepackage{lipsum}
 \usepackage{longtable}
+\usepackage{float}
 
 \begin{document}
 %% Sazba úvodních stran -- titulní, s bibliografickými údaji, s
@@ -153,38 +154,30 @@
 \section{Úvod}
 Procedurální generování obsahu představuje v současném herním vývoji významný přístup, který umožňuje automatizovaně vytvářet části herního světa na základě předem definovaných pravidel a algoritmů. V oblasti digitálních her se tento princip uplatňuje zejména tam, kde je žádoucí vysoká variabilita prostředí, znovuhratelnost nebo snížení nároků na ruční tvorbu rozsáhlého množství obsahu. Jednou z typických oblastí využití je generování dungeonových map, které tvoří důležitou součást mnoha 2D her, zejména titulů inspirovaných žánrem roguelike.
 
-Dungeonové mapy kladou na generování specifické požadavky. Nestačí, aby byly pouze náhodné nebo vizuálně rozmanité, ale musí zároveň splňovat základní podmínky hratelnosti, jako je průchodnost, smysluplné prostorové uspořádání a vhodné rozmístění jednotlivých prvků prostředí. Volba generovací metody proto výrazně ovlivňuje nejen výsledný vzhled mapy, ale i herní zážitek hráče. Různé algoritmy se přitom liší mírou kontroly nad výsledkem, výpočetní náročností i typem struktur, které vytvářejí.
+Dungeonové mapy kladou na generování specifické požadavky. Nestačí, aby byly pouze náhodné nebo vizuálně rozmanité, ale musí zároveň splňovat základní podmínky hratelnosti a vhodné rozmístění jednotlivých prvků prostředí. Volba generovací metody proto výrazně ovlivňuje nejen výsledný vzhled mapy, ale i herní zážitek hráče.
 
-Cílem této bakalářské práce je představit vybrané metody procedurálního generování dungeonových map ve 2D hrách, analyzovat jejich vlastnosti a implementovat jejich praktické ukázky v herním enginu Godot. Součástí práce je návrh společného systému, který umožní jednotlivé algoritmy realizovat v jednotném prostředí, vizualizovat jejich výstupy a následně je mezi sebou porovnat. Důraz je kladen jak na teoretické vymezení problematiky, tak na praktickou implementaci a zhodnocení výsledků.
+Cílem této bakalářské práce je představit vybrané metody procedurálního generování dungeonových map ve 2D hrách, analyzovat jejich vlastnosti a implementovat jejich praktické ukázky v herním enginu Godot. Součástí práce je návrh systému v podobě jednoduché hry, který umožní jednotlivé algoritmy realizovat v jednotném prostředí, vizualizovat jejich výstupy a následně je mezi sebou porovnat a ověřit specifické aspekty důležité právě pro generovaný obsah. Důraz je kladen jak na teoretické vymezení problematiky, tak na praktickou implementaci a zhodnocení výsledků.
 
-Práce je rozdělena do několika kapitol. Nejprve jsou popsány základní principy procedurálního generování obsahu ve hrách, jeho přínosy, omezení a historický vývoj. Následující kapitola se věnuje samotnému generování dungeonů ve 2D hrách, požadavkům na výsledné mapy a přehledu vybraných metod. Poté je představen návrh prototypu aplikace a použité technologie. V dalších částech práce bude popsána implementace jednotlivých algoritmů, jejich vyhodnocení a vzájemné porovnání. Závěr práce shrne dosažené výsledky a naznačí možnosti dalšího rozšíření.
+Práce je rozdělena do několika kapitol. Nejprve jsou popsány základní principy procedurálního generovanání, jeho přínosy, omezení a historický vývoj. Další kapitola se věnuje samotnému generování dungeonů ve 2D hrách, požadavkům na výsledné mapy a přehledu vybraných metod. Poté je představen návrh prototypu aplikace a použité technologie. V dalších částech práce je popsána implementace jednotlivých algoritmů, jejich vyhodnocení a vzájemné porovnání. Závěr práce shrnuje dosažené výsledky, očekávání a možné rozsíření.
 
-\section{Procedurální generování obsahu ve hrách}
 
-\subsection{Vymezení a definice pojmu}
-Procedurální generování obsahu ve hrách lze vymezit jako algoritmickou tvorbu herního obsahu s omezeným nebo nepřímým zásahem člověka. Tento přístup umožňuje automatizovaně vytvářet různé prvky hry bez nutnosti jejich ruční přípravy. Herní obsah přitom zahrnuje široké spektrum složek, například mapy, úrovně, pravidla, úkoly, zbraně či předměty.
 
-PCG se neomezuje pouze na herní prostředí, ale může být aplikováno i na další části herního systému. V závislosti na konkrétním návrhu může ovlivňovat nejen prostorovou strukturu hry, ale také její mechaniky, obtížnost či samotný průběh hraní.
+\section{Současný stav řešené problematiky}
+
+\subsection{Procedurální generování obsahu ve hrách}
+
+\subsubsection{Vymezení a definice pojmu}
+Procedurální generování ve hrách lze vymezit jako algoritmickou tvorbu herního obsahu s omezeným nebo nepřímým zásahem člověka. Tento přístup umožňuje automatizovaně vytvářet různé prvky hry bez nutnosti jejich ruční přípravy. Herní obsah přitom zahrnuje široké spektrum složek, například mapy, úrovně, pravidla, úkoly, zbraně či předměty případně i samotné vlastnosti předmětů. PCG se tedy neomezuje pouze na herní prostředí, ale může být aplikováno i na další části herního systému. V závislosti na konkrétním návrhu může ovlivňovat nejen prostorovou strukturu hry, ale také její mechaniky, obtížnost či samotný průběh hraní.
 
 V současnosti je pojem generování obsahu často spojován s metodami umělé inteligence, tato práce se však zaměřuje výhradně na algoritmické postupy založené na předem definovaných pravidlech. Nezabývá se tedy adaptivním ani učícím se chováním systémů umělé inteligence.
 
-Problematická je i samotná definice pojmu hra. Pro účely této práce se tímto termínem rozumějí především digitální videohry určené pro osobní počítače, případně další platformy.
+Pojem hra je v odborné literatuře obtížné jednoznačně vymezit, protože zahrnuje široké spektrum forem lišících se cíli, pravidly, mírou interaktivity i použitou platformou. V kontextu této práce je proto termín hra chápán jako digitální videohra realizovaná v reálném čase, ve které hráč interaguje s virtuálním prostředím přes definované herní mechaniky. Pro účely dalšího textu se práce zaměřuje především na 2D videohry určené pro osobní počítače, případně další běžné platformy.
 
 Termíny „procedurální“ a „generování“ zdůrazňují, že jde o proces realizovaný pomocí počítačových procedur a algoritmů. Člověk nastavuje vstupní podmínky a spouští samotný proces, výsledkem je však automaticky vytvořený herní obsah, který není pevně předem daný, ale vzniká až za běhu programu.
 
-\subsection{Motivace a důvody využití procedurálního generování}
 
-Hlavní motivací pro využití PCG je omezení množství ručně vytvářeného obsahu. Vývojář nemusí samostatně navrhovat každou mapu, rozmístění předmětů ani podobu dalších úrovní, protože tyto prvky vznikají na základě pravidel definovaných v algoritmu. Tím se zjednodušuje proces tvorby a zároveň se snižují časové i finanční nároky na vývoj hry.
 
-Dalším významným přínosem je vyšší míra variability a znovuhratelnosti. Pokud se obsah při každém průchodu mění, hráč nemůže spoléhat na znalost předchozího rozložení mapy a je nucen přizpůsobovat se novým situacím. Procedurální generování lze navíc využít i k dynamickému přizpůsobování hry stylu konkrétního hráče, například úpravou obtížnosti nebo rozmístění herních prvků.
-
-PCG se uplatňuje také při rozmísťování nepřátel, předmětů nebo odměn. I v těchto případech přispívá k tomu, že jednotlivé průchody nepůsobí totožně a hra si déle zachovává prvek objevování.
-
-Významný je rovněž jeho kreativní potenciál. Algoritmus může vytvářet kombinace a prostorová uspořádání, k nimž by se autor při ručním návrhu vůbec nemusel dostat. Procedurální přístup tak nemusí pouze šetřit práci, ale může také rozšiřovat návrhový prostor samotné hry.
-
-V neposlední řadě vede návrh generátoru k hlubšímu porozumění hernímu designu. Jak uvádějí Shaker et al. \cite{Shaker2016}, tvorba procedurálního systému vyžaduje převést principy dobrého návrhu hry do explicitních pravidel a algoritmických postupů.
-
-\subsection{Nevýhody procedurálního generování}
+\subsubsection{Nevýhody procedurálního generování}
 Přestože procedurální generování obsahu přináší řadu výhod, jeho využití s sebou nese také několik významných omezení a úskalí.
 
 Jedním z hlavních problémů je nižší míra kontroly nad výsledným obsahem. U ručně navržených úrovní má vývojář plnou kontrolu nad tempem hry, rozmístěním výzev, předmětů i klíčových herních momentů. Naproti tomu u procedurálního generování je výsledná podoba světa závislá na implementovaném algoritmu a zvolených parametrech. To může vést k nevyváženým úrovním, nelogickému rozmístění prvků nebo situacím, které jsou příliš jednoduché či naopak extrémně náročné. Vývojář proto musí věnovat značné úsilí návrhu, ladění a testování generátoru, aby bylo dosaženo uspokojivé kvality výsledného obsahu.
@@ -192,7 +185,7 @@ Jedním z hlavních problémů je nižší míra kontroly nad výsledným obsahe
 Dalším rizikem je možnost vzniku repetitivního nebo uměle působícího obsahu. Ačkoli je obsah generován automaticky, často vychází z omezené množiny předem definovaných prvků a pravidel. Pokud není systém navržen dostatečně variabilně, může hráč postupně rozpoznat opakující se vzorce, což může negativně ovlivnit herní zážitek. Tento problém je sice možné minimalizovat vhodným návrhem algoritmu a důkladným laděním, nicméně zcela eliminovat jej bývá obtížné.
 
 
-\subsection{Přístupy k procedurálnímu generování}
+\subsubsection{Přístupy k procedurálnímu generování}
 Procedurální generování obsahu lze rozdělit podle několika hledisek. Jedním z nich je způsob, jakým systém reaguje na hráče. V případě neadaptivního (statického) generování je obsah vytvářen bez ohledu na chování hráče a jeho průběh hrou. Všechny generované struktury vycházejí ze stejných pravidel.
 
 Naopak adaptivní generování pracuje s informacemi o hráči. Systém může sledovat například úspěšnost hráče, délku průchodu úrovní nebo způsob řešení situací a na základě těchto dat upravovat další generovaný obsah.
@@ -205,7 +198,7 @@ V literatuře se rovněž objevuje pojem mixed-authorship (smíšené autorství
 
 Plně automatická generace naopak probíhá bez zásahu člověka během samotného vytváření obsahu. Algoritmus pracuje pouze na základě vstupních parametrů a předem definovaných pravidel. Tento způsob je typický zejména pro roguelike hry a další tituly, u nichž je cílem vysoká variabilita jednotlivých průchodů.
 
-\subsection{Využití procedurálního generování v herním průmyslu}
+\subsubsection{Využití procedurálního generování v herním průmyslu}
 S procedurálním generováním se dnes setkáváme téměř v každé moderní videohře, jeho počátky však sahají již do 70. let 20. století. V tomto období byl výpočetní výkon i dostupná operační paměť velmi omezené. Tyto limity výrazně omezovaly množství ručně vytvářeného obsahu, a vývojáři proto hledali způsoby, jak vytvářet variabilní herní prostředí s minimálními nároky na paměť. Právě v tomto kontextu se začaly prosazovat procedurální přístupy.
 
 \subsection{Roguelike hry a jejich vztah k procedurálnímu generování}
@@ -245,17 +238,19 @@ Elite obsahovalo osm galaxií, přičemž každá z nich zahrnovala stovky hvěz
 
 Tento přístup ukázal, že procedurální generování není omezeno pouze na tvorbu dungeonů nebo jednotlivých úrovní, ale může být využito i pro vytvoření rozsáhlých herních světů. Elite tak demonstrovalo, že algoritmická generace obsahu představuje efektivní řešení zejména v podmínkách omezených výpočetních a paměťových zdrojů \cite{EliteWiki}.
 
-\section{Generování dungeonů ve 2D hrách}
+\subsection{Generování dungeonů ve 2D hrách}
 V předchozí kapitole byly popsány obecné principy procedurálního generování obsahu a jeho využití v herním průmyslu. Tato kapitola se zaměřuje konkrétně na generování dungeonových map ve 2D hrách, které představují jednu z nejčastějších aplikací procedurálního přístupu.
 
 Dungeonové mapy mají svá specifika, která je odlišují od jiných typů herních prostředí. Typicky se skládají z místností a chodeb, obsahují jasně definované průchozí a neprůchozí oblasti a musí splňovat určité požadavky na hratelnost, jako je průchodnost celé mapy nebo vhodné rozmístění herních prvků. Generování takových struktur proto vyžaduje algoritmy, které dokáží zajistit nejen variabilitu výsledku, ale i splnění základních strukturálních vlastností.
 
 V této kapitole budou nejprve definovány požadavky kladené na generování dungeonových map. Následně budou představeny vybrané metody generování, které se v praxi používají, a které tvoří teoretický základ pro implementaci popsanou v dalších kapitolách.
 
-\subsection{Požadavky na generování dungeonových map}
+\subsubsection{Požadavky na generování dungeonových map}
 Při návrhu algoritmu pro generování dungeonové mapy je nutné zohlednit několik základních požadavků, které vycházejí jak z technických omezení, tak z hlediska hratelnosti. Generovaná mapa by neměla být pouze náhodným shlukem místností a chodeb, ale strukturovaným prostředím, které umožňuje smysluplný průchod a interakci.
 
-Jedním ze základních požadavků je průchodnost mapy (connectivity). Všechny klíčové části mapy by měly být vzájemně dosažitelné, aby nedocházelo k izolovaným oblastem bez možnosti přístupu. Tento požadavek je zásadní zejména u her, kde je cílem projít celou úroveň nebo nalézt konkrétní objekt.
+Jedním ze základních požadavků je průchodnost mapy neboli connectivity.
+Všechny klíčové části mapy by měly být vzájemně dosažitelné, aby nedocházelo k izolovaným oblastem bez možnosti přístupu.
+Tento požadavek je zásadní zejména u her, kde je cílem projít celou úroveň nebo nalézt konkrétní objekt.
 
 Dalším důležitým aspektem je kontrola struktury a rozložení prostoru. Mapa by měla obsahovat přiměřený poměr otevřených a uzavřených prostor, vhodnou velikost místností a dostatečně široké průchody, aby hráč mohl bez problémů projít. Příliš husté nebo naopak příliš prázdné prostředí může negativně ovlivnit hratelnost i orientaci hráče.
 
@@ -265,14 +260,14 @@ Z technického hlediska je důležitá také výpočetní náročnost algoritmu.
 
 V neposlední řadě je vhodné umožnit parametrizaci generátoru. Možnost nastavit velikost mapy, počet místností, hustotu chodeb nebo další vlastnosti umožňuje lépe přizpůsobit výsledné prostředí konkrétním požadavkům hry a zároveň usnadňuje testování různých konfigurací \cite{Linden2014,Shaker2016}.
 
-\subsection{Přehled vybraných metod generování}
+\subsection{Přehled metod generování}
 Na základě výše uvedených požadavků a pravidel lze identifikovat několik přístupů a algoritmů generování dungeonových map. Tyto metody se liší zejména způsobem konstrukce prostoru, mírou kontroly, výslednou strukturou a výpočetní náročností. Některé algoritmy vytvářejí mapu postupně přidáváním jednotlivých prvků, jiné pracují s rozdělováním prostoru nebo s pravidly aplikovanými na mřížku buněk.
 
 Ve 2D hrách se nejčastěji setkáváme s metodami založenými na náhodném umísťování místností a jejich následném propojování, s rozdělováním velkého prostoru na menší části nebo s algoritmy založenými na takzvané náhodné procházce. Každý z těchto přístupů má své výhody i omezení a je vhodný pro odlišný typ herního prostředí.
 
 Cílem této podkapitoly je stručně představit princip fungování vybraných metod, jejich základní charakteristiky a typické oblasti využití. Detailnější rozpracování a samotná implementace vybraných algoritmů budou popsány v následujících kapitolách.
 
-\subsubsection{Generování pomocí náhodného umístění místností a chodeb}
+\subsubsection{Náhodné umístění místností a chodeb}
 Generování pomocí náhodného umístění místností a chodeb patří mezi nejpoužívanější a zároveň nejjednodušší přístupy z hlediska implementace.
 
 Základní princip spočívá v tom, že se v rámci mapy nejprve generují místnosti různých velikostí, obvykle obdélníkového nebo čtvercového tvaru. Během generování se kontroluje, aby se nově vznikající místnost nepřekrývala s již existujícími. Výsledkem je množina místností reprezentovaných například souřadnicemi a rozměry. Následně jsou jednotlivé místnosti propojeny pomocí chodeb. Ty bývají realizovány jako jednoduché horizontální a vertikální průchody spojující středy dvou místností nebo jejich nejbližší body. Častým řešením je také propojení ve tvaru písmene L, kdy jsou dvě místnosti spojeny dvojicí kolmých chodeb.
@@ -293,7 +288,7 @@ Výhodou této metody je především její jednoduchost a relativně dobrá kon
 Z těchto důvodů bývá metoda často kombinována s dalšími postupy nebo doplněna o dodatečná pravidla, která omezují velikosti a vzájemné vzdálenosti místností, délku chodeb nebo celkové rozložení prostoru \cite{Linden2014,Shaker2016}.
 %#TODO add diagram
 
-\subsubsection{Rozdělování prostoru metodou Binary Space Partitioning}
+\subsubsection{Binary Space Partitioning}
 
 Metoda Binary Space Partitioning (BSP) patří mezi přístupy založené na systematickém rozdělování prostoru. Základní princip spočívá v tom, že se celá mapa nejprve reprezentuje jako jeden velký obdélníkový nebo čtvercový prostor, který je následně postupně rozdělován na menší části. Každé rozdělení může probíhat horizontálně nebo vertikálně a výsledkem je hierarchická struktura podobná binárnímu stromu.
 
@@ -305,19 +300,9 @@ Díky tomuto postupu lze relativně snadno zajistit vzájemnou dosažitelnost v�
 
 Nevýhodou této metody může být opět poměrně pravidelný a místy uniformní vzhled generovaného prostředí, protože výsledná struktura často odráží samotný způsob dělení prostoru. Mapy vytvořené pomocí BSP tak mohou působit méně přirozeně než mapy generované například pomocí buněčných automatů \cite{Linden2014,Shaker2016}.
 
-\subsubsection{Generování pomocí buněčných automatů}
-
-Buněčné automaty představují přístup k procedurálnímu generování založený na aplikaci lokálních pravidel na mřížku buněk. Mapa je v tomto případě reprezentována jako dvourozměrná mřížka, kde každá buňka může být například ve stavu stěna nebo průchozí prostor. Na začátku generování je mapa obvykle inicializována náhodným rozdělením těchto stavů, což vytváří základní strukturu prostředí.
-
-V následujících iteracích se stav jednotlivých buněk aktualizuje na základě stavu jejich sousedních buněk. Nejčastěji se používá tzv. Mooreovo sousedství, které zahrnuje osm buněk obklopujících aktuální buňku. Pravidla generování mohou například určovat, že buňka zůstane průchozí pouze tehdy, pokud má dostatečný počet průchozích sousedů, případně že se změní na stěnu, pokud je obklopena větším množstvím stěn.
-
-Opakovaným aplikováním těchto pravidel dochází k postupnému vyhlazování náhodně vytvořené struktury. Izolované buňky nebo malé skupiny buněk se postupně odstraňují a vznikají větší souvislé oblasti. Výsledkem jsou mapy s nepravidelnými tvary, které často připomínají přirozené jeskynní systémy.
-
-Výhodou této metody je schopnost generovat organicky působící prostředí s nepravidelnými tvary, které se liší od klasických dungeonů založených na místnostech a chodbách. Nevýhodou může být menší kontrola nad přesnou strukturou mapy a také nutnost dodatečných kroků, které zajistí průchodnost celé mapy. V některých případech je proto nutné odstranit izolované oblasti nebo dodatečně propojit jednotlivé části prostředí \cite{Linden2014,Shaker2016}.
-
 \subsubsection{Metoda náhodné procházky}
 
-Metoda náhodné procházky, často označovaná také jako \textit{Drunkard’s Walk}, je založena na jednoduchém principu postupného rozšiřování prostoru pomocí náhodného pohybu. Algoritmus začíná na určité počáteční pozici v mapě a v každém kroku se náhodně přesune do jednoho ze sousedních polí. Směr pohybu je obvykle vybírán ze čtyř základních směrů v mřížce, tedy nahoru, dolů, doleva nebo doprava.
+Metoda náhodné procházky, často označovaná také jako \textit{Drunkard's Walk}, je založena na jednoduchém principu postupného rozšiřování prostoru pomocí náhodného pohybu. Algoritmus začíná na určité počáteční pozici v mapě a v každém kroku se náhodně přesune do jednoho ze sousedních polí. Směr pohybu je obvykle vybírán ze čtyř základních směrů v mřížce, tedy nahoru, dolů, doleva nebo doprava.
 
 Při každém kroku je aktuální buňka označena jako průchozí prostor. Postupným opakováním tohoto procesu vzniká síť chodeb a otevřených prostor, jejichž tvar závisí na délce a průběhu náhodné procházky. Výsledná struktura mapy bývá velmi nepravidelná a rozdílná při každém generování.
 
@@ -326,6 +311,17 @@ Proces generování obvykle pokračuje po předem stanovený počet kroků nebo 
 Výhodou této metody je velmi jednoduchá implementace a schopnost generovat přirozeně působící struktury. Nevýhodou je naopak menší kontrola nad výsledným tvarem mapy a obtížnější zajištění rovnoměrného využití prostoru. V některých případech může docházet k tomu, že většina průchozích oblastí vzniká v blízkosti počáteční pozice algoritmu, zatímco jiné části mapy zůstávají téměř nevyužité.
 
 Podobně jako u buněčných automatů se tato metoda často používá při generování jeskynních nebo jinak přirozeně působících prostředí \cite{Shaker2016}.
+
+
+\subsubsection{Buněčné automaty}
+
+Buněčné automaty představují přístup k procedurálnímu generování založený na aplikaci lokálních pravidel na mřížku buněk. Mapa je v tomto případě reprezentována jako dvourozměrná mřížka, kde každá buňka může být například ve stavu stěna nebo průchozí prostor. Na začátku generování je mapa obvykle inicializována náhodným rozdělením těchto stavů, což vytváří základní strukturu prostředí.
+
+V následujících iteracích se stav jednotlivých buněk aktualizuje na základě stavu jejich sousedních buněk. Nejčastěji se používá tzv. Mooreovo sousedství, které zahrnuje osm buněk obklopujících aktuální buňku. Pravidla generování mohou například určovat, že buňka zůstane průchozí pouze tehdy, pokud má dostatečný počet průchozích sousedů, případně že se změní na stěnu, pokud je obklopena větším množstvím stěn.
+
+Opakovaným aplikováním těchto pravidel dochází k postupnému vyhlazování náhodně vytvořené struktury. Izolované buňky nebo malé skupiny buněk se postupně odstraňují a vznikají větší souvislé oblasti. Výsledkem jsou mapy s nepravidelnými tvary, které často připomínají přirozené jeskynní systémy.
+
+Výhodou této metody je schopnost generovat organicky působící prostředí s nepravidelnými tvary, které se liší od klasických dungeonů založených na místnostech a chodbách. Nevýhodou může být menší kontrola nad přesnou strukturou mapy a také nutnost dodatečných kroků, které zajistí průchodnost celé mapy. V některých případech je proto nutné odstranit izolované oblasti nebo dodatečně propojit jednotlivé části prostředí \cite{Linden2014,Shaker2016}.
 
 \subsubsection{Metoda bludiště}
 
@@ -341,6 +337,7 @@ Výsledkem je tzv. perfektní bludiště, ve kterém mezi dvěma body existuje p
 
 Nevýhodou této metody je omezený výskyt větších otevřených prostor, protože generovaná struktura je tvořena převážně úzkými chodbami. Z tohoto důvodu bývá v dungeonových hrách často kombinována s jinými metodami, které umožňují vytvářet také větší místnosti. V některých případech se proto po vygenerování bludiště odstraňují vybrané stěny, čímž vznikají cykly a otevřenější struktura mapy \cite{Linden2014,Shaker2016}.
 
+
 \subsubsection{Další metody}
 
 Kromě výše uvedených přístupů existuje celá řada dalších metod generování dungeonových map. Patří mezi ně například generování založené na grafech, kde je struktura mapy nejprve reprezentována jako graf místností a jejich propojení. Jednotlivé vrcholy grafu představují místnosti a hrany určují jejich vzájemné propojení. Na základě takto vytvořené abstraktní struktury je následně vytvořena konkrétní geometrická podoba mapy.
@@ -349,7 +346,8 @@ Další možností je využití procedurálních gramatik, které definují prav
 
 V literatuře se rovněž objevují přístupy založené na evolučních algoritmech nebo optimalizačních metodách, které se snaží generované mapy postupně vylepšovat podle předem definovaných kritérií. Tyto metody pracují s populací kandidátních map, které jsou postupně upravovány pomocí genetických operací, jako je mutace nebo křížení. Výsledné mapy jsou následně hodnoceny podle zvolených metrik, například průchodnosti, velikosti prostoru nebo rozložení herních prvků.
 
-Modernější přístupy zahrnují také metody založené na splňování omezení (constraint-based generation) nebo algoritmy typu Wave Function Collapse, které generují mapy postupným výběrem kompatibilních prvků z předem definované množiny vzorů. Tyto metody umožňují generovat velmi rozmanité struktury, avšak jejich implementace bývá složitější.
+Modernější přístupy zahrnují také metody založené na splňování různých omezení. Jedná se o taqkzvanou constraint-based generation nebo algoritmy typu Wave Function Collapse, které generují mapy postupným výběrem kompatibilních prvků z předem definované množiny vzorů. 
+Tyto metody umožňují generovat velmi rozmanité struktury, avšak jejich implementace bývá složitější.
 
 Uvedené přístupy jsou často výpočetně náročnější než základní algoritmy popsané v předchozích podkapitolách, a proto se v praxi využívají spíše při offline generování obsahu nebo při návrhu komplexnějších herních světů \cite{Linden2014,Shaker2016}.
 \subsection{Shrnutí kapitoly}
@@ -378,8 +376,9 @@ Bludiště & střední & střední & labyrinty \\
 \label{tab:dungeon_methods}
 \end{table}
 
+Na základě provedené rešerše byly pro praktickou část práce vybrány algoritmy generování pomocí místností a chodeb, Binary Space Partitioning, buněčné automaty, metoda náhodné procházky a metoda generování bludiště. Tyto algoritmy reprezentují různé přístupy k procedurálnímu generování map a umožňují jejich vzájemné porovnání.
 % praktická část
-\section{Návrh a použité technologie}
+\section{Experimentální část}
 
 Tato kapitola se věnuje návrhu systému pro generování dungeonových map a technologiím použitým při implementaci vytvořeného prototypu. Navržený systém slouží k demonstraci a porovnání vybraných metod procedurálního generování popsaných v předchozí kapitole.
 
@@ -452,7 +451,7 @@ Navržená architektura tím odděluje samotnou logiku tvorby mapy od jejího vy
 
 Architektura navrženého systému je schematicky znázorněna na obrázku~\ref{fig:generator_architecture}.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.4\textwidth]{figures/generator_architecture.png}
 \caption{Schéma architektury systému generování dungeonových map}
@@ -461,7 +460,8 @@ Architektura navrženého systému je schematicky znázorněna na obrázku~\ref{
 
 \subsubsection{Vizualizace mapy a hráče}
 
-Vizualizace vygenerované mapy je realizována pomocí komponenty \texttt{TileMapLayer}. Po dokončení generování je datová reprezentace mapy postupně převedena na odpovídající dlaždice, přičemž jednotlivé typy buněk jsou mapovány na konkrétní grafické prvky představující podlahu nebo stěnu.
+Vizualizace mapy je realizována pomocí komponenty \texttt{TileMapLayer}.
+Po dokončení generování je datová reprezentace mapy postupně převedena na odpovídající dlaždice, přičemž jednotlivé typy buněk jsou mapovány na konkrétní grafické prvky představující podlahu nebo stěnu.
 
 V implementaci bylo zvoleno postupné vykreslování mapy po jednotlivých řádcích. Tento způsob zobrazení sice není nezbytný z hlediska samotného generování, ale usnadňuje vizuální kontrolu výsledků a umožňuje lépe sledovat podobu jednotlivých algoritmů.
 
@@ -473,38 +473,116 @@ Pro doplnění testovacího prostředí byly do mapy přidány také sběrateln�
 
 Součástí aplikace je jednoduché uživatelské rozhraní, které umožňuje výběr konkrétní generovací metody a nastavení základních parametrů mapy, zejména její šířky a výšky. Po spuštění generování jsou uživateli zobrazeny také vybrané statistické údaje, například čas potřebný pro vytvoření mapy, počet průchozích dlaždic a procentuální pokrytí mapy průchozím prostorem.
 
-Toto rozhraní slouží především pro účely testování a vzájemného porovnání implementovaných metod.
+Toto rozhraní slouží především pro účely testování, vizualizace a porovnání implementovaných metod.
 
-\section{Implementace generovacích metod}
+\subsubsection{Vizualizační assety}
 
-\subsection{Generování pomocí místností a chodeb}
+Pro vizualizaci generovaných map byly v aplikaci použity grafické assety. Tyto assety slouží především k přehlednému zobrazení struktury generované mapy a usnadňují orientaci uživatele v herním prostředí. Vizualizace zahrnuje zejména grafiku podlahy, stěn, postavy hráče a sbíratelných objektů.
 
-\subsection{Generování pomocí bludiště}
+V rámci implementace byl využit volně dostupný balíček \textit{2D Pixel Dungeon Asset Pack}, jehož autorem je grafik vystupující pod jménem Pixel\_Poem. Tento balíček obsahuje základní sadu grafických prvků určených pro tvorbu dungeonových roguelike her.
+
+Použité assety mají podobu pixelové grafiky v top-down perspektivě a jsou navrženy pro práci s dlaždicovými mapami (tilemap), což umožňuje jejich snadnou integraci do herního enginu Godot. Balíček je poskytován jako volně dostupný asset pack, který lze využít v nekomerčních i komerčních projektech.
+
+Vzhledem k tomu, že hlavním cílem práce je implementace a porovnání algoritmů procedurálního generování map, slouží grafická vrstva pouze jako podpůrný nástroj pro vizualizaci a prezentaci výsledků generování.
+
+\subsection{Implementace generovacích metod}
+
+Principy jednotlivých algoritmů generování map byly popsány v kapitole 2.4. V následujících podkapitolách je popsána jejich konkrétní implementace v rámci vytvořené aplikace.
+
+Každý algoritmus je realizován jako samostatný skript uložený v adresáři
+\path{res://dungeons/algorithms}. Všechny generátory poskytují jednotné
+rozhraní ve tvaru \texttt{generate(width, height)}.
+
+Výstupem všech metod je dvourozměrné pole celočíselných hodnot,
+které reprezentuje typ jednotlivých dlaždic mapy.
+
+Spuštění generování zajišťuje skript \texttt{main.gd}, který na základě volby uživatele vybere odpovídající generátor. Následně skript změří čas samotného volání funkce \texttt{generate()}, vypočte základní statistiky mapy a spustí její vizualizaci po jednotlivých řádcích. Po dokončení vykreslení jsou aktualizovány limity kamery, do mapy jsou náhodně rozmístěny mince a hráč je umístěn na vhodnou průchozí pozici s dostatečně volným okolím.
+
+\subsubsection{Náhodné umístění místností a chodeb}
+
+Implementace této metody vychází z postupného umisťování náhodně generovaných obdélníkových místností do prázdné mapy. Jednotlivé místnosti jsou následně propojeny chodbami, čímž vzniká souvislá dungeonová struktura. Výsledná mapa je reprezentována jako dvourozměrné pole, ve kterém jsou jednotlivé buňky označeny celočíselnými hodnotami odpovídajícími prázdnému prostoru, podlaze a stěně.
+
+Na začátku funkce \texttt{generate(width, height)} je vytvořen lokální generátor náhodných čísel \texttt{RandomNumberGenerator}. Použití lokální instance zajišťuje, že generování mapy neovlivňuje jiné části aplikace využívající náhodnost. Následně je inicializována prázdná mapa o zadaných rozměrech, přičemž všechny buňky jsou nastaveny na hodnotu \texttt{TILE\_EMPTY}. Tím vznikne výchozí reprezentace mapy, do níž budou postupně zapisovány místnosti, chodby a stěny.
+
+Samotné generování místností probíhá v cyklu, který se opakuje do okamžiku, kdy je úspěšně umístěno deset místností, nebo dokud počet pokusů nepřekročí hodnotu \texttt{max\_attempts}, která je v implementaci nastavena na 100. Každá nová místnost je reprezentována obdélníkem typu \texttt{Rect2}. Její šířka a výška jsou generovány náhodně v intervalu od 8 do 16 dlaždic. Pozice levého horního rohu místnosti je následně určena tak, aby místnost zůstala uvnitř hranic mapy a zároveň nebyla umístěna přímo na jejím okraji.
+
+Před přidáním nové místnosti do mapy je provedena kontrola překryvu se všemi dříve umístěnými místnostmi. Tato kontrola je realizována pomocí metody \texttt{grow(1).intersects(other)}, což znamená, že se testuje nejen skutečný průnik obdélníků, ale i jejich rozšíření o jednu dlaždici na každou stranu. V praxi tak mezi dvěma místnostmi vždy zůstává alespoň jednopolíčková mezera. Pokud by se nová místnost překrývala s některou z již existujících, je zahozena a algoritmus pokračuje dalším pokusem.
+
+V případě, že nová místnost překryv nevykazuje, je přidána do seznamu místností a její vnitřní plocha je zapsána do mapy jako podlaha. To je realizováno dvojicí vnořených cyklů, které procházejí všechny buňky uvnitř obdélníku místnosti a nastavují jejich hodnotu na \texttt{TILE\_FLOOR}. Tím dojde k vyznačení průchozí oblasti odpovídající nové místnosti.
+
+Každá nová místnost je následně propojená chodbou. První místnost je však z tohoto propojování vyloučena.
+Pro propojení se využívají středy obou místností získané pomocí metody \texttt{get\_center()}. Vlastní vytvoření chodby zajišťuje pomocná funkce \texttt{\_carve\_corridor()}, která mezi dvěma zadanými body vyznačí chodbu tvaru písmene L. Algoritmus náhodně rozhoduje, zda bude chodba nejprve vedena ve vodorovném a poté ve svislém směru, nebo opačně. Díky tomu výsledné mapy nepůsobí zcela uniformně.
+
+Chodba není tvořena pouze jednou dlaždicí, ale má nastavitelnou šířku. V implementaci je výchozí šířka parametru \texttt{corridor\_width} nastavena na hodnotu 2. Funkce proto při vykreslování chodby neoznačuje pouze centrální linii, ale také sousední buňky v jejím okolí. Výsledná chodba je tak vizuálně širší a průchod mapou je přehlednější. Při zápisu dlaždic chodby je současně kontrolováno, zda se zapisované souřadnice nacházejí uvnitř hranic mapy, a to pomocí pomocné funkce \texttt{\_in\_bounds()}.
+
+Po dokončení umisťování místností a chodeb následuje doplnění stěn.
+Tuto operaci provádí funkce \texttt{\_add\_walls()}, která prochází všechny buňky mapy a u každé dlaždice podlahy kontroluje její osmibuněčné okolí. Pokud se v sousedství nachází buňka označená jako prázdný prostor, je její hodnota změněna na \texttt{TILE\_WALL}. Tímto způsobem vznikne souvislé ohraničení všech průchozích částí mapy bez nutnosti explicitně generovat stěny již během vytváření místností a chodeb.
+
+Výsledkem celé funkce je dvourozměrné pole obsahující kompletní rozložení mapy. Tato reprezentace je následně předána dalším částem aplikace, které zajišťují výpočet statistik a vizualizaci mapy v herním prostředí.
+
+\subsubsection{Binary Space Partitioning}
+
+Implementace metody Binary Space Partitioning využívá rekurzivní rozdělování prostoru mapy na menší oblasti pomocí binární stromové struktury. Každý uzel stromu reprezentuje obdélníkovou oblast mapy, která může být dále rozdělena na dvě pod-oblasti.
+
+Generování začíná vytvořením počáteční oblasti odpovídající celé velikosti mapy. Tato oblast představuje kořen stromu a je postupně rozdělena na dvě části. Směr dělení je určován podle poměru šířky a výšky oblasti. Pokud je oblast výrazně širší než vyšší, je preferováno vertikální dělení, v opačném případě horizontální. Pokud jsou rozměry oblasti podobné, je směr dělení zvolen náhodně.
+
+Při každém dělení je zvolena pozice řezu tak, aby vzniklé podoblasti splňovaly minimální požadovanou velikost. Tím je zajištěno, že v nich bude možné vytvořit místnost. Každé rozdělení vytváří dva nové uzly stromu, které jsou dále zpracovávány stejným způsobem.
+
+Rekurzivní dělení pokračuje do okamžiku, kdy další rozdělení již není možné kvůli minimální velikosti oblasti. Takové uzly představují listy stromu. V každém listu je následně vytvořena místnost, jejíž velikost i pozice jsou generovány náhodně uvnitř příslušné oblasti.
+
+Po vytvoření místností jsou jednotlivé části stromu postupně propojeny chodbami. Propojení probíhá při návratu z rekurzivního volání, kdy jsou vybrány vhodné body v místnostech patřících do dvou sousedních oblastí. Mezi těmito body je vytvořena chodba zajišťující průchod mezi jednotlivými částmi mapy.
+
+Výsledná mapa je zapsána do dvourozměrného pole, které obsahuje informace o typu jednotlivých dlaždic. Průchozí části odpovídají podlahám místností a chodeb, zatímco okolní prostor je následně doplněn o stěny.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{images/bsp_map.png}
+\caption{Ukázka mapy generované pomocí algoritmu BSP}
+\label{fig:bsp_map}
+\end{figure}
+
+\subsubsection{Metoda náhodné procházky}
+
+Náhodná procházka je implementována v souboru \texttt{drunken\_generator.gd}. Algoritmus začíná ve středu mapy a postupně se přesouvá do jednoho ze čtyř směrů. Každý krok upravuje mapu vyřezáním průchozích buněk.
+
+Praktická implementace kombinuje dva režimy vyřezávání. V základním režimu vytváří menší průchozí úseky, po určitém počtu kroků pak vloží větší 3x3 oblast. Tím se vygenerované prostředí neomezuje pouze na úzké chodby a obsahuje i širší otevřené části. Počet kroků mezi vložením větší oblasti je náhodný v definovaném intervalu.
+
+Důležitým prvkem implementace je cílový počet podlahových dlaždic. Generování běží do okamžiku, kdy podlaha pokryje stanovené procento mapy. Díky tomu je výstup lépe kontrolovatelný napříč různými rozměry mapy.
 
 
-\subsection{Binary Space Partitioning}
+\subsubsection{Buněčné automaty}
 
-\subsection{Metoda náhodné procházky (Drunkard's Walk)}
+Implementace buněčných automatů je v souboru \texttt{cellular\_generator.gd}. První fáze vytvoří počáteční mapu náhodným vyplněním buněk podlahou podle pravděpodobnosti \texttt{FILL\_PROBABILITY}. Okraje mapy zůstávají prázdné, aby se předešlo problémům při následném vyhodnocování sousedství.
+
+V další fázi proběhne několik simulačních kroků. V každém kroku se vytváří nová mapa, aby se průběžné změny nepromítaly do výpočtu sousedů ve stejném kroku. Pro každou buňku se spočítá počet podlahových sousedů v Mooreově okolí a podle prahové hodnoty se rozhodne o novém stavu buňky. Opakováním těchto kroků se náhodný šum postupně vyhladí do organičtějších tvarů.
+
+Po dokončení simulace je nad výslednou podlahou doplněna vrstva stěn. Výstupem jsou nepravidelné mapy jeskynního charakteru, které jsou vhodné pro porovnání s metodami generujícími pravidelnější struktury.
+
+U map generovaných metodou buněčných automatů se mohou vyskytovat izolované průchozí oblasti. Z tohoto důvodu bylo při umisťování hráče nutné zohlednit souvislost průchozí plochy a upřednostnit umístění do největší spojité oblasti mapy.
+\subsubsection{Metoda bludiště}
+
+Metoda bludiště je implementována v souboru \texttt{maze\_generator.gd} a vychází z algoritmu recursive backtracker (DFS se zásobníkem). Vnitřní reprezentace není tvořena přímo dlaždicemi mapy, ale mřížkou abstraktních buněk, z nichž každá obsahuje bitovou masku čtyř stěn.
+
+Generování začíná v počáteční buňce a postupně odstraňuje stěny mezi aktuální buňkou a náhodně vybraným nenavštíveným sousedem. Pokud aktuální buňka nemá dostupného nenavštíveného souseda, algoritmus se vrací zpět po zásobníku. Tento postup pokračuje, dokud nejsou navštíveny všechny buňky.
+
+Po dokončení průchodu je buněčná reprezentace převedena do tile mapy. Každá buňka je vykreslena jako menší průchozí oblast a podle odstraněných stěn se mezi sousedními buňkami vytvářejí koridory. V závěru jsou stejně jako u ostatních metod doplněny stěny kolem podlahy.
 
 
-\subsection{Metoda buněčných automatů}
 
 
-\subsection{Další možné metody generování}
-
-\subsection{Možnosti budoucí implementace}
-
-\section{Vyhodnocení a porovnání metod}
-
-\subsection{Hodnoticí kritéria}
+\section{Výsledky}
 \subsection{Porovnání výsledných map}
+
+Algoritmus generování bludiště byl do implementace zahrnut především pro účely demonstrace rozdílných přístupů k procedurálnímu generování map. Výsledky však ukazují, že tento typ algoritmu vytváří velmi pravidelnou strukturu mapy s vysokou propojeností, která odpovídá klasickému bludišti.
+
+Pro generování dungeonových map, které obvykle obsahují výrazněji oddělené místnosti a různé typy prostorů, je tento přístup méně vhodný. Výsledná prostředí mohou působit monotónně a neposkytují dostatečnou variabilitu struktury.
+
+
 \subsection{Výpočetní náročnost metod}
-\subsection{Shrnutí výsledků}
 
-\section{Diskuze}
-
-\subsection{Zkušenosti z implementace}
+\section{Diskuse}
 \subsection{Silné a slabé stránky jednotlivých metod}
+\subsection{Zkušenosti z implementace}
 \subsection{Možnosti dalšího rozšíření práce}
 
 % TODO doplnit zkratky
