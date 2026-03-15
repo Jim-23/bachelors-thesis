@@ -471,9 +471,21 @@ Pro doplnění testovacího prostředí byly do mapy přidány také sběrateln�
 
 \subsubsection{Ovládání generování a zobrazení statistik}
 
-Součástí aplikace je jednoduché uživatelské rozhraní, které umožňuje výběr konkrétní generovací metody a nastavení základních parametrů mapy, zejména její šířky a výšky. Po spuštění generování jsou uživateli zobrazeny také vybrané statistické údaje, například čas potřebný pro vytvoření mapy, počet průchozích dlaždic a procentuální pokrytí mapy průchozím prostorem.
+Součástí aplikace je jednoduché uživatelské rozhraní, které umožňuje výběr konkrétní generovací metody a nastavení základních parametrů mapy, zejména její šířky a výšky.
+
+Uživatelské rozhraní obsahuje dvě hlavní ovládací tlačítka, \textit{Generate} a \textit{Benchmark}. Tlačítko \textit{Generate} slouží k vizuálnímu spuštění generování mapy pomocí vybraného algoritmu. Po dokončení generování jsou uživateli zobrazeny základní statistické údaje, které charakterizují vlastnosti vygenerované mapy. Mezi tyto údaje patří zejména čas potřebný pro vytvoření mapy, počet průchozích dlaždic a procentuální pokrytí mapy průchozím prostorem. Generování mapy je zároveň vizualizováno postupným vykreslováním jednotlivých řádků, což umožňuje sledovat průběh tvorby výsledného prostředí.
+
+Tlačítko \textit{Benchmark} slouží k automatizovanému testování implementovaných generovacích metod. Po jeho spuštění aplikace postupně spustí všechny implementované algoritmy pro předem definované velikosti map. V rámci každé konfigurace je generování provedeno opakovaně, aby bylo možné získat reprezentativní hodnoty měřených parametrů. Na rozdíl od běžného generování není při tomto režimu mapa vizualizována, což umožňuje přesnější měření času generování.
+
+Výsledky jednotlivých běhů jsou ukládány do souboru \texttt{results.csv}. Pro každý běh algoritmu jsou zaznamenány informace o použité metodě, velikosti mapy, pořadí běhu, čase generování a procentuálním pokrytí mapy průchozí plochou. Tento soubor následně slouží jako vstupní data pro vyhodnocení experimentální části práce, kde jsou výsledky dále analyzovány a graficky znázorněny.
 
 Toto rozhraní slouží především pro účely testování, vizualizace a porovnání implementovaných metod.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/ui.png}
+\caption{Uživatelské rozhraní aplikace pro generování map}
+\end{figure}
 
 \subsubsection{Vizualizační assety}
 
@@ -489,18 +501,18 @@ Vzhledem k tomu, že hlavním cílem práce je implementace a porovnání algori
 
 Principy jednotlivých algoritmů generování map byly popsány v kapitole 2.4. V následujících podkapitolách je popsána jejich konkrétní implementace v rámci vytvořené aplikace.
 
-Každý algoritmus je realizován jako samostatný skript uložený v adresáři
-\path{res://dungeons/algorithms}. Všechny generátory poskytují jednotné
-rozhraní ve tvaru \texttt{generate(width, height)}.
+Každý algoritmus je realizován jako samostatný skript. Jednotlivé skripty můžeme najít v adresáři \path{res://dungeons/algorithms}. 
+Všechny generátory obsahují funkci \texttt{generate(width, height)} obsahující logiku pro daný algoritmus.
 
 Výstupem všech metod je dvourozměrné pole celočíselných hodnot,
 které reprezentuje typ jednotlivých dlaždic mapy.
 
-Spuštění generování zajišťuje skript \texttt{main.gd}, který na základě volby uživatele vybere odpovídající generátor. Následně skript změří čas samotného volání funkce \texttt{generate()}, vypočte základní statistiky mapy a spustí její vizualizaci po jednotlivých řádcích. Po dokončení vykreslení jsou aktualizovány limity kamery, do mapy jsou náhodně rozmístěny mince a hráč je umístěn na vhodnou průchozí pozici s dostatečně volným okolím.
+Spuštění generování zajišťuje skript \texttt{main.gd}, který na základě volby z uživatelského rozhranní vybere odpovídající generátor. Uživatel si může zvolit velikost výsledné mapy Po kliknutí na tlačítko generate Následně skript změří čas genberování hodnot ve funkci \texttt{generate()}, vypočte základní statistiky mapy a spustí její vizualizaci po jednotlivých řádcích. Po dokončení vykreslení jsou aktualizovány limity kamery, do mapy jsou náhodně rozmístěny mince a hráč je umístěn na vhodnou průchozí pozici s dostatečně volným okolím.
 
-\subsubsection{Náhodné umístění místností a chodeb}
+\subsubsection{Náhodné generování místností a chodeb}
 
-Implementace této metody vychází z postupného umisťování náhodně generovaných obdélníkových místností do prázdné mapy. Jednotlivé místnosti jsou následně propojeny chodbami, čímž vzniká souvislá dungeonová struktura. Výsledná mapa je reprezentována jako dvourozměrné pole, ve kterém jsou jednotlivé buňky označeny celočíselnými hodnotami odpovídajícími prázdnému prostoru, podlaze a stěně.
+Implementaci algoritmu najdeme v souboru \texttt{room\_generator.gd}.
+Metoda vychází z postupného umisťování náhodně generovaných obdélníkových místností do prázdné mapy. Jednotlivé místnosti jsou následně propojeny chodbami, čímž vzniká souvislá dungeonová struktura. Výsledná mapa je reprezentována jako dvourozměrné pole, ve kterém jsou jednotlivé buňky označeny celočíselnými hodnotami odpovídajícími prázdnému prostoru, podlaze a stěně.
 
 Na začátku funkce \texttt{generate(width, height)} je vytvořen lokální generátor náhodných čísel \texttt{RandomNumberGenerator}. Použití lokální instance zajišťuje, že generování mapy neovlivňuje jiné části aplikace využívající náhodnost. Následně je inicializována prázdná mapa o zadaných rozměrech, přičemž všechny buňky jsou nastaveny na hodnotu \texttt{TILE\_EMPTY}. Tím vznikne výchozí reprezentace mapy, do níž budou postupně zapisovány místnosti, chodby a stěny.
 
@@ -522,7 +534,8 @@ Výsledkem celé funkce je dvourozměrné pole obsahující kompletní rozložen
 
 \subsubsection{Binary Space Partitioning}
 
-Implementace metody Binary Space Partitioning využívá rekurzivní rozdělování prostoru mapy na menší oblasti pomocí binární stromové struktury. Každý uzel stromu reprezentuje obdélníkovou oblast mapy, která může být dále rozdělena na dvě pod-oblasti.
+Implementace metody BSP se nachází v souboru \texttt{bsp\_generator.gd}.
+Skript využívá rekurzivní rozdělování prostoru mapy na menší oblasti pomocí binární stromové struktury. Každý uzel stromu reprezentuje obdélníkovou oblast mapy, která může být dále rozdělena na dvě pod-oblasti.
 
 Generování začíná vytvořením počáteční oblasti odpovídající celé velikosti mapy. Tato oblast představuje kořen stromu a je postupně rozdělena na dvě části. Směr dělení je určován podle poměru šířky a výšky oblasti. Pokud je oblast výrazně širší než vyšší, je preferováno vertikální dělení, v opačném případě horizontální. Pokud jsou rozměry oblasti podobné, je směr dělení zvolen náhodně.
 
@@ -543,11 +556,37 @@ Výsledná mapa je zapsána do dvourozměrného pole, které obsahuje informace 
 
 \subsubsection{Metoda náhodné procházky}
 
-Náhodná procházka je implementována v souboru \texttt{drunken\_generator.gd}. Algoritmus začíná ve středu mapy a postupně se přesouvá do jednoho ze čtyř směrů. Každý krok upravuje mapu vyřezáním průchozích buněk.
+Náhodná procházka je implementována v souboru \texttt{drunken\_generator.gd}. Generování mapy probíhá opět ve funkci \texttt{generate(width, height)}, která vytváří dvourozměrné pole reprezentující výslednou mapu.
 
-Praktická implementace kombinuje dva režimy vyřezávání. V základním režimu vytváří menší průchozí úseky, po určitém počtu kroků pak vloží větší 3x3 oblast. Tím se vygenerované prostředí neomezuje pouze na úzké chodby a obsahuje i širší otevřené části. Počet kroků mezi vložením větší oblasti je náhodný v definovaném intervalu.
+Na začátku funkce je vytvořena prázdná mapa o zadaných rozměrech, ve které
+jsou všechny buňky inicializovány jako neprůchozí prostor. Následně je
+vypočten cílový počet průchozích dlaždic, který je určen jako určitý podíl
+z celkové plochy mapy. Tento parametr určuje, jak velkou část mapy bude
+algoritmus postupně odkrývat.
 
-Důležitým prvkem implementace je cílový počet podlahových dlaždic. Generování běží do okamžiku, kdy podlaha pokryje stanovené procento mapy. Díky tomu je výstup lépe kontrolovatelný napříč různými rozměry mapy.
+Samotné generování probíhá pomocí simulace náhodného pohybu po mapě.
+Algoritmus začíná na náhodně zvolené pozici uvnitř mapy, která je označena
+jako průchozí dlaždice. V každém kroku je následně náhodně zvolen směr
+pohybu, typicky nahoru, dolů, doleva nebo doprava. Pokud se nová pozice
+nachází uvnitř hranic mapy, je tato buňka označena jako podlaha a aktuální
+pozice generátoru se přesune na tuto dlaždici.
+
+Tento proces se opakuje, dokud počet vytvořených průchozích dlaždic nedosáhne
+předem definovaného cílového počtu. V důsledku náhodného pohybu vzniká
+nepravidelná struktura připomínající přirozeně vzniklé jeskynní prostory.
+Na rozdíl od metod založených na explicitním generování místností zde
+nevznikají jasně definované obdélníkové prostory, ale spíše organicky
+tvarované oblasti.
+
+Po dokončení samotné náhodné procházky jsou kolem průchozích dlaždic doplněny
+stěny. Tento krok zajišťuje, že prázdné buňky sousedící s podlahou jsou
+označeny jako stěny, čímž vznikne souvislé ohraničení průchozí části mapy.
+
+Výsledkem funkce je dvourozměrné pole obsahující rozložení jednotlivých typů
+dlaždic mapy. Vzhledem k tomu, že cílový počet průchozích dlaždic je určen
+předem, je výsledné procento pokrytí mapy průchozím prostorem pro danou
+velikost mapy poměrně stabilní. Variabilita generovaných map se proto
+projevuje především ve tvaru a rozmístění vytvořených prostorů.
 
 
 \subsubsection{Buněčné automaty}
