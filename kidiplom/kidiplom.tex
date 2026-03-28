@@ -1,4 +1,4 @@
-%  Ukázkový text a dokumentace stylu pro text závěrečné (bakalářské a diplomové) práce na KI PřF UP v Olomouci
+%%%  Ukázkový text a dokumentace stylu pro text závěrečné (bakalářské a diplomové) práce na KI PřF UP v Olomouci
 %%%  Copyright (C) 2026 Jesse Sadowý, <jesse.sadowy23@gmail.com>
 %%%  Copyright (C) 2026 Jan Konečný, <jan.konecny@upol.cz>
 
@@ -99,13 +99,13 @@
 %% Anotace práce, včetně anglické (obvykle překlad z jazyka
 %% práce). Jeden odstavec!
 \annotation{%#TODO Up to 10 lines
-10-20 řádků Bakalářská práce se zabývá procedurálním generováním dungeonů ve 2D hrách. Zkoumá různé metody a techniky používané pro generování a následně porovnává jejich efektivitu a výkonnost v prostředí herního enginu Godot.}
+10-20 řádků Bakalářská práce se zabývá procedurálním generováním dungeonů ve 2D hrách. Práce zkoumá nejen vybrané algoritmy, které se v této tématice často používají, ale zároveň je i porovnává z hlediska efektivity, výkonu, pokrytí a možnostech využití. V práci je také popsána samotná implementace a grafická ukázka v herním enginu Godot.}
 
 \annotation[english]{Bachelor's thesis focuses on procedural generation of dungeons in 2D games. It explores various methods and techniques used for generation and subsequently compares their efficiency and performance within the Godot game engine environment.}
 
 %% Klíčová slova práce, včetně anglických. Oddělená (obvykle) středníkem.
-\keywords{procedurální generování; dungeon; 2D hry; Godot; herní engine, algoritmy}
-\keywords[english]{procedural generation; dungeon; 2D games; Godot; game engine, algorithms}
+\keywords{procedurální generování; dungeon; 2D hry; Godot; herní engine, algoritmus}
+\keywords[english]{procedural generation; dungeon; 2D games; Godot; game engine, algorithm}
 %% Volitelná specifikace příloh textu práce, i anglicky. Výchozí je
 %% 'elektronická data v systému katedry informatiky / electronic data
 %% in system of department of computer science'.
@@ -152,7 +152,7 @@
 %   a (značně) neúplná verze!!!}
 
 \section{Úvod}
-Procedurální generování obsahu představuje v současném herním vývoji významný přístup, který umožňuje automatizovaně vytvářet části herního světa na základě předem definovaných pravidel a algoritmů. V oblasti digitálních her se tento princip uplatňuje zejména tam, kde je žádoucí vysoká variabilita prostředí, znovuhratelnost nebo snížení nároků na ruční tvorbu rozsáhlého množství obsahu. Jednou z typických oblastí využití je generování dungeonových map, které tvoří důležitou součást mnoha 2D her, zejména titulů inspirovaných žánrem roguelike.
+Procedurální generování obsahu představuje v současném herním vývoji významný přístup, který umožňuje automatizovaně vytvářet části herního světa na základě předem definovaných pravidel a algoritmů. V oblasti digitálních her se tento princip uplatňuje zejména tam, kde je žádoucí vysoká variabilita prostředí, znovuhratelnost nebo snížení nároků na ruční tvorbu rozsáhlého množství obsahu. Jednou z typických oblastí využití je generování dungeonových map, které tvoří důležitou součást 2D her, zejména titulů inspirovaných žánrem roguelike.
 
 Dungeonové mapy kladou na generování specifické požadavky. Nestačí, aby byly pouze náhodné nebo vizuálně rozmanité, ale musí zároveň splňovat základní podmínky hratelnosti a vhodné rozmístění jednotlivých prvků prostředí. Volba generovací metody proto výrazně ovlivňuje nejen výsledný vzhled mapy, ale i herní zážitek hráče.
 
@@ -161,19 +161,20 @@ Cílem této bakalářské práce je představit vybrané metody procedurálníh
 Práce je rozdělena do několika kapitol. Nejprve jsou popsány základní principy procedurálního generovanání, jeho přínosy, omezení a historický vývoj. Další kapitola se věnuje samotnému generování dungeonů ve 2D hrách, požadavkům na výsledné mapy a přehledu vybraných metod. Poté je představen návrh prototypu aplikace a použité technologie. V dalších částech práce je popsána implementace jednotlivých algoritmů, jejich vyhodnocení a vzájemné porovnání. Závěr práce shrnuje dosažené výsledky, očekávání a možné rozsíření.
 
 
-
 \section{Současný stav řešené problematiky}
 
 \subsection{Procedurální generování obsahu ve hrách}
 
 \subsubsection{Vymezení a definice pojmu}
-Procedurální generování ve hrách lze vymezit jako algoritmickou tvorbu herního obsahu s omezeným nebo nepřímým zásahem člověka. Tento přístup umožňuje automatizovaně vytvářet různé prvky hry bez nutnosti jejich ruční přípravy. Herní obsah přitom zahrnuje široké spektrum složek, například mapy, úrovně, pravidla, úkoly, zbraně či předměty případně i samotné vlastnosti předmětů. PCG se tedy neomezuje pouze na herní prostředí, ale může být aplikováno i na další části herního systému. V závislosti na konkrétním návrhu může ovlivňovat nejen prostorovou strukturu hry, ale také její mechaniky, obtížnost či samotný průběh hraní.
+Procedurální generování ve hrách lze vymezit jako algoritmickou tvorbu herního obsahu s omezeným nebo nepřímým zásahem člověka. Tento přístup umožňuje automatizovaně vytvářet různé prvky hry bez nutnosti jejich ruční přípravy. Herní obsah přitom zahrnuje široké spektrum složek, například mapy, úrovně, pravidla, úkoly, zbraně či předměty případně i samotné vlastnosti jednotlivých předmětů. PCG se tedy neomezuje pouze na herní prostředí, ale může být aplikováno i na další části herního systému. V závislosti na konkrétním návrhu může ovlivňovat nejen prostorovou strukturu hry, ale také její mechaniky, obtížnost či samotný průběh hraní.
 
 V současnosti je pojem generování obsahu často spojován s metodami umělé inteligence, tato práce se však zaměřuje výhradně na algoritmické postupy založené na předem definovaných pravidlech. Nezabývá se tedy adaptivním ani učícím se chováním systémů umělé inteligence.
 
 Pojem hra je v odborné literatuře obtížné jednoznačně vymezit, protože zahrnuje široké spektrum forem lišících se cíli, pravidly, mírou interaktivity i použitou platformou. V kontextu této práce je proto termín hra chápán jako digitální videohra realizovaná v reálném čase, ve které hráč interaguje s virtuálním prostředím přes definované herní mechaniky. Pro účely dalšího textu se práce zaměřuje především na 2D videohry určené pro osobní počítače, případně další běžné platformy.
 
 Termíny „procedurální“ a „generování“ zdůrazňují, že jde o proces realizovaný pomocí počítačových procedur a algoritmů. Člověk nastavuje vstupní podmínky a spouští samotný proces, výsledkem je však automaticky vytvořený herní obsah, který není pevně předem daný, ale vzniká až za běhu programu.
+
+V následujících kapitolách se podíváme na PCG více do hloubky.
 
 
 
@@ -182,45 +183,45 @@ Přestože procedurální generování obsahu přináší řadu výhod, jeho vyu
 
 Jedním z hlavních problémů je nižší míra kontroly nad výsledným obsahem. U ručně navržených úrovní má vývojář plnou kontrolu nad tempem hry, rozmístěním výzev, předmětů i klíčových herních momentů. Naproti tomu u procedurálního generování je výsledná podoba světa závislá na implementovaném algoritmu a zvolených parametrech. To může vést k nevyváženým úrovním, nelogickému rozmístění prvků nebo situacím, které jsou příliš jednoduché či naopak extrémně náročné. Vývojář proto musí věnovat značné úsilí návrhu, ladění a testování generátoru, aby bylo dosaženo uspokojivé kvality výsledného obsahu.
 
-Dalším rizikem je možnost vzniku repetitivního nebo uměle působícího obsahu. Ačkoli je obsah generován automaticky, často vychází z omezené množiny předem definovaných prvků a pravidel. Pokud není systém navržen dostatečně variabilně, může hráč postupně rozpoznat opakující se vzorce, což může negativně ovlivnit herní zážitek. Tento problém je sice možné minimalizovat vhodným návrhem algoritmu a důkladným laděním, nicméně zcela eliminovat jej bývá obtížné.
+Dalším rizikem je možnost vzniku repetitivního nebo uměle působícího obsahu. I přes to, že je obsah generován automaticky a náhodně, často vychází z omezené množiny předem definovaných prvků a pravidel. Pokud není systém navržen dostatečně variabilně, může hráč postupně rozpoznat opakující se vzorce, což může negativně ovlivnit herní zážitek. Tento problém je sice možné minimalizovat vhodným návrhem algoritmu a důkladným laděním, nicméně zcela eliminovat jej bývá obtížné.
 
 
 \subsubsection{Přístupy k procedurálnímu generování}
-Procedurální generování obsahu lze rozdělit podle několika hledisek. Jedním z nich je způsob, jakým systém reaguje na hráče. V případě neadaptivního (statického) generování je obsah vytvářen bez ohledu na chování hráče a jeho průběh hrou. Všechny generované struktury vycházejí ze stejných pravidel.
+Na procedurální generování se můžeme podívat z různých úhlů pohledu a lze ho rozdělit dle určitých specifik, jako je například jak systém reaguje na hráče případně zdali vvyužíváme konkrétní vstupní parametry.
 
-Naopak adaptivní generování pracuje s informacemi o hráči. Systém může sledovat například úspěšnost hráče, délku průchodu úrovní nebo způsob řešení situací a na základě těchto dat upravovat další generovaný obsah.
+Vzhledem k chování hráče se můžeme v praxi nejčastěji setkat s adaptivním či neadaptivním přístupem. V případě neadaptivního (statického) generování je obsah vytvářen bez ohledu na chování hráče a jeho průběh samotnou hrou. Všechny generované struktury vycházejí ze stejných pravidel a reakce hráče na podněty neovlivní výsledek. Naopak adaptivní generování pracuje s informacemi o hráči. Systém může sledovat úspěšnost hráče, rychlost reakcí, délku průchodu úrovní, využívané herní prvky nebo způsob řešení situací a na základě těchto dat dále upravovat generovaný obsah.
 
-Dalším důležitým rozdělením je deterministický a stochastický přístup. Deterministické generování vychází z pevně daných počátečních hodnot (například seed) a při stejném vstupu vždy produkuje stejný výstup. Tento přístup umožňuje reprodukovatelnost výsledků, což je výhodné například při testování nebo sdílení konkrétních map mezi hráči. Stochastické generování naproti tomu pracuje s náhodností bez pevně stanoveného počátečního stavu, takže výsledky se mohou lišit i při opakovaném spuštění algoritmu.
+Dalším důležitým rozdělením je deterministický a stochastický přístup. Deterministické generování vychází z pevně daných počátečních hodnot (například seed) a při stejném vstupu vždy produkuje stejný výstup. Tento přístup umožňuje reprodukovatelnost výsledků, což je výhodné například při testování nebo sdílení konkrétních map mezi hráči. Stochastické generování naproti tomu pracuje s náhodností bez pevně stanoveného počátečního stavu, takže výsledky se budou lišit i při opakovaném spuštění algoritmu.
 
 Z hlediska samotného procesu generování lze rozlišit konstruktivní metody a přístup označovaný jako generate-and-test. Konstruktivní metody vytvářejí obsah postupně podle předem definovaných pravidel a omezení. Každý krok generování přímo přispívá k vytvoření výsledné struktury. Naproti tomu metoda generate-and-test nejprve vytvoří potenciální řešení, které je následně ověřeno podle stanovených kritérií. Pokud výsledek nevyhovuje, proces se opakuje. Tento přístup může být výpočetně náročnější, ale umožňuje lépe kontrolovat výsledné vlastnosti mapy.
 
 V literatuře se rovněž objevuje pojem mixed-authorship (smíšené autorství), kdy se na tvorbě obsahu podílí jak algoritmus, tak lidský návrhář. Systém může například generovat návrhy úrovní, které následně autor upravuje, případně může reagovat na částečně ručně vytvořenou strukturu. Tento přístup kombinuje kreativitu člověka s rychlostí automatizovaného generování.
 
-Plně automatická generace naopak probíhá bez zásahu člověka během samotného vytváření obsahu. Algoritmus pracuje pouze na základě vstupních parametrů a předem definovaných pravidel. Tento způsob je typický zejména pro roguelike hry a další tituly, u nichž je cílem vysoká variabilita jednotlivých průchodů.
+Plně automatická generace naopak probíhá bez zásahu člověka během samotného vytváření obsahu. Algoritmus pracuje pouze na základě vstupních parametrů. Tento způsob je typický zejména pro roguelike hry a další tituly, u nichž je cílem vysoká variabilita jednotlivých průchodů.
 
 \subsubsection{Využití procedurálního generování v herním průmyslu}
-S procedurálním generováním se dnes setkáváme téměř v každé moderní videohře, jeho počátky však sahají již do 70. let 20. století. V tomto období byl výpočetní výkon i dostupná operační paměť velmi omezené. Tyto limity výrazně omezovaly množství ručně vytvářeného obsahu, a vývojáři proto hledali způsoby, jak vytvářet variabilní herní prostředí s minimálními nároky na paměť. Právě v tomto kontextu se začaly prosazovat procedurální přístupy.
+S procedurálním generováním se dnes setkáváme téměř v každé moderní videohře, jeho počátky však sahají již do 70. let 20. století. V tomto období byl výpočetní výkon i dostupná operační paměť velmi omezené. Tyto limity výrazně omezovaly množství ručně vytvářeného obsahu, a vývojáři proto hledali způsoby, jak vytvářet variabilní herní prostředí s minimálními nároky na paměť RAM. Právě v tomto kontextu se začaly prosazovat procedurální přístupy.
 
 \subsection{Roguelike hry a jejich vztah k procedurálnímu generování}
-V kontextu procedurálního generování je nutné zmínit také pojem roguelike, který označuje herní subžánr úzce spojený s náhodně generovaným obsahem. Název žánru je odvozen od hry Rogue, jež výrazně ovlivnila podobu mnoha pozdějších titulů.
+V kontextu PCG je nutné zmínit také pojem roguelike, který označuje herní subžánr úzce spojený s náhodně generovaným obsahem. Název žánru je odvozen od hry Rogue, jež výrazně ovlivnila podobu mnoha pozdějších titulů.
 
-Roguelike hry bývají typické procedurálně generovanými úrovněmi, tahovým systémem, permanentní smrtí postavy (permadeath) a zpravidla i vyšší obtížností. Náhodné generování zde neplní pouze technickou funkci, ale představuje zásadní designový prvek, který podporuje průzkum, strategické rozhodování i adaptaci hráče na proměnlivé prostředí. Právě díky těmto vlastnostem se roguelike hry staly jedním z nejvýraznějších příkladů praktického a systematického využití procedurálního generování v herním průmyslu.
+Roguelike hry bývají typické náhodně generovanými úrovněmi, tahovým systémem, permanentní smrtí postavy (permadeath) a zpravidla i vyšší obtížností. Náhodné generování zde neplní pouze technickou funkci, ale představuje zásadní designový prvek, který podporuje průzkum, strategické rozhodování i adaptaci hráče na proměnlivé prostředí. Právě díky těmto vlastnostem se roguelike hry staly jedním z nejvýraznějších příkladů praktického a systematického využití procedurálního generování v herním průmyslu.
 
 \subsubsection{Beneath Apple Manor}
 Jednou z prvních her, které implementovaly PCG, byla Beneath Apple Manor z roku 1978. Autorem titulu byl Don Worth a hru vydalo studio The Software Factory. Primárně byla vyvíjena pro počítač Apple II.
 
-Herní prostředí v Beneath Apple Manor bylo generováno algoritmicky při každém novém spuštění hry. Díky tomu nebylo rozložení místností, chodeb ani jednotlivých herních prvků či nepřátel nikdy zcela totožné, což výrazně zvyšovalo znovuhratelnost. Cílem hry bylo získat zlaté jablko a postup bylo možné ukládat, takže po smrti hráče se načetla uložená úroveň znovu, přičemž hráč přišel o část svých atributů.
+Herní prostředí v Beneath Apple Manor bylo generováno algoritmicky při každém novém spuštění hry. Díky tomu nebylo rozložení místností, chodeb ani jednotlivých herních prvků či nepřátel nikdy zcela totožné, a právě díky tomu byla hra přívětivá pro znovuhratelnost. Cílem hry bylo získat zlaté jablko a postup bylo možné ukládat, takže po smrti hráče se načetla uložená úroveň znovu, přičemž hráč přišel o část svých atributů.
 
 Autor hry čerpal inspiraci z programu Dragon Maze, který rovněž využíval náhodné výpočty ke generování bludišť. Tento princip však dále rozvinul a navrhl algoritmus vytvářející funkční a hratelnou strukturu dungeonů složenou z místností propojených chodbami. Hra navíc umožňovala hráči ovlivnit některé parametry generování, například počet místností na jednotlivých patrech, barevnou variantu zobrazení nebo obtížnost. Po vytvoření struktury úrovně algoritmus náhodně rozmístil také nepřátele, poklady a další herní objekty. S rostoucí hloubkou dungeonů se zároveň zvyšovala obtížnost hry, zejména síla nepřátel.
 
-Použitý algoritmický přístup lze zařadit mezi rané příklady způsobu generování založených na místnostech a chodbách, které se později stalo jedním ze základních modelů využívaných v hrách typu roguelike. Beneath Apple Manor tak představuje významný historický příklad využití těchto metod, jehož principy byly dále rozvíjeny v následujících dekádách \cite{Schuller_2021,enwiki:1260179812}.
+Použitý algoritmický přístup lze zařadit mezi rané příklady způsobu generování založených na místnostech a chodbách, které se později stalo jedním ze základních modelů využívaných v hrách typu roguelike. Beneath Apple Manor tak představuje významný historický příklad využití těchto metod, jehož principy byly dále rozvíjeny v následujících dekádách.
 
 \subsubsection{Rogue}
-Za zmínku stojí také hra Rogue, která si oproti výše zmíněnému Beneath Apple Manor získala výrazně větší popularitu a měla zásadní vliv na další vývoj herního designu. Právě podle této hry vznikl podžánr označovaný jako roguelike, který z jejích principů vychází dodnes.
+Za zmínku stojí také hra Rogue, která si oproti výše zmíněnému Beneath Apple Manor získala výrazně větší popularitu a měla zásadní vliv na další vývoj herního designu. Právě podle této hry vznikl podžánr označovaný jako roguelike, který jsme si popsali výše, a z jejích principů vychází dodnes.
 
-Hra byla představena v roce 1980 a jejími autory jsou Michael Toy, Glenn Wichman a Ken Arnold. Původně byla vyvíjena pro unixové systémy a zobrazovala herní svět pomocí ASCII znaků v textovém terminálu. Jednotlivé prvky prostředí byly reprezentovány znaky, například hráč symbolem @, stěny znakem \#, nepřátelé různými písmeny abecedy. Tento způsob zobrazení nebyl pouze důsledkem technických omezení tehdejšího hardwaru, ale zároveň umožňoval poměrně flexibilní práci s herním světem a jeho generováním.
+Hra byla představena v roce 1980 a jejími autory jsou Michael Toy, Glenn Wichman a Ken Arnold. Původně byla vyvíjena pro unixové systémy a zobrazovala herní svět pomocí ASCII znaků v textovém terminálu. Jednotlivé prvky prostředí byly reprezentovány znaky, například hráč symbolem @, stěny znakem \#, nepřátelé různými písmeny abecedy. Tento způsob zobrazení nebyl pouze důsledkem technických omezení tehdejšího hardware, ale zároveň umožňoval poměrně flexibilní práci s herním světem a jeho generováním.
 
-Rogue bývá popisována jako jedna z prvních roguelike her, která výrazně zpopularizovala princip permanentní smrti (permadeath). Postup hrou nebylo možné ukládat a jakmile hráč zemřel, musel začít zcela od začátku. Hráči tak zůstávaly pouze nabyté zkušenosti a znalost herních mechanik. Smrt zde proto nepředstavovala pouze neúspěch, ale také součást učení se hernímu systému.
+Rogue bývá popisována jako jedna z prvních roguelike her, která výrazně zpopularizovala princip permanentní smrti (permadeath). Postup hrou nebylo možné ukládat a jakmile hráč zemřel, musel začít zcela od začátku. Hráči tak zůstávaly pouze nabyté zkušenosti a znalost herních mechanik. Smrt zde proto nepředstavovala pouze neúspěch, ale také nedílnou součást učení se hernímu systému.
 
 Cílem hry je najít Amulet of Yendor, který se nachází v nejhlubším patře dungeonů, a následně se vrátit zpět na povrch. Dungeon je tvořen několika patry (tradičně 26), přičemž každé z nich je generováno procedurálně. Patra se skládají z místností propojených chodbami a jejich rozložení se při každém novém průchodu mění. Náhodně jsou rozmístěni také nepřátelé, pasti, poklady, zbraně a další předměty.
 
@@ -283,7 +284,7 @@ Proces generování lze obecně rozdělit do několika kroků:
 \item generování chodeb mezi jednotlivými místnostmi.
 \end{enumerate}
 
-Výhodou této metody je především její jednoduchost a relativně dobrá kontrola nad výslednou strukturou mapy. Generované dungeony obvykle obsahují přehledně oddělené místnosti a srozumitelnou síť propojení. Nevýhodou může být menší variabilita, protože místnosti mají často pravidelný tvar obdélníků a čtverců, a prostředí tak může působit příliš uniformně. Dalším problémem bývá méně efektivní využití prostoru, kdy mezi jednotlivými místnostmi zůstávají větší nevyužité oblasti. Komplikace může přinášet i samotné propojování: u jednodušších implementací může docházet ke kolizím chodeb, nevhodnému křížení nebo ke vzniku příliš dlouhých průchodů, které narušují dynamiku pohybu v prostředí.
+Výhodou této metody je především její jednoduchost. Generované dungeony obvykle obsahují přehledně oddělené místnosti a rozumitelnou síť propojení. Nevýhodou může být menší variabilita, protože místnosti mají často pravidelný tvar obdélníků a čtverců, a prostředí tak může působit příliš uniformně. Dalším problémem bývá méně efektivní využití prostoru, kdy mezi jednotlivými místnostmi zůstávají větší nevyužité oblasti. Komplikace může přinášet i samotné propojování. U jednodušších implementací může docházet ke kolizím chodeb, nevhodnému křížení nebo ke vzniku příliš dlouhých průchodů, které narušují dynamiku pohybu v prostředí.
 
 Z těchto důvodů bývá metoda často kombinována s dalšími postupy nebo doplněna o dodatečná pravidla, která omezují velikosti a vzájemné vzdálenosti místností, délku chodeb nebo celkové rozložení prostoru \cite{Linden2014,Shaker2016}.
 %#TODO add diagram
@@ -350,7 +351,7 @@ Modernější přístupy zahrnují také metody založené na splňování různ
 Tyto metody umožňují generovat velmi rozmanité struktury, avšak jejich implementace bývá složitější.
 
 Uvedené přístupy jsou často výpočetně náročnější než základní algoritmy popsané v předchozích podkapitolách, a proto se v praxi využívají spíše při offline generování obsahu nebo při návrhu komplexnějších herních světů \cite{Linden2014,Shaker2016}.
-\subsection{Shrnutí kapitoly}
+\subsection{Shrnutí způsobů generování}
 
 V této kapitole byly představeny vybrané metody procedurálního generování dungeonových map.
 Jednotlivé přístupy se liší především způsobem konstrukce prostoru, mírou kontroly nad výslednou strukturou a typem generovaného prostředí.
@@ -376,7 +377,7 @@ Bludiště & střední & střední & labyrinty \\
 \label{tab:dungeon_methods}
 \end{table}
 
-Na základě provedené rešerše byly pro praktickou část práce vybrány algoritmy generování pomocí místností a chodeb, Binary Space Partitioning, buněčné automaty, metoda náhodné procházky a metoda generování bludiště. Tyto algoritmy reprezentují různé přístupy k procedurálnímu generování map a umožňují jejich vzájemné porovnání.
+Na základě provedené rešerše byly pro praktickou část práce vybrány algoritmy generování pomocí místností a chodeb, Binary Space Partitioning, buněčné automaty, metoda náhodné procházky a metoda generování bludiště. Tyto algoritmy reprezentují různé přístupy k procedurálnímu generování map a díky tomu je lze snadno vzájemně porovnat.
 % praktická část
 \section{Experimentální část}
 
@@ -385,30 +386,31 @@ Tato kapitola se věnuje návrhu systému pro generování dungeonových map a t
 Nejprve jsou představeny nástroje využité při vývoji aplikace. Následně je popsán samotný návrh systému, zejména způsob reprezentace dungeonové mapy, struktura generátoru a způsob vizualizace výsledného prostředí.
 
 \subsection{Použité technologie}
+V této kapitole budou představeny využité technologie pro implementaci výše zmíněných metod.
 
 \subsubsection{Herní engine Godot}
 
-Pro implementaci generátoru dungeonových map byl zvolen herní engine Godot. Jedná se o open-source engine určený pro vývoj 2D i 3D herních aplikací. Poskytuje integrované nástroje pro práci s grafikou, fyzikou, scénami i skriptováním, což umožňuje rychlé vytváření a testování herních prototypů.
+Pro vizualizaci generátoru dungeonových map byl zvolen herní engine Godot. Jedná se o open-source engine určený pro vývoj 2D i 3D her. Poskytuje integrované nástroje pro práci s grafikou, fyzikou, scénami i skriptováním, což umožňuje rychlé vytváření a testování herních prototypů.
 
-Významnou vlastností Godotu je podpora dlaždicových map (TileMap), které jsou při vývoji 2D her často využívány. Tento způsob reprezentace prostředí je zároveň vhodný i pro implementaci algoritmů procedurálního generování, protože umožňuje jednoduchou manipulaci s jednotlivými buňkami mapy.
+Významnou vlastností Godotu je podpora dlaždicových map (TileMap), které jsou při vývoji 2D her často využívány a výrazně to usnadňuje samotné grafické ztvárnění. Tento způsob reprezentace prostředí je zároveň vhodný i pro implementaci algoritmů procedurálního generování, protože umožňuje jednoduchou manipulaci s jednotlivými buňkami mapy.
 
-Engine zároveň umožňuje snadné spouštění a testování různých algoritmů generování v jednom prostředí, což je výhodné zejména při jejich vzájemném porovnávání.
+Engine zároveň umožňuje snadné spouštění a testování různých algoritmů v jednom prostředí, což je výhodné zejména při jejich vzájemném porovnávání.
 
-Další výhodou je integrace skriptovacího jazyka GDScript, který umožňuje rychlou implementaci generovacích algoritmů a jejich následnou vizualizaci v herním prostředí \cite{godot_engine}.
+Další výhodou je integrace skriptovacího jazyka GDScript, který umožňuje rychlou tvorbu generovacích algoritmů a jejich následnou vizualizaci v herním prostředí.
 
 \subsubsection{Skriptovací jazyk GDScript}
 
-Pro implementaci generovacích algoritmů byl použit skriptovací jazyk GDScript, který je velmi podobný jazyku Python, avšak je plně podporován zvoleným herním enginem.
+Jak již bylo zmíněno výše, pro implementaci algoritmů byl použit skriptovací jazyk GDScript, který je velmi podobný jazyku Python, avšak je plně podporován právě zvoleným herním enginem.
 
-GDScript umožňuje přímý přístup k objektům herní scény, komponentám enginu i datovým strukturám. Díky tomu bylo možné jednotlivé generovací metody implementovat v samostatných skriptech a následně je snadno integrovat do hlavní aplikace.
+GDScript umožňuje přímý přístup k objektům herní scény, komponentám enginu i datovým strukturám. Díky tomu bylo možné jednotlivé generovací metody ztvárnit v samostatných skriptech a následně je snadno integrovat do hlavní aplikace.
 
-Další výhodou je možnost rychlého prototypování a průběžných úprav algoritmů během vývoje. Implementované generátory tak mohou být jednoduše spouštěny a testovány přímo v prostředí enginu, což usnadňuje jejich ladění i následné porovnávání výsledků jednotlivých metod \cite{godot_gdscript}.
-
+Další výhodou je možnost rychlého prototypování a průběžných úprav algoritmů během vývoje. Implementované generátory tak mohou být jednoduše spouštěny a testovány přímo v prostředí enginu, což usnadňuje jejich ladění i následné porovnávání výsledků jednotlivých metod.
 
 
 \subsection{Návrh systému generování}
-\subsubsection{Reprezentace mapy}
+Při návrhu samotného systému generování bylo nutné předem stanovit, jaké metody chceme zahrnout, jak bude vypadat mapa, například velikost a případně počet dlaždic a jak bude ztvárněno ovládání samotné hry. V dalších kapitolách bude implementace rozebraná detailněji.
 
+\subsubsection{Reprezentace mapy}
 Všechny implementované metody generování pracují nad společnou datovou reprezentací mapy ve formě dvourozměrného pole. Mapa je v implementaci uložena jako pole řádků, kde každý prvek odpovídá jedné buňce dungeonové mapy. Jednotlivé buňky obsahují celočíselnou hodnotu určující typ dlaždice.
 
 V implementaci jsou rozlišeny tři základní stavy buněk: prázdný prostor, podlaha a stěna. Tyto stavy jsou reprezentovány číselnými hodnotami 0, 1 a 2, které odpovídají prázdné buňce, průchozí podlaze a stěně. Právě tyto hodnoty následně slouží jako základ pro vykreslení odpovídajících dlaždic.
@@ -441,13 +443,14 @@ Výhodou zvoleného řešení je především jeho jednoduchost a přehlednost. 
 
 \subsubsection{Struktura generátoru}
 
-Systém byl navržen modulárně tak, aby bylo možné jednotlivé algoritmy snadno rozšiřovat a vzájemně porovnávat. Každá metoda je implementována v samostatném skriptu a využívá jednotné rozhraní v podobě funkce \texttt{generate(width, height)}, která pro zadané rozměry vrací datovou reprezentaci mapy.
+Systém byl navržen modulárně tak, aby bylo možné jednotlivé algoritmy snadno rozšiřovat a vzájemně porovnávat. 
+Každá metoda je tedy implementována v samostatném skriptu a využívá jednotné rozhraní v podobě funkce \texttt{generate(width, height)}, která pro zadané rozměry vrací datovou reprezentaci mapy.
 
 Díky tomuto sjednocení lze do aplikace přidávat další generátory bez zásahů do ostatních částí systému. V rámci vytvořeného prototypu byly takto implementovány metody založené na náhodném umístění místností, Binary Space Partitioning, buněčných automatech, náhodné procházce a generování bludiště.
 
-Na úrovni aplikace jejich běh řídí skript \texttt{main.gd}, který podle uživatelské volby vybere odpovídající algoritmus, spustí jeho běh a převezme výslednou mapu k dalšímu zpracování. Následně je tato reprezentace předána vrstvě zajišťující vizualizaci.
+Na úrovni aplikace jejich běh řídí skript \texttt{main.gd}, který podle uživatelské volby vybere odpovídající algoritmus, spustí jeho běh a převezme výslednou mapu k dalšímu zpracování. Následně je tato reprezentace předána vrstvě zajišťující vizualizaci a grafické znázornění zvoleného generování je uživateli vykresleno.
 
-Navržená architektura tím odděluje samotnou logiku tvorby mapy od jejího vykreslení v prostředí enginu. Generátory pracují pouze s daty, zatímco zobrazení výsledku obstarávají samostatné komponenty.
+Navržená architektura tím odděluje samotnou logiku tvorby mapy od jejího vykreslení. Generátory pracují pouze s daty, zatímco zobrazení výsledku obstarávají samostatné komponenty. Samotné vykreslování tedy neovlivňuje dobu trvání algoritmu, což je žádoucí pro následné porovnávání
 
 Architektura navrženého systému je schematicky znázorněna na obrázku~\ref{fig:generator_architecture}.
 
@@ -459,15 +462,19 @@ Architektura navrženého systému je schematicky znázorněna na obrázku~\ref{
 \end{figure}
 
 \subsubsection{Vizualizace mapy a hráče}
+Pro vizualizaci generovaných map byly v aplikaci použity grafické prvky, takzvané \texttt{assety}. Tyto assety slouží především k přehlednému zobrazení struktury generované mapy a usnadňují orientaci uživatele v herním prostředí. Vizualizace zahrnuje grafiku podlahy, stěn, postavy hráče a sbíratelných objektů.
 
-Vizualizace mapy je realizována pomocí komponenty \texttt{TileMapLayer}.
-Po dokončení generování je datová reprezentace mapy postupně převedena na odpovídající dlaždice, přičemž jednotlivé typy buněk jsou mapovány na konkrétní grafické prvky představující podlahu nebo stěnu.
+Zobrazení mapy je realizováno pomocí komponenty \texttt{TileMapLayer}. Po dokončení generování je datová reprezentace mapy postupně převedena na odpovídající dlaždice, přičemž jednotlivé typy buněk jsou mapovány na konkrétní grafické prvky představující podlahu nebo stěnu. V zobrazovacím prostředí bylo zvoleno postupné vykreslování mapy po jednotlivých řádcích. Tento způsob sice není nezbytný z hlediska samotného generování, ale usnadňuje vizuální kontrolu výsledků a umožňuje lépe sledovat podobu jednotlivých algoritmů.
 
-V implementaci bylo zvoleno postupné vykreslování mapy po jednotlivých řádcích. Tento způsob zobrazení sice není nezbytný z hlediska samotného generování, ale usnadňuje vizuální kontrolu výsledků a umožňuje lépe sledovat podobu jednotlivých algoritmů.
+Součástí prototypu je také jednoduchá reprezentace hráče, která slouží především k ověření průchodnosti mapy. Hráč je po vygenerování umístěn na vhodnou průchozí pozici tak, aby měl kolem sebe dostatek prostoru a mohl se pohybovat. Je tedy upřednostněna oblast, která poskytuje dostatek volného prostoru v okolí, aby nedocházelo ke kolizi se stěnami ihned po vytvoření mapy.
 
-Součástí prototypu je také jednoduchá reprezentace hráče, která slouží především k ověření průchodnosti mapy. Hráč je po vygenerování umístěn na vhodnou průchozí pozici. V implementaci je přitom upřednostněna oblast, která poskytuje dostatek volného prostoru v bezprostředním okolí, aby nedocházelo ke kolizi se stěnami ihned po vytvoření mapy.
+Pro doplnění testovacího prostředí byly do mapy přidány také sběratelné objekty ve formě mincí, které jsou po vygenerování náhodně rozmístěny na průchozích dlaždicích. Tyto prvky neslouží jako součást generování samotného, ale usnadňují praktické ověření funkčnosti a pohybu v prostředí a zároveň působí uživatelsky více přívětivě.
 
-Pro doplnění testovacího prostředí byly do mapy přidány také sběratelné objekty ve formě mincí, které jsou po vygenerování náhodně rozmístěny na průchozích dlaždicích. Tyto prvky neslouží jako součást generování samotného, ale usnadňují praktické ověření funkčnosti a pohybu v prostředí a zároveň působí lépe vizuálně.
+V rámci implementace byl využit volně dostupný balíček \textit{2D Pixel Dungeon Asset Pack}, jehož autorem je grafik vystupující pod jménem Pixel\_Poem. Tento balíček obsahuje základní sadu grafických prvků určených pro tvorbu dungeonových roguelike her.
+
+Použité assety mají podobu pixelové grafiky v top-down perspektivě, tedy seshora dolů, a jsou navrženy právě pro práci s dlaždicovými mapami (tilemap), což umožňuje jejich snadnou integraci do herního enginu. Balíček je poskytován jako volně dostupný asset pack, který lze využít v nekomerčních i komerčních projektech.
+
+Vzhledem k tomu, že hlavním cílem práce je implementace a porovnání algoritmů procedurálního generování map, slouží grafická vrstva pouze jako podpůrný nástroj pro vizualizaci a prezentaci výsledků generování.
 
 \subsubsection{Ovládání generování a zobrazení statistik}
 
@@ -487,18 +494,8 @@ Toto rozhraní slouží především pro účely testování, vizualizace a poro
 \caption{Uživatelské rozhraní aplikace pro generování map}
 \end{figure}
 
-\subsubsection{Vizualizační assety}
-
-Pro vizualizaci generovaných map byly v aplikaci použity grafické assety. Tyto assety slouží především k přehlednému zobrazení struktury generované mapy a usnadňují orientaci uživatele v herním prostředí. Vizualizace zahrnuje zejména grafiku podlahy, stěn, postavy hráče a sbíratelných objektů.
-
-V rámci implementace byl využit volně dostupný balíček \textit{2D Pixel Dungeon Asset Pack}, jehož autorem je grafik vystupující pod jménem Pixel\_Poem. Tento balíček obsahuje základní sadu grafických prvků určených pro tvorbu dungeonových roguelike her.
-
-Použité assety mají podobu pixelové grafiky v top-down perspektivě a jsou navrženy pro práci s dlaždicovými mapami (tilemap), což umožňuje jejich snadnou integraci do herního enginu Godot. Balíček je poskytován jako volně dostupný asset pack, který lze využít v nekomerčních i komerčních projektech.
-
-Vzhledem k tomu, že hlavním cílem práce je implementace a porovnání algoritmů procedurálního generování map, slouží grafická vrstva pouze jako podpůrný nástroj pro vizualizaci a prezentaci výsledků generování.
 
 \subsection{Implementace generovacích metod}
-
 Principy jednotlivých algoritmů generování map byly popsány v kapitole 2.4. V následujících podkapitolách je popsána jejich konkrétní implementace v rámci vytvořené aplikace.
 
 Každý algoritmus je realizován jako samostatný skript. Jednotlivé skripty můžeme najít v adresáři \path{res://dungeons/algorithms}. 
@@ -555,39 +552,24 @@ Výsledná mapa je zapsána do dvourozměrného pole, které obsahuje informace 
 \end{figure}
 
 \subsubsection{Metoda náhodné procházky}
-
 Náhodná procházka je implementována v souboru \texttt{drunken\_generator.gd}. Generování mapy probíhá opět ve funkci \texttt{generate(width, height)}, která vytváří dvourozměrné pole reprezentující výslednou mapu.
 
-Na začátku funkce je vytvořena prázdná mapa o zadaných rozměrech, ve které
-jsou všechny buňky inicializovány jako neprůchozí prostor. Následně je
-vypočten cílový počet průchozích dlaždic, který je určen jako určitý podíl
-z celkové plochy mapy. Tento parametr určuje, jak velkou část mapy bude
-algoritmus postupně odkrývat.
+Na začátku funkce je vytvořena prázdná mapa o zadaných rozměrech, ve které jsou všechny buňky inicializovány jako neprůchozí prostor. Následně je vypočten cílový počet průchozích dlaždic, který je určen jako určitý podíl z celkové plochy mapy. Tento parametr určuje, jak velkou část mapy bude algoritmus postupně odkrývat.
 
-Samotné generování probíhá pomocí simulace náhodného pohybu po mapě.
-Algoritmus začíná na náhodně zvolené pozici uvnitř mapy, která je označena
-jako průchozí dlaždice. V každém kroku je následně náhodně zvolen směr
-pohybu, typicky nahoru, dolů, doleva nebo doprava. Pokud se nová pozice
-nachází uvnitř hranic mapy, je tato buňka označena jako podlaha a aktuální
-pozice generátoru se přesune na tuto dlaždici.
+Samotné generování probíhá pomocí simulace náhodného pohybu po mapě. Algoritmus začíná na náhodně zvolené pozici uvnitř mapy, která je označena jako průchozí dlaždice. V každém kroku je následně náhodně zvolen směr pohybu, typicky nahoru, dolů, doleva nebo doprava. Pokud se nová pozice nachází uvnitř hranic mapy, je tato buňka označena jako podlaha a aktuální pozice generátoru se přesune na tuto dlaždici.
 
-Tento proces se opakuje, dokud počet vytvořených průchozích dlaždic nedosáhne
-předem definovaného cílového počtu. V důsledku náhodného pohybu vzniká
-nepravidelná struktura připomínající přirozeně vzniklé jeskynní prostory.
-Na rozdíl od metod založených na explicitním generování místností zde
-nevznikají jasně definované obdélníkové prostory, ale spíše organicky
-tvarované oblasti.
+Tento proces se opakuje, dokud počet vytvořených průchozích dlaždic nedosáhne předem definovaného cílového počtu. V důsledku náhodného pohybu vzniká nepravidelná struktura připomínající přirozeně vzniklé jeskynní prostory. Na rozdíl od metod založených na explicitním generování místností zde nevznikají jasně definované obdélníkové prostory, ale spíše organicky tvarované oblasti.
 
-Po dokončení samotné náhodné procházky jsou kolem průchozích dlaždic doplněny
-stěny. Tento krok zajišťuje, že prázdné buňky sousedící s podlahou jsou
-označeny jako stěny, čímž vznikne souvislé ohraničení průchozí části mapy.
+Po dokončení samotné náhodné procházky jsou kolem průchozích dlaždic doplněny stěny. Tento krok zajišťuje, že prázdné buňky sousedící s podlahou jsou označeny jako stěny, čímž vznikne souvislé ohraničení průchozí části mapy.
 
-Výsledkem funkce je dvourozměrné pole obsahující rozložení jednotlivých typů
-dlaždic mapy. Vzhledem k tomu, že cílový počet průchozích dlaždic je určen
-předem, je výsledné procento pokrytí mapy průchozím prostorem pro danou
-velikost mapy poměrně stabilní. Variabilita generovaných map se proto
-projevuje především ve tvaru a rozmístění vytvořených prostorů.
+Výsledkem funkce je dvourozměrné pole obsahující rozložení jednotlivých typů dlaždic mapy. Vzhledem k tomu, že cílový počet průchozích dlaždic je určen předem, je výsledné procento pokrytí mapy průchozím prostorem pro danou velikost mapy poměrně stabilní. Variabilita generovaných map se proto projevuje především ve tvaru a rozmístění vytvořených prostorů.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{images/drunken_map.png}
+\caption{Ukázka mapy generované pomocí algoritmu náhodné procházky}
+\label{fig:drunken_map}
+\end{figure}
 
 \subsubsection{Buněčné automaty}
 
@@ -598,6 +580,14 @@ V další fázi proběhne několik simulačních kroků. V každém kroku se vyt
 Po dokončení simulace je nad výslednou podlahou doplněna vrstva stěn. Výstupem jsou nepravidelné mapy jeskynního charakteru, které jsou vhodné pro porovnání s metodami generujícími pravidelnější struktury.
 
 U map generovaných metodou buněčných automatů se mohou vyskytovat izolované průchozí oblasti. Z tohoto důvodu bylo při umisťování hráče nutné zohlednit souvislost průchozí plochy a upřednostnit umístění do největší spojité oblasti mapy.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{images/cellular_map.png}
+\caption{Ukázka mapy generované pomocí algoritmu buněčných automatů}
+\label{fig:cellular_map}
+\end{figure}
+
 \subsubsection{Metoda bludiště}
 
 Metoda bludiště je implementována v souboru \texttt{maze\_generator.gd} a vychází z algoritmu recursive backtracker (DFS se zásobníkem). Vnitřní reprezentace není tvořena přímo dlaždicemi mapy, ale mřížkou abstraktních buněk, z nichž každá obsahuje bitovou masku čtyř stěn.
@@ -606,10 +596,16 @@ Generování začíná v počáteční buňce a postupně odstraňuje stěny mez
 
 Po dokončení průchodu je buněčná reprezentace převedena do tile mapy. Každá buňka je vykreslena jako menší průchozí oblast a podle odstraněných stěn se mezi sousedními buňkami vytvářejí koridory. V závěru jsou stejně jako u ostatních metod doplněny stěny kolem podlahy.
 
-
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{images/maze_map.png}
+\caption{Ukázka mapy generované pomocí algoritmu bludiště}
+\label{fig:maze_map}
+\end{figure}
 
 
 \section{Výsledky}
+
 \subsection{Porovnání výsledných map}
 
 Algoritmus generování bludiště byl do implementace zahrnut především pro účely demonstrace rozdílných přístupů k procedurálnímu generování map. Výsledky však ukazují, že tento typ algoritmu vytváří velmi pravidelnou strukturu mapy s vysokou propojeností, která odpovídá klasickému bludišti.
@@ -618,6 +614,8 @@ Pro generování dungeonových map, které obvykle obsahují výrazněji odděle
 
 
 \subsection{Výpočetní náročnost metod}
+
+\subsection{Praktické využití výsledků}
 
 \section{Diskuse}
 \subsection{Silné a slabé stránky jednotlivých metod}
@@ -645,15 +643,15 @@ Pro generování dungeonových map, které obvykle obsahují výrazněji odděle
 
 \section{Zkratky}
 PCG - Procedural Content Generation
+RAM - Random Access Memory
+BSP - Binary Space Partitioning
+ASCII - American Standard Code for Information Interchange
 % TODO doplnit zkratky
 
 %% Obsah elektronických dat.
 \section{Obsah elektronických dat} \label{sec:ObsahData}
 
-Na samotném konci textu práce je uveden stručný popis obsahu
-elektronických dat odevzdaných v systému katedry informatiky spolu s
-textem. Tato data jsou nedílnou součástí práce a tvoří (datovou)
-přílohu textu práce. Povinné položky struktury dat jsou:
+Povinné položky struktury dat jsou:
 
 \begin{description}
 
