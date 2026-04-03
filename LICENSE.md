@@ -1,2 +1,2 @@
 
-Copyright (C) 2025 Jesse Sadowý
+Copyright (C) 2026 Jesse Sadowý
