@@ -13,6 +13,11 @@ const TILE_EMPTY: int = 0
 const TILE_FLOOR: int = 1
 const TILE_WALL:  int = 2
 
+# average room is ~11x11 = 121 tiles; multiplied by ~3 to account for
+# corridors, walls, and spacing between rooms, giving roughly one room
+# per 360 tiles of map area
+const AREA_PER_ROOM: int = 360
+
 static func generate(width: int, height: int) -> Array:
 	# use a local rng so we don't affect anything outside this function
 	var rng := RandomNumberGenerator.new()
@@ -28,7 +33,7 @@ static func generate(width: int, height: int) -> Array:
 
 	var rooms: Array[Rect2] = []
 	@warning_ignore("integer_division")
-	var room_count: int = maxi(5, (width * height) / 360)
+	var room_count: int = maxi(5, (width * height) / AREA_PER_ROOM)
 	var max_attempts: int = room_count * 10
 	var tries: int = 0
 

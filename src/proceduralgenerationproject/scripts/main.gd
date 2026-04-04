@@ -20,7 +20,7 @@ const CoinScene         = preload("res://scenes/coin.tscn")
 const RoomsGenerator    = preload("res://dungeons/algorithms/rooms_generator.gd")
 const BSPGenerator      = preload("res://dungeons/algorithms/bsp_generator.gd")
 const CellularGenerator = preload("res://dungeons/algorithms/cellular_generator.gd")
-const DrunkenGenerator  = preload("res://dungeons/algorithms/drunken_generator.gd")
+const DrunkardsGenerator  = preload("res://dungeons/algorithms/drunkards_generator.gd")
 const MazeGenerator     = preload("res://dungeons/algorithms/maze_generator.gd")
 
 # tile types - must match the constants in each generator
@@ -84,7 +84,7 @@ func _ready() -> void:
 	dungeon_type_option.clear()
 	dungeon_type_option.add_item("Rooms")     # 0
 	dungeon_type_option.add_item("BSP")       # 1
-	dungeon_type_option.add_item("Drunken")   # 2
+	dungeon_type_option.add_item("Drunkards")   # 2
 	dungeon_type_option.add_item("Cellular")  # 3
 	dungeon_type_option.add_item("Maze")      # 4
 
@@ -119,7 +119,7 @@ func _on_generate_button_pressed() -> void:
 	match dungeon_type_option.selected:
 		0: map = RoomsGenerator.generate(width, height)
 		1: map = BSPGenerator.generate(width, height)
-		2: map = DrunkenGenerator.generate(width, height)
+		2: map = DrunkardsGenerator.generate(width, height)
 		3: map = CellularGenerator.generate(width, height)
 		4: map = MazeGenerator.generate(width, height)
 		_:
@@ -180,7 +180,7 @@ func run_benchmark() -> void:
 	var algorithms = [
 		{"name":"Rooms", "func": RoomsGenerator.generate},
 		{"name":"BSP", "func": BSPGenerator.generate},
-		{"name":"Drunken", "func": DrunkenGenerator.generate},
+		{"name":"Drunkards", "func": DrunkardsGenerator.generate},
 		{"name":"Cellular", "func": CellularGenerator.generate},
 		{"name":"Maze", "func": MazeGenerator.generate}
 	]
