@@ -56,7 +56,7 @@
 \documentclass[
 %  master,
   program=itk,
-%  printversion,
+% printversion,
   biblatex,
 %  language=english,
 %  font=sans,
@@ -98,7 +98,7 @@
 
 %% Anotace práce, včetně anglické (obvykle překlad z jazyka
 %% práce). Jeden odstavec!
-\annotation{Bakalářská práce se zabývá procedurálním generováním dungeonových map ve 2D hrách. Jsou popsány základní principy procedurálního generování obsahu a vybrané metody tvorby dungeonových struktur. V herním enginu Godot bylo implementováno a experimentálně porovnáno pět generovacích algoritmů z hlediska času generování a pokrytí mapy průchozím prostorem. Výsledky ukazují výrazné rozdíly mezi metodami a práce diskutuje vhodnost jednotlivých přístupů pro různé typy herního prostředí.}
+\annotation{Bakalářská práce se zabývá procedurálním generováním dungeonových map ve 2D hrách. Jsou popsány základní principy procedurálního generování obsahu a~vybrané metody tvorby dungeonových struktur. V~herním enginu Godot bylo implementováno a~experimentálně porovnáno pět generovacích algoritmů z~hlediska času generování a~pokrytí mapy průchozím prostorem. Výsledky ukazují výrazné rozdíly mezi metodami a~práce diskutuje vhodnost jednotlivých přístupů pro různé typy herního prostředí.}
 
 \annotation[english]{This bachelor's thesis deals with procedural generation of dungeon maps in 2D games. It describes the basic principles of procedural content generation and selected methods for creating dungeon structures. Five generation algorithms were implemented and experimentally compared in the Godot game engine in terms of generation time and floor coverage. The results show significant differences between the methods, and the thesis discusses the suitability of each approach for different types of game environments.}
 
@@ -130,13 +130,6 @@
 \usepackage{float}
 
 %% Definice jazyka GDScript pro sazbu zdrojových kódů.
-\lstdefinelanguage{GDScript}{
-  morekeywords={extends,func,var,const,if,elif,else,for,while,match,return,class,static,enum,signal,export,onready,preload,self,null,true,false,pass,break,continue,in,not,and,or,range,int,float,bool,void,Array,Dictionary,String,Vector2,Vector2i,Vector3,Rect2,Vector4i,RandomNumberGenerator},
-  sensitive=true,
-  morecomment=[l][\color{gray}]{\#},
-  morestring=[b][\color{black}]{"},
-  morestring=[b][\color{black}]{'},
-}
 
 \begin{document}
 %% Sazba úvodních stran -- titulní, s bibliografickými údaji, s
@@ -359,7 +352,7 @@ Podrobnější porovnání implementovaných algoritmů bude provedeno v kapitol
 Metoda & Kontrola struktury & Variabilita & Typ prostředí \\ 
 \hline
 Místnosti a chodby & vysoká & střední & klasické dungeony \\
-Binary Space Partitioning & vysoká & střední & strukturované mapy \\
+BSP & vysoká & střední & strukturované mapy \\
 Buněčné automaty & nízká & vysoká & jeskyně \\
 Náhodná procházka & nízká & vysoká & organické struktury \\
 Bludiště & střední & střední & labyrinty \\
@@ -428,7 +421,7 @@ Výhodou zvoleného řešení je především jeho jednoduchost a přehlednost. 
 \subsubsection{Struktura generátoru}
 
 Systém byl navržen modulárně tak, aby bylo možné jednotlivé algoritmy snadno rozšiřovat a vzájemně porovnávat.
-Každá metoda je tedy implementována v samostatném skriptu a využívá jednotné rozhraní v podobě funkce \texttt{generate(width, height)}, která pro zadané rozměry vrací datovou reprezentaci mapy s výše zmíněnými hodnotami.
+Každá metoda je tedy implementována v samostatném skriptu a využívá společnou funkci \texttt{generate(width, height)}, která pro zadané rozměry vrací datovou reprezentaci mapy s výše zmíněnými hodnotami.
 
 Díky tomuto sjednocení lze do aplikace přidávat další generátory bez zásahů do ostatních částí systému. V rámci vytvořeného prototypu byly právě takto implementovány metody založené na náhodném umístění místností, Binary Space Partitioning, buněčných automatech, náhodné procházce a generování bludiště.
 
@@ -448,15 +441,13 @@ Architektura navrženého systému je schematicky znázorněna na obrázku \ref{
 \subsubsection{Vizualizace mapy a hráče}
 Pro vizualizaci generovaných map byly v aplikaci použity grafické prvky, takzvané \texttt{assety}. Tyto assety slouží především k přehlednému zobrazení struktury generované mapy a usnadňují orientaci uživatele. Vizualizace zahrnuje grafiku podlahy, stěn, postavy hráče a sbíratelných objektů.
 
-Zobrazení mapy je realizováno pomocí komponenty \texttt{TileMapLayer}.
-Po dokončení generování je datová reprezentace mapy předána funkci \texttt{\_draw\_map\_animated()}, která ji postupně převádí na odpovídající dlaždice, řádek po řádku s krátkou prodlevou mezi jednotlivými řádky. Jednotlivé typy buněk jsou mapovány na konkrétní grafické prvky představující podlahu nebo stěnu. Tento způsob postupného vykreslování sice není nezbytný z hlediska samotného generování, ale samotná vizualizace působí přívětivěji.
+Zobrazení mapy je realizováno pomocí komponenty \texttt{TileMapLayer}. Po dokončení generování je datová reprezentace mapy předána funkci \\\texttt{\_draw\_map\_animated()}, která ji postupně převádí na odpovídající dlaždice, řádek po řádku s krátkou prodlevou mezi jednotlivými řádky. Jednotlivé typy buněk jsou mapovány na konkrétní grafické prvky představující podlahu nebo stěnu. Tento způsob postupného vykreslování sice není nezbytný z hlediska samotného generování, ale samotná vizualizace působí přívětivěji.
 
-Součástí prototypu je také jednoduchá reprezentace hráče, která slouží především k ověření průchodnosti mapy.
-Umísťování hráče zajišťuje funkce \texttt{\_place\_player\_on\_floor()}, která nejprve pomocí prohledávání do šířky (BFS) nalezne největší souvislou oblast průchozích dlaždic. V této oblasti poté hledá pozici s volným okolím $3 \times 3$ dlaždic, aby hráč nebyl ihned po vytvoření mapy zaseknut ve stěně. Pokud taková pozice neexistuje, je jako záložní řešení použita náhodná dlaždice z největší oblasti. S hráčem se lze jednoduše pohybovat pomocí kláves W, A, S, D.
+Součástí prototypu je také jednoduchá reprezentace hráče, která slouží především k ověření průchodnosti mapy. Umísťování hráče zajišťuje funkce \\ \texttt{\_place\_player\_on\_floor()}, která nejprve pomocí prohledávání do šířky (BFS) nalezne největší souvislou oblast průchozích dlaždic. V této oblasti poté hledá pozici s volným okolím $3 \times 3$ dlaždic, aby hráč nebyl ihned po vytvoření mapy zaseknut ve stěně. Pokud taková pozice neexistuje, je jako záložní řešení použita náhodná dlaždice z největší oblasti. S hráčem se lze jednoduše pohybovat pomocí kláves W, A, S, D. Po mapě je možné se pohybovat pravým tlačítkem myši, pro návrat k pozici hráče slouží klávesa R.
 
-Pro doplnění testovacího prostředí byly do mapy přidány také sběratelné objekty ve formě mincí. Funkce \texttt{\_place\_coins\_on\_floor()} náhodně rozmístí 5 až 50 mincí na průchozí dlaždice v největší souvislé oblasti mapy. Tyto prvky neslouží jako součást generování samotného, jedná se pouze o grafické doplnění.
+Pro doplnění testovacího prostředí byly do mapy přidány také sběratelné objekty ve formě mincí. Funkce \texttt{\_place\_coins\_on\_floor()} náhodně rozmístí 5 až 50 mincí na průchozí dlaždice v největší souvislé oblasti mapy. Pokud hráč posbírá všechny mince, automaticky se vygeneruje nová mapa se stejnými parametry, jako v případě předchozího generování. Tyto prvky neslouží jako hlaví součást PCG, jedná se pouze o grafické doplnění.
 
-V rámci implementace byl využit volně dostupný balíček \textit{2D Pixel Dungeon Asset Pack} \cite{pixel_dungeon_asset}, jehož autorem je grafik vystupující pod jménem Pixel\_Poem. Tento balíček obsahuje základní sadu grafických prvků určených pro tvorbu dungeonových her.
+V rámci implementace byl využit volně dostupný balíček \textit{2D Pixel Dungeon Asset Pack} \cite{pixel_dungeon_asset}, jehož autorem je grafik vystupující pod jménem Pixel\_Poem. Tento balíček obsahuje základní sadu grafických prvků určených právě pro tvorbu dungeonových 2D her.
 
 Použité assety mají podobu pixelové grafiky v top-down perspektivě, tedy seshora dolů, a jsou navrženy právě pro práci s dlaždicovými mapami (tilemap), což umožňuje jejich snadnou integraci do herního enginu. Balíček je poskytován jako volně dostupný asset pack, který lze využít v nekomerčních i komerčních projektech.
 
@@ -472,7 +463,7 @@ Doba generování je měřena pomocí \texttt{Time.get\_ticks\_usec()} a zahrnuj
 
 Tlačítko \textit{Benchmark} slouží k automatizovanému testování implementovaných generovacích metod a je zajištěno funkcí \texttt{run\_benchmark()}. Tato funkce postupně spustí všech pět algoritmů pro každou z pěti definovaných velikostí map, přičemž každou konfiguraci opakuje desetkrát. Na rozdíl od běžného generování není při tomto režimu mapa vizualizována ani nejsou umísťovány herní objekty.
 
-Výsledky jednotlivých běhů (algoritmus, rozměry, čas generování, pokrytí, počet podlahových dlaždic) jsou po každém běhu ukládány do souboru \texttt{results.csv} pomocí funkce \texttt{\_log\_results()}, jejíž struktura je podrobněji popsána v podkapitole věnované metodice měření.
+Výsledky jednotlivých běhů (algoritmus, rozměry, čas generování, pokrytí, počet podlahových dlaždic) jsou po každém běhu ukládány do souboru \\ \texttt{results.csv} pomocí funkce \texttt{\_log\_results()}, jejíž struktura je podrobněji popsána v podkapitole věnované metodice měření.
 
 \begin{figure}[H]
 \centering
@@ -482,7 +473,7 @@ Výsledky jednotlivých běhů (algoritmus, rozměry, čas generování, pokryt�
 
 
 \subsection{Implementace generovacích metod}
-Principy jednotlivých algoritmů byly popsány v kapitole 2.4. V následujících podkapitolách je popsána jejich konkrétní implementace v rámci vytvořené aplikace. Jednotlivé skripty se nacházejí v adresáři \path{res://dungeons/algorithms}. Kompletní zdrojové kódy jednotlivých generátorů jsou uvedeny v příloze \ref{sec:zdrojovy-kod}.
+Principy jednotlivých algoritmů byly popsány v kapitole 2.4. V následujících podkapitolách je popsána jejich konkrétní implementace v rámci vytvořené aplikace. Jednotlivé skripty se nacházejí v adresáři \path{res://dungeons/algorithms}.
 
 Všechny generátory sdílejí několik společných implementačních prvků. Každý skript rozšiřuje třídu \texttt{RefCounted}, nemá tedy vazbu na scénu, a definuje trojici celočíselných konstant pro typy dlaždic: \texttt{TILE\_EMPTY = 0} (prázdný prostor), \texttt{TILE\_FLOOR = 1} (podlaha) a \texttt{TILE\_WALL = 2} (stěna). Vstupním bodem je vždy statická funkce \texttt{generate(width, height)}, která vrací dvourozměrné pole představující výslednou mapu.
 
@@ -492,10 +483,9 @@ Společným závěrečným krokem všech generátorů je doplnění stěn pomoc�
 
 \subsubsection{Náhodné generování místností a chodeb}
 
-Implementaci algoritmu najdeme v souboru \texttt{rooms\_generator.gd} (viz zdrojový kód \ref{lst:rooms}).
+Implementaci algoritmu najdeme v souboru \texttt{rooms\_generator.gd}.
 
-Počet generovaných místností je odvozen od celkové plochy mapy podle vzorce \texttt{room\_count = max(5, width * height / AREA\_PER\_ROOM)}.
-Hodnota konstanty \texttt{AREA\_PER\_ROOM = 360} vychází z odhadu průměrné plochy, kterou jedna místnost včetně svého okolí v mapě zabírá. Šířka i výška místnosti jsou generovány náhodně v rozmezí 6 až 16 dlaždic, průměrná velikost místnosti tedy činí přibližně $11 \times 11 = 121$ dlaždic. 
+Počet generovaných místností je odvozen od celkové plochy mapy podle vzorce \\ \texttt{room\_count = max(5, width * height / AREA\_PER\_ROOM)}. \\ Hodnota konstanty \texttt{AREA\_PER\_ROOM = 360} vychází z odhadu průměrné plochy, kterou jedna místnost včetně svého okolí v mapě zabírá. Šířka i výška místnosti jsou generovány náhodně v rozmezí 6 až 16 dlaždic, průměrná velikost místnosti tedy činí přibližně $11 \times 11 = 121$ dlaždic. 
 Kromě samotné plochy místnosti je však nutné počítat také s prostorem, který zabírají chodby, stěny a povinné jednopolíčkové mezery mezi místnostmi. Na základě empirického pozorování je tento faktor přibližně trojnásobkem plochy místnosti, tedy $121 \times 3 \approx 360$ dlaždic na jednu místnost. 
 Na malých mapách je tak vygenerováno alespoň pět místností, zatímco na velkých mapách počet místností úměrně roste s plochou. Maximální počet pokusů o umístění místnosti je stanoven jako \texttt{room\_count * 10}, což zajišťuje dostatečný prostor pro opakované pokusy v případě kolizí s již umístěnými místnostmi, a zároveň zabraňuje nekonečnému cyklování na mapách, kde se požadovaný počet místností nedaří umístit. 
 Každá nová místnost je reprezentována obdélníkem typu \texttt{Rect2}. Její šířka a výška jsou generovány náhodně v intervalu od 6 do 16 dlaždic. Pozice levého horního rohu místnosti je následně určena tak, aby místnost zůstala uvnitř hranic mapy a zároveň nebyla umístěna přímo na jejím okraji.
@@ -518,7 +508,7 @@ Chodba není tvořena pouze jednou dlaždicí, ale má nastavitelnou šířku. V
 
 \subsubsection{Binary Space Partitioning}
 
-Implementace metody BSP se nachází v souboru \texttt{bsp\_generator.gd} (viz zdrojový kód \ref{lst:bsp}).
+Implementace metody BSP se nachází v souboru \texttt{bsp\_generator.gd}.
 Stromová struktura mapy je reprezentována pomocnou třídou \texttt{Branch}. Každý uzel uchovává svou pozici (\texttt{Vector2i}), velikost (\texttt{Vector2i}) a náhodné odsazení \texttt{padding} typu \texttt{Vector4i}, jehož složky udávají vzdálenost místnosti od okraje oblasti, náhodně 2 až 3 dlaždice na každé straně. Díky tomuto odsazení nevznikají místnosti těsně u hranic oblastí a mezi nimi zůstává přirozený prostor.
 
 Kořenový uzel pokrývá celou mapu zmenšenou o jednu dlaždici na každé straně, tedy oblast od pozice $(1, 1)$ o velikosti $(\texttt{width} - 2) \times (\texttt{height} - 2)$. Tím je na okraji mapy ponechán jednopolíčkový rámec.
@@ -536,11 +526,15 @@ V každém listu je vykreslena místnost odpovídající ploše uzlu zmenšené 
 \end{figure}
 
 \subsubsection{Metoda náhodné procházky}
-Náhodná procházka je implementována v souboru \texttt{drunkards\_generator.gd} (viz zdrojový kód \ref{lst:drunkards}).
 
-Algoritmus začíná ve středu mapy na pozici \texttt{width/2}, \texttt{height/2}. Kolem počáteční pozice je ihned vytvořena oblast podlahy o velikosti $3 \times 3$ dlaždic pomocí funkce \texttt{\_carve\_3x3()}, která slouží jako bezpečný výchozí prostor pro hráče. Cílový počet průchozích dlaždic je stanoven na 50\,\% celkové plochy mapy, tedy \texttt{(width * height * TARGET\_COVERAGE) / 100}, kde konstanta \texttt{TARGET\_COVERAGE} je zmíněných 50.
+Metoda náhodné procházky se nachází v souboru \\ \texttt{drunkards\_generator.gd}. Algoritmus začíná ve středu mapy na pozici \\ \texttt{width/2}, \texttt{height/2}. Kolem počáteční pozice je ihned vytvořena oblast podlahy o~velikosti $3 \times 3$ dlaždic pomocí funkce \texttt{\_carve\_3x3()}, která slouží jako bezpečný výchozí prostor pro hráče. Cílový počet průchozích dlaždic je stanoven na 50\,\% celkové plochy mapy podle vzorce~(\ref{eq:drunkards_target}), kde konstanta \\ \textit{TARGET\_COVERAGE} je zmíněných 50.
 
-Samotné generování probíhá v cyklu, který pokračuje, dokud počet podlahových dlaždic nedosáhne cílového počtu. V každém kroku je náhodně zvolen jeden ze čtyř směrů (nahoru, dolů, doleva, doprava) a pozice generátoru se posune o jednu dlaždici. Pozice je následně omezena funkcí \texttt{clamp()} tak, aby zůstávala alespoň 2 dlaždice od okraje mapy. Tato rezerva zajišťuje, že i při vykreslování oblastí $3 \times 3$ nedojde k překročení hranic pole.
+\begin{equation}
+\label{eq:drunkards_target}
+\textit{cílový\_počet} = \frac{\textit{width} \times \textit{height} \times \textit{TARGET\_COVERAGE}}{100}
+\end{equation}
+
+Samotné generování probíhá v cyklu, který pokračuje, dokud počet podlahových dlaždic nedosáhne cílového počtu. V každém kroku je náhodně zvolen jeden ze čtyř směrů (nahoru, dolů, doleva, doprava) a~pozice generátoru se posune o~jednu dlaždici. Pozice je následně omezena funkcí \texttt{clamp()} tak, aby zůstávala alespoň 2 dlaždice od okraje mapy. Tato rezerva zajišťuje, že i při vykreslování oblastí $3 \times 3$ nedojde k překročení hranic pole.
 
 Algoritmus rozlišuje dva typy vykreslování. Každých 15 až 25 kroků (interval je volen náhodně) je na aktuální pozici vytvořena oblast $3 \times 3$ dlaždic, která představuje malou místnost. V ostatních krocích je vykreslena pouze oblast $2 \times 2$ dlaždic, což odpovídá chodbovému úseku. Obě pomocné funkce \texttt{\_carve\_3x3()} a \texttt{\_carve\_2x2()} zapisují podlahu pouze tam, kde dosud podlaha nebyla, a vracejí počet nově vytvořených dlaždic, aby mohl být průběžně aktualizován celkový počet.
 
@@ -555,7 +549,7 @@ Průchodnost celé mapy je zaručena tím, že veškerý průchozí prostor vzni
 
 \subsubsection{Buněčné automaty}
 
-Implementace buněčných automatů je v souboru \texttt{cellular\_generator.gd} (viz zdrojový kód \ref{lst:cellular}). V první fázi je každá vnitřní buňka mapy náhodně nastavena na podlahu s pravděpodobností \texttt{FILL\_PROBABILITY = 0.45}, tedy 45\,\%. Buňky na okraji mapy (první a poslední řádek a sloupec) zůstávají vždy prázdné, čímž vznikne pevný rámec, který zabraňuje rozšíření jeskynních prostor až k hranicím pole.
+Implementace buněčných automatů je v souboru \texttt{cellular\_generator.gd}. V první fázi je každá vnitřní buňka mapy náhodně nastavena na podlahu s pravděpodobností \texttt{FILL\_PROBABILITY = 0.45}, tedy 45\,\%. Buňky na okraji mapy (první a poslední řádek a sloupec) zůstávají vždy prázdné, čímž vznikne pevný rámec, který zabraňuje rozšíření jeskynních prostor až k hranicím pole.
 
 Následuje celkem \texttt{SIMULATION\_STEPS = 5} simulačních kroků. V každém kroku je vytvořena nová mapa (takzvaný princip dvojitého vyrovnávání), aby se průběžné změny nepromítaly do výpočtu sousedů v témže kroku. Pro každou vnitřní buňku funkce \texttt{\_count\_floor\_neighbours()} spočítá počet podlahových sousedů v Mooreově okolí (osm přilehlých buněk). Pokud je tento počet alespoň 4, buňka se stane podlahou; v opačném případě zůstane prázdná. Okrajové buňky ve všech krocích zůstávají prázdné.
 
@@ -572,7 +566,7 @@ U map generovaných touto metodou se mohou vyskytovat izolované průchozí obla
 
 \subsubsection{Metoda bludiště}
 
-Metoda bludiště je implementována v souboru \texttt{maze\_generator.gd} (viz zdrojový kód \ref{lst:maze}) a vychází z algoritmu \textit{recursive backtracker} (prohledávání do hloubky se zásobníkem).
+Metoda bludiště je implementována v souboru \texttt{maze\_generator.gd} a vychází z algoritmu \textit{recursive backtracker} (prohledávání do hloubky se zásobníkem).
 
 Mapa je nejprve rozdělena na mřížku abstraktních buněk. Každá buňka zabírá $2 \times 2$ dlaždic podlahy a mezi sousedními buňkami je jednodlaždicová mezera, takže na jednu buňku připadá úsek $3 \times 3$ dlaždic. Počet buněk závisí na rozměrech mapy: $\texttt{cells\_w} = \max\!\bigl(1,\, \lfloor(\texttt{width} - 2) / 3\rfloor\bigr)$ a analogicky pro výšku. Odečtení 2 zohledňuje jednodlaždicový okraj mapy na obou stranách.
 
@@ -597,7 +591,7 @@ Pro objektivní porovnání implementovaných algoritmů byl navržen automatizo
 
 Pro každou kombinaci algoritmu a velikosti mapy je generování provedeno opakovaně v deseti nezávislých bězích, Benchmark byl spušten celkem 5$\times$  a tím jsme získali 1250 záznamů. Tím je zajištěn dostatečný vzorek pro statistické vyhodnocení, zejména pro posouzení průměrných hodnot a variability výsledků.
 
-Měření času generování je realizováno pomocí funkce \texttt{Time.get\_ticks\_usec()}, která poskytuje mikrosekundovou přesnost. 
+Měření času generování je realizováno pomocí funkce \\ \texttt{Time.get\_ticks\_usec()}, která poskytuje mikrosekundovou přesnost. 
 Měřen je výhradně čas strávený ve funkci \texttt{generate(width, height)} příslušného algoritmu. Vizualizace mapy, vykreslování dlaždic, umisťování hráče ani další operace nejsou součástí měřeného intervalu. Výsledný čas je převeden na milisekundy.
 
 Pro každý běh jsou zaznamenány následující metriky:
@@ -607,10 +601,10 @@ Pro každý běh jsou zaznamenány následující metriky:
 \item \textbf{pokrytí} (\texttt{coverage}) -- podíl průchozích dlaždic z celkového počtu buněk mapy, vyjádřený v procentech jako $\frac{\text{floor\_tiles}}{\text{width} \times \text{height}} \times 100$.
 \end{itemize}
 
-Výsledky jednotlivých běhů jsou průběžně ukládány do souboru \texttt{results.csv}. 
+Naměřené hodnoty jednotlivých běhů jsou průběžně ukládány do souboru \\ \texttt{results.csv}. 
 Každý záznam obsahuje název algoritmu, rozměry mapy, pořadí běhu, čas generování, pokrytí a počet podlahových dlaždic.
 
-Pro vyhodnocení naměřených dat byl vytvořen samostatný skript \texttt{result\_analyser.py} v jazyce Python s využitím knihoven \texttt{pandas} a \texttt{matplotlib}. 
+Pro vyhodnocení naměřených dat byl vytvořen samostatný skript \\ \texttt{result\_analyser.py} v jazyce Python s využitím knihoven \texttt{pandas} \\ a \texttt{matplotlib}. 
 Skript načte soubor \texttt{results.csv}, odfiltruje neplatné záznamy a pro každou kombinaci algoritmu a velikosti mapy vypočítá souhrnné statistiky -- průměr, směrodatnou odchylku, minimum a maximum času generování i pokrytí. Tyto statistiky jsou uloženy do souboru \texttt{results\_summary.csv}. Následně skript automaticky vygeneruje sadu grafů: sloupcové grafy průměrného času a pokrytí pro jednotlivé algoritmy, škálovací křivky v závislosti na velikosti mapy, boxploty rozložení hodnot a bodový graf kompromisu mezi rychlostí a pokrytím. Všechny grafické výstupy použité v následující kapitole byly vygenerovány tímto skriptem.
 
 
@@ -673,8 +667,7 @@ Variabilita mezi běhy je u BSP relativně nízká. Směrodatné odchylky času 
 
 Algoritmus náhodné procházky se od ostatních metod odlišuje především konstantním pokrytím mapy. Výsledné pokrytí se ve všech testovaných konfiguracích pohybuje v rozmezí 50{,}0-50{,}1 \%, což přímo odpovídá implementaci, ve které je cílový počet průchozích dlaždic stanoven pevně dán. Variabilita pokrytí je tedy prakticky nulová.
 
-Čas generování naopak vykazuje výraznější variabilitu mezi jednotlivými běhy. 
-Na mapě 20$\times$50 se průměrný čas pohybuje kolem 2{,}7 ms, na největší mapě 150$\times$150 dosahuje přibližně 57{,}1 ms. 
+Čas generování naopak vykazuje výraznější variabilitu mezi jednotlivými \\ běhy. Na mapě 20$\times$50 se průměrný čas pohybuje kolem 2{,}7 ms, na největší mapě 150$\times$150 dosahuje přibližně 57{,}1 ms. 
 Rozptyl časů je způsoben stochastickou povahou algoritmu, náhodná procházka může v některých bězích rychle pokrýt nové oblasti, zatímco v jiných se opakovaně vrací do již odkrytých částí mapy. Hodnota 50 \% je přitom nastavitelný parametr a změnou této konstanty lze dosáhnout libovolného cílového pokrytí.
 
 Drunkard's Walk tak představuje zajímavý kontrast k buněčným automatům: zatímco Náhodná procházka má předvídatelné pokrytí, ale nepředvídatelný čas (protože procházka může opakovaně navštěvovat již odkryté dlaždice), buněčné automaty mají naopak stabilní čas (vždy proběhne stejný počet simulačních kroků), avšak variabilní pokrytí závislé na náhodné počáteční konfiguraci.
@@ -932,547 +925,6 @@ Limitations of this work include testing exclusively in the Godot environment wi
 
 %% Přílohy
 \appendix
-
-\section{Ukázky zdrojového kódu}
-\label{sec:zdrojovy-kod}
-
-Tato příloha obsahuje implementace pěti generovacích algoritmů v jazyce GDScript. Všechny algoritmy sdílejí společnou reprezentaci mapy (dvourozměrné pole s hodnotami 0, 1, 2) a funkci pro obalení podlahových dlaždic stěnami.
-
-\subsection{Generátor místností a chodeb}
-
-\begin{lstlisting}[language=GDScript,style=kibasestyle,caption={Generátor místností a chodeb (\texttt{rooms\_generator.gd}).},label={lst:rooms}]
-extends RefCounted
-
-const TILE_EMPTY: int = 0
-const TILE_FLOOR: int = 1
-const TILE_WALL:  int = 2
-const AREA_PER_ROOM: int = 360
-
-static func generate(width: int, height: int) -> Array:
-  var rng := RandomNumberGenerator.new()
-  rng.randomize()
-
-  var map: Array = []
-  for y: int in range(height):
-    var row: Array = []
-    for x: int in range(width):
-      row.append(TILE_EMPTY)
-    map.append(row)
-
-  var rooms: Array[Rect2] = []
-  @warning_ignore("integer_division")
-  var room_count: int = maxi(5, (width * height) / AREA_PER_ROOM)
-  var max_attempts: int = room_count * 10
-  var tries: int = 0
-
-  while rooms.size() < room_count and tries < max_attempts:
-    var w: int = rng.randi_range(6, 16)
-    var h: int = rng.randi_range(6, 16)
-
-    if width < w + 2 or height < h + 2:
-      tries += 1
-      continue
-
-    var x: int = rng.randi_range(1, width  - w - 1)
-    var y: int = rng.randi_range(1, height - h - 1)
-    var room: Rect2 = Rect2(x, y, w, h)
-
-    var overlaps: bool = false
-    for other in rooms:
-      if room.grow(1).intersects(other):
-        overlaps = true
-        break
-
-    if not overlaps:
-      rooms.append(room)
-      for iy: int in range(y, y + h):
-        for ix: int in range(x, x + w):
-          (map[iy] as Array)[ix] = TILE_FLOOR
-
-      if rooms.size() > 1:
-        var prev_center: Vector2 = rooms[rooms.size() - 2].get_center()
-        var curr_center: Vector2 = room.get_center()
-        _carve_corridor(map, prev_center, curr_center,
-                        width, height, rng)
-    tries += 1
-
-  _add_walls(map, width, height)
-  return map
-
-static func _carve_corridor(map: Array, from: Vector2,
-    to: Vector2, width: int, height: int,
-    rng: RandomNumberGenerator,
-    corridor_width: int = 2) -> void:
-
-  var fx: int = int(from.x)
-  var fy: int = int(from.y)
-  var tx: int = int(to.x)
-  var ty: int = int(to.y)
-
-  if rng.randf() < 0.5:
-    for cx: int in range(min(fx, tx), max(fx, tx) + 1):
-      for off: int in range(corridor_width):
-        var cy: int = fy + off
-        if _in_bounds(cx, cy, width, height):
-          (map[cy] as Array)[cx] = TILE_FLOOR
-    for cy: int in range(min(fy, ty), max(fy, ty) + 1):
-      for off: int in range(corridor_width):
-        var cx: int = tx + off
-        if _in_bounds(cx, cy, width, height):
-          (map[cy] as Array)[cx] = TILE_FLOOR
-  else:
-    for cy: int in range(min(fy, ty), max(fy, ty) + 1):
-      for off: int in range(corridor_width:
-        var cx: int = fx + off
-        if _in_bounds(cx, cy, width, height):
-          (map[cy] as Array)[cx] = TILE_FLOOR
-    for cx: int in range(min(fx, tx), max(fx, tx) + 1):
-      for off: int in range(corridor_width):
-        var cy: int = ty + off
-        if _in_bounds(cx, cy, width, height):
-          (map[cy] as Array)[cx] = TILE_FLOOR
-
-static func _in_bounds(x: int, y: int,
-    width: int, height: int) -> bool:
-  return x >= 0 and y >= 0 and x < width and y < height
-\end{lstlisting}
-
-\subsection{Generátor BSP}
-
-\begin{lstlisting}[language=GDScript,style=kibasestyle,caption={Generátor BSP (\texttt{bsp\_generator.gd}).},label={lst:bsp}]
-extends RefCounted
-
-const TILE_EMPTY: int = 0
-const TILE_FLOOR: int = 1
-const TILE_WALL: int = 2
-
-const MIN_SIZE: int = 13
-
-class Branch:
-  var left_child: Branch
-  var right_child: Branch
-  var position: Vector2i
-  var size: Vector2i
-  var padding: Vector4i
-
-  func _init(pos: Vector2i, sz: Vector2i,
-      rng: RandomNumberGenerator) -> void:
-    position = pos
-    size = sz
-    padding = Vector4i(
-      rng.randi_range(2, 3), rng.randi_range(2, 3),
-      rng.randi_range(2, 3), rng.randi_range(2, 3))
-
-  func get_leaves() -> Array:
-    if not (left_child and right_child):
-      return [self]
-    return left_child.get_leaves() + right_child.get_leaves()
-
-  func get_center() -> Vector2i:
-    @warning_ignore("integer_division")
-    return Vector2i(position.x + size.x / 2,
-                    position.y + size.y / 2)
-
-  func split(min_size: int, paths: Array,
-      rng: RandomNumberGenerator) -> void:
-    var split_horizontal: bool = size.y >= size.x
-    if split_horizontal and size.y < min_size * 2:
-      return
-    if not split_horizontal and size.x < min_size * 2:
-      return
-
-    var split_percent: float = rng.randf_range(0.35, 0.65)
-
-    if split_horizontal:
-      var left_height: int = int(size.y * split_percent)
-      left_child = Branch.new(position,
-          Vector2i(size.x, left_height), rng)
-      right_child = Branch.new(
-          Vector2i(position.x, position.y + left_height),
-          Vector2i(size.x, size.y - left_height), rng)
-    else:
-      var left_width: int = int(size.x * split_percent)
-      left_child = Branch.new(position,
-          Vector2i(left_width, size.y), rng)
-      right_child = Branch.new(
-          Vector2i(position.x + left_width, position.y),
-          Vector2i(size.x - left_width, size.y), rng)
-
-    paths.push_back({
-      "left":  left_child.get_center(),
-      "right": right_child.get_center()})
-
-    left_child.split(min_size, paths, rng)
-    right_child.split(min_size, paths, rng)
-
-static func generate(width: int, height: int) -> Array:
-  var map: Array = []
-  for y: int in range(height):
-    var row: Array = []
-    for x: int in range(width):
-      row.append(TILE_EMPTY)
-    map.append(row)
-
-  var rng := RandomNumberGenerator.new()
-  rng.randomize()
-
-  var paths: Array = []
-  var root_branch := Branch.new(
-      Vector2i(1, 1), Vector2i(width - 2, height - 2), rng)
-  root_branch.split(MIN_SIZE, paths, rng)
-
-  for leaf in root_branch.get_leaves():
-    var pad: Vector4i = leaf.padding
-    for lx in range(leaf.size.x):
-      for ly in range(leaf.size.y):
-        if _is_inside_padding(lx, ly, leaf, pad):
-          continue
-        var mx: int = lx + leaf.position.x
-        var my: int = ly + leaf.position.y
-        if mx > 0 and mx < width - 1 \
-            and my > 0 and my < height - 1:
-          (map[my] as Array)[mx] = TILE_FLOOR
-
-  for path in paths:
-    var a: Vector2i = path["left"]
-    var b: Vector2i = path["right"]
-    _carve_l_corridor(map, a, b, width, height)
-
-  _add_walls(map, width, height)
-  return map
-
-static func _is_inside_padding(x: int, y: int,
-    leaf: Branch, pad: Vector4i) -> bool:
-  return x < pad.x or y < pad.y \
-      or x >= leaf.size.x - pad.z \
-      or y >= leaf.size.y - pad.w
-
-static func _carve_l_corridor(map: Array,
-    a: Vector2i, b: Vector2i,
-    width: int, height: int) -> void:
-  for cx in range(min(a.x, b.x), max(a.x, b.x) + 1):
-    for dy in range(2):
-      var ty: int = a.y + dy
-      if cx > 0 and cx < width - 1 \
-          and ty > 0 and ty < height - 1:
-        (map[ty] as Array)[cx] = TILE_FLOOR
-  for cy in range(min(a.y, b.y), max(a.y, b.y) + 1):
-    for dx in range(2):
-      var tx: int = b.x + dx
-      if tx > 0 and tx < width - 1 \
-          and cy > 0 and cy < height - 1:
-        (map[cy] as Array)[tx] = TILE_FLOOR
-\end{lstlisting}
-
-\subsection{Generátor náhodné procházky}
-
-\begin{lstlisting}[language=GDScript,style=kibasestyle,caption={Generátor náhodné procházky (\texttt{drunkards\_generator.gd}).},label={lst:drunkards}]
-extends RefCounted
-
-const TILE_EMPTY: int = 0
-const TILE_FLOOR: int = 1
-const TILE_WALL: int = 2
-
-const TARGET_COVERAGE: int = 50
-
-static func generate(width: int, height: int) -> Array:
-  var map: Array = []
-  for y: int in range(height):
-    var row: Array = []
-    for x: int in range(width):
-      row.append(TILE_EMPTY)
-    map.append(row)
-
-  var rng: RandomNumberGenerator = RandomNumberGenerator.new()
-  rng.randomize()
-
-  @warning_ignore("integer_division")
-  var x: int = width / 2
-  @warning_ignore("integer_division")
-  var y: int = height / 2
-  (map[y] as Array)[x] = TILE_FLOOR
-
-  @warning_ignore("integer_division")
-  var target_floor_count: int = (width * height * TARGET_COVERAGE) / 100
-  var current_floor_count: int = 1
-
-  current_floor_count += _carve_3x3(
-      map, x - 1, y - 1, width, height)
-  var steps_since_room: int = 0
-
-  while current_floor_count < target_floor_count:
-    var dir: int = rng.randi_range(0, 3)
-    match dir:
-      0: x += 1
-      1: x -= 1
-      2: y += 1
-      3: y -= 1
-
-    x = clamp(x, 2, width - 4)
-    y = clamp(y, 2, height - 4)
-    steps_since_room += 1
-
-    if steps_since_room > rng.randi_range(15, 25):
-      current_floor_count += _carve_3x3(
-          map, x - 1, y - 1, width, height)
-      steps_since_room = 0
-    else:
-      current_floor_count += _carve_2x2(
-          map, x, y, width, height)
-
-  _add_walls(map, width, height)
-  return map
-
-static func _carve_3x3(map: Array, x: int, y: int,
-    width: int, height: int) -> int:
-  var carved_count: int = 0
-  for dy in range(3):
-    for dx in range(3):
-      var nx: int = x + dx
-      var ny: int = y + dy
-      if nx > 0 and nx < width - 1 \
-          and ny > 0 and ny < height - 1:
-        if (map[ny] as Array)[nx] != TILE_FLOOR:
-          (map[ny] as Array)[nx] = TILE_FLOOR
-          carved_count += 1
-  return carved_count
-
-static func _carve_2x2(map: Array, x: int, y: int,
-    width: int, height: int) -> int:
-  var carved_count: int = 0
-  for dy in range(2):
-    for dx in range(2):
-      var nx: int = x + dx
-      var ny: int = y + dy
-      if nx > 0 and nx < width - 1 \
-          and ny > 0 and ny < height - 1:
-        if (map[ny] as Array)[nx] != TILE_FLOOR:
-          (map[ny] as Array)[nx] = TILE_FLOOR
-          carved_count += 1
-  return carved_count
-\end{lstlisting}
-
-\subsection{Generátor buněčných automatů}
-
-\begin{lstlisting}[language=GDScript,style=kibasestyle,caption={Generátor buněčných automatů (\texttt{cellular\_generator.gd}).},label={lst:cellular}]
-extends RefCounted
-
-const TILE_EMPTY: int = 0
-const TILE_FLOOR: int = 1
-const TILE_WALL: int = 2
-
-const FILL_PROBABILITY: float = 0.45
-const SIMULATION_STEPS: int = 5
-
-static func generate(width: int, height: int) -> Array:
-  var rng := RandomNumberGenerator.new()
-  rng.randomize()
-
-  var map: Array = []
-  for y: int in range(height):
-    var row: Array = []
-    for x: int in range(width):
-      if x == 0 or x == width - 1 \
-          or y == 0 or y == height - 1:
-        row.append(TILE_EMPTY)
-      elif rng.randf() < FILL_PROBABILITY:
-        row.append(TILE_FLOOR)
-      else:
-        row.append(TILE_EMPTY)
-    map.append(row)
-
-  for _step in range(SIMULATION_STEPS):
-    map = _simulate_step(map, width, height)
-
-  _add_walls(map, width, height)
-  return map
-
-static func _simulate_step(map: Array,
-    width: int, height: int) -> Array:
-  var new_map: Array = []
-  for y: int in range(height):
-    var row: Array = []
-    for x: int in range(width):
-      row.append(TILE_EMPTY)
-    new_map.append(row)
-
-  for y: int in range(height):
-    for x: int in range(width):
-      if x == 0 or x == width - 1 \
-          or y == 0 or y == height - 1:
-        (new_map[y] as Array)[x] = TILE_EMPTY
-        continue
-
-      var floor_count: int = _count_floor_neighbours(
-          map, x, y, width, height)
-      if floor_count >= 4:
-        (new_map[y] as Array)[x] = TILE_FLOOR
-      else:
-        (new_map[y] as Array)[x] = TILE_EMPTY
-  return new_map
-
-static func _count_floor_neighbours(map: Array,
-    x: int, y: int,
-    width: int, height: int) -> int:
-  var count: int = 0
-  for dy: int in range(-1, 2):
-    for dx: int in range(-1, 2):
-      if dx == 0 and dy == 0:
-        continue
-      var nx: int = x + dx
-      var ny: int = y + dy
-      if nx >= 0 and nx < width \
-          and ny >= 0 and ny < height:
-        if (map[ny] as Array)[nx] == TILE_FLOOR:
-          count += 1
-  return count
-\end{lstlisting}
-
-\subsection{Generátor bludiště}
-
-\begin{lstlisting}[language=GDScript,style=kibasestyle,caption={Generátor bludiště (\texttt{maze\_generator.gd}).},label={lst:maze}]
-extends RefCounted
-
-const TILE_EMPTY: int = 0
-const TILE_FLOOR: int = 1
-const TILE_WALL: int = 2
-
-const N: int = 1
-const E: int = 2
-const S: int = 4
-const W: int = 8
-
-static var cell_walls := {
-  Vector2i(0, -1): N, Vector2i(1, 0): E,
-  Vector2i(0, 1): S, Vector2i(-1, 0): W}
-
-static var opposite_walls := {N: S, S: N, E: W, W: E}
-
-static func generate(width: int, height: int) -> Array:
-  var map: Array = []
-  for y: int in range(height):
-    var row: Array = []
-    for x: int in range(width):
-      row.append(TILE_EMPTY)
-    map.append(row)
-
-  @warning_ignore("integer_division")
-  var cells_w: int = max(1, (width - 2) / 3)
-  @warning_ignore("integer_division")
-  var cells_h: int = max(1, (height - 2) / 3)
-
-  var grid: Dictionary = {}
-  for cy in range(cells_h):
-    for cx in range(cells_w):
-      grid[Vector2i(cx, cy)] = N | E | S | W
-
-  var stack: Array[Vector2i] = []
-  var current_cell := Vector2i(0, 0)
-  var unvisited: Dictionary = grid.duplicate()
-  unvisited.erase(current_cell)
-
-  var rng := RandomNumberGenerator.new()
-  rng.randomize()
-
-  while unvisited.size() > 0:
-    var neighbours := _check_neighbours(
-        current_cell, unvisited, cells_w, cells_h)
-    if neighbours.size() > 0:
-      var next: Vector2i = neighbours[
-          rng.randi() % neighbours.size()]
-      stack.append(current_cell)
-      var dir: Vector2i = next - current_cell
-      grid[current_cell] = grid[current_cell] \
-          - cell_walls[dir]
-      grid[next] = grid[next] - cell_walls[-dir]
-      current_cell = next
-      unvisited.erase(current_cell)
-    elif stack.size() > 0:
-      current_cell = stack.pop_back()
-    else:
-      if unvisited.size() > 0:
-        current_cell = unvisited.keys()[0]
-        unvisited.erase(current_cell)
-
-  for cell_pos in grid.keys():
-    var cell_x: int = cell_pos.x
-    var cell_y: int = cell_pos.y
-    var walls: int  = grid[cell_pos]
-    var tile_x: int = 1 + cell_x * 3
-    var tile_y: int = 1 + cell_y * 3
-
-    for dy in range(2):
-      for dx in range(2):
-        var tx: int = tile_x + dx
-        var ty: int = tile_y + dy
-        if tx >= 1 and tx < width - 1 \
-            and ty >= 1 and ty < height - 1:
-          (map[ty] as Array)[tx] = TILE_FLOOR
-
-    if not (walls & N):
-      for dx in range(2):
-        var tx: int = tile_x + dx
-        var ty: int = tile_y - 1
-        if tx >= 1 and tx < width - 1 \
-            and ty >= 1 and ty < height - 1:
-          (map[ty] as Array)[tx] = TILE_FLOOR
-    if not (walls & E):
-      for dy in range(2):
-        var tx: int = tile_x + 2
-        var ty: int = tile_y + dy
-        if tx >= 1 and tx < width - 1 \
-            and ty >= 1 and ty < height - 1:
-          (map[ty] as Array)[tx] = TILE_FLOOR
-    if not (walls & S):
-      for dx in range(2):
-        var tx: int = tile_x + dx
-        var ty: int = tile_y + 2
-        if tx >= 1 and tx < width - 1 \
-            and ty >= 1 and ty < height - 1:
-          (map[ty] as Array)[tx] = TILE_FLOOR
-    if not (walls & W):
-      for dy in range(2):
-        var tx: int = tile_x - 1
-        var ty: int = tile_y + dy
-        if tx >= 1 and tx < width - 1 \
-            and ty >= 1 and ty < height - 1:
-          (map[ty] as Array)[tx] = TILE_FLOOR
-
-  _add_walls(map, width, height)
-  return map
-
-static func _check_neighbours(cell: Vector2i,
-    unvisited: Dictionary,
-    cells_w: int, cells_h: int) -> Array[Vector2i]:
-  var list: Array[Vector2i] = []
-  for dir in cell_walls.keys():
-    var neighbour: Vector2i = cell + dir
-    if neighbour.x >= 0 and neighbour.x < cells_w \
-        and neighbour.y >= 0 \
-        and neighbour.y < cells_h:
-      if unvisited.has(neighbour):
-        list.append(neighbour)
-  return list
-\end{lstlisting}
-
-\medskip
-\noindent Funkce \texttt{\_add\_walls}, která obklopí všechny podlahové dlaždice stěnami, je ve všech generátorech totožná:
-
-\begin{lstlisting}[language=GDScript,style=kibasestyle,caption={Společná funkce pro přidání stěn.},label={lst:addwalls}]
-static func _add_walls(map: Array,
-    width: int, height: int) -> void:
-  for y: int in range(height):
-    for x: int in range(width):
-      if (map[y] as Array)[x] == TILE_FLOOR:
-        for dy: int in range(-1, 2):
-          for dx: int in range(-1, 2):
-            var nx: int = x + dx
-            var ny: int = y + dy
-            if nx >= 0 and nx < width \
-                and ny >= 0 and ny < height:
-              if (map[ny] as Array)[nx] == TILE_EMPTY:
-                (map[ny] as Array)[nx] = TILE_WALL
-\end{lstlisting}
 
 \section{Odkaz na repozitář projektu}
 
