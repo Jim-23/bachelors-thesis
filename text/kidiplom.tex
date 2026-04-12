@@ -154,7 +154,7 @@
 %   a (značně) neúplná verze!!!}
 
 \section{Úvod}
-Procedurální generování obsahu představuje v~současném herním vývoji významný přístup, který umožňuje automatizovaně vytvářet části herního světa na základě předem definovaných pravidel a~algoritmů. V~oblasti digitálních her se tento princip uplatňuje zejména tam, kde je žádoucí vysoká variabilita prostředí, znovuhratelnost nebo snížení nároků na ruční tvorbu rozsáhlého množství obsahu. Jednou z~typických oblastí využití je generování dungeonových map, které tvoří důležitou součást 2D her, zejména titulů inspirovaných žánrem roguelike.
+Procedurální generování obsahu, neboli \textit{Procedural Content Generation} (PCG), představuje v~současném herním vývoji významný přístup, který umožňuje automatizovaně vytvářet části herního světa na základě předem definovaných pravidel a~algoritmů. V~oblasti digitálních her se tento princip uplatňuje zejména tam, kde je žádoucí vysoká variabilita prostředí, znovuhratelnost nebo snížení nároků na ruční tvorbu rozsáhlého množství obsahu. Jednou z~typických oblastí využití je generování dungeonových map, které tvoří důležitou součást 2D her, zejména titulů inspirovaných žánrem roguelike.
 
 Dungeonové mapy kladou na generování specifické požadavky. Nestačí, aby byly pouze náhodné nebo vizuálně rozmanité, ale musí zároveň splňovat základní podmínky hratelnosti a~vhodné rozmístění jednotlivých prvků prostředí. Volba generovací metody proto výrazně ovlivňuje nejen výsledný vzhled mapy, ale~i~herní zážitek hráče.
 
@@ -174,7 +174,7 @@ V~současnosti je pojem generování obsahu často spojován s~metodami umělé 
 
 Pojem hra je v~odborné literatuře obtížné jednoznačně vymezit, protože zahrnuje široké spektrum forem lišících se cíli, pravidly, mírou interaktivity i~použitou platformou. V kontextu této práce je proto termín hra chápán jako digitální videohra realizovaná v~reálném čase, ve které hráč interaguje s~virtuálním prostředím přes definované herní mechaniky. Pro účely dalšího textu se práce zaměřuje především na 2D videohry určené pro osobní počítače, případně další běžné platformy.
 
-Termíny „procedurální“ a~„generování“ zdůrazňují, že jde o~proces realizovaný pomocí počítačových procedur a~algoritmů. Člověk nastavuje vstupní podmínky a~spouští samotný proces, výsledkem je však automaticky vytvořený herní obsah, který není pevně předem daný, ale vzniká až za běhu programu.
+Termíny „procedurální“ a~„generování“ zdůrazňují, že jde o~proces realizovaný pomocí počítačových procedur a~algoritmů. Člověk nastavuje vstupní podmínky a~spouští samotný proces, výsledkem je však automaticky vytvořený herní obsah, který není předem pevně daný, ale vzniká až za běhu programu.
 
 
 \subsubsection{Nevýhody procedurálního generování}
@@ -190,7 +190,7 @@ Na procedurální generování se můžeme podívat z~různých úhlů pohledu a
 
 Vzhledem k~chování hráče se můžeme v~praxi nejčastěji setkat s~adaptivním či neadaptivním přístupem. V případě neadaptivního (statického) generování je obsah vytvářen bez ohledu na chování hráče a~jeho průběh samotnou hrou. Všechny generované struktury vycházejí ze stejných pravidel a~reakce hráče na podněty neovlivní výsledek. Naopak adaptivní generování pracuje s~informacemi o~hráči. Systém může sledovat úspěšnost hráče, rychlost reakcí, délku průchodu úrovní, využívané herní prvky nebo způsob řešení situací a~na základě těchto dat dále upravovat generovaný obsah.
 
-Dalším důležitým rozdělením je deterministický a~stochastický přístup. Deterministické generování vychází z~pevně daných počátečních hodnot (například seed) a~při stejném vstupu vždy produkuje stejný výstup. Tento přístup umožňuje reprodukovatelnost výsledků, což je výhodné například při testování nebo sdílení konkrétních map mezi hráči. Stochastické generování naproti tomu pracuje s~náhodností bez pevně stanoveného počátečního stavu, takže výsledky se budou lišit i~při opakovaném spuštění algoritmu.
+Dalším důležitým rozdělením je deterministický a~stochastický přístup. Deterministické generování vychází z~pevně daných počátečních hodnot, například \textit{seed}, což je specifická textová nebo číselná hodnota, která je výchozím bodem pro generátor mapy a určuje počáteční podmínky algoritmu, podle kterých je následně obsah generován. Při stejném vstupu vždy produkuje stejný výstup. Tento přístup umožňuje reprodukovatelnost výsledků, což je výhodné například při testování nebo sdílení konkrétních map mezi hráči. Stochastické generování naproti tomu pracuje s~náhodností bez pevně stanoveného počátečního stavu, takže výsledky se budou lišit i~při opakovaném spuštění algoritmu.
 
 Z~hlediska samotného procesu generování lze rozlišit konstruktivní metody a~přístup označovaný jako generate-and-test. Konstruktivní metody vytvářejí obsah postupně podle předem definovaných pravidel a~omezení. Každý krok generování přímo přispívá k~vytvoření výsledné struktury. Naproti tomu metoda generate-and-test nejprve vytvoří potenciální řešení, které je následně ověřeno podle stanovených kritérií. Pokud výsledek nevyhovuje, proces se opakuje. Tento přístup může být výpočetně náročnější, ale umožňuje lépe kontrolovat výsledné vlastnosti mapy.
 
@@ -199,7 +199,7 @@ V literatuře se rovněž objevuje pojem \textit{mixed-authorship} (smíšené a
 Plně automatická generace naopak probíhá bez zásahu člověka během samotného vytváření obsahu. Algoritmus pracuje pouze na základě vstupních parametrů. Tento způsob je typický zejména pro roguelike hry a~další tituly, u nichž je cílem vysoká variabilita jednotlivých průchodů \cite{Shaker2016}.
 
 \subsubsection{Využití procedurálního generování v herním průmyslu}
-S procedurálním generováním se dnes setkáváme téměř v~každé moderní videohře, jeho počátky však sahají již do 70. let 20. století. V~tomto období byl výpočetní výkon i~dostupná operační paměť velmi omezené. Tyto limity výrazně ovlivnily množství ručně vytvářeného obsahu, a~vývojáři proto hledali způsoby, jak vytvářet variabilní herní prostředí s~minimálními nároky na paměť RAM. Právě~z~tohoto důvodu se začaly prosazovat procedurální přístupy \cite{Shaker2016}.
+S procedurálním generováním se dnes setkáváme téměř v~každé moderní videohře, jeho počátky však sahají již do 70. let 20. století, kdy byl výpočetní výkon i~dostupná operační paměť velmi omezené. Tyto limity výrazně ovlivnily množství ručně vytvářeného obsahu, a~vývojáři proto hledali způsoby, jak vytvářet variabilní herní prostředí s~minimálními nároky na paměť RAM. Právě~z~tohoto důvodu se začaly prosazovat procedurální přístupy \cite{Shaker2016}.
 
 \subsection{Roguelike hry a jejich vztah k procedurálnímu generování}
 V~kontextu PCG je nutné zmínit také pojem roguelike, který označuje herní subžánr úzce spojený s~náhodně generovaným obsahem. Název žánru je odvozen od hry Rogue, jež výrazně ovlivnila podobu mnoha pozdějších titulů.
@@ -216,9 +216,9 @@ Autor hry čerpal inspiraci z~programu Dragon Maze, který rovněž využíval n
 Použitý algoritmický přístup lze zařadit mezi rané příklady způsobu generování založeného na místnostech a~chodbách, který se později stal jedním ze základních modelů využívaných v~hrách typu roguelike. Beneath Apple Manor tak představuje významný historický příklad využití těchto metod, jehož principy byly dále rozvíjeny v~následujících dekádách \cite{Schuller_2021,enwiki:1260179812}.
 
 \subsubsection{Rogue}
-Za zmínku stojí také hra Rogue, která si oproti výše zmíněnému Beneath Apple Manor získala výrazně větší popularitu a~měla zásadní vliv na další vývoj podobných her. Právě podle této hry vznikl podžánr označovaný jako roguelike, který jsme si popsali výše, a~z~jejích principů vychází dodnes.
+Za zmínku stojí také hra Rogue, která si oproti výše zmíněnému Beneath Apple Manor získala výrazně větší popularitu a~měla zásadní vliv na další vývoj podobných her. Právě podle této hry vznikl podžánr označovaný jako roguelike, který byl popsán výše výše, a~z~jejích principů vychází dodnes.
 
-Hra byla představena v~roce 1980 a~jejími autory jsou Michael Toy, Glenn Wichman a~Ken Arnold. Původně byla vyvíjena pro unixové systémy a~zobrazovala herní svět pomocí ASCII znaků v~textovém terminálu. Jednotlivé prvky prostředí byly reprezentovány různými znaky, například hráč symbolem @, stěny znakem \#, nepřátelé písmeny abecedy. Tento způsob zobrazení nebyl pouze důsledkem technických omezení tehdejšího hardware, ale zároveň umožňoval poměrně flexibilní práci s~herním světem a~jeho generováním právě díky jedoduchosti.
+Hra byla představena v~roce 1980 a~jejími autory jsou Michael Toy, Glenn Wichman a~Ken Arnold. Původně byla vyvíjena pro unixové systémy a~zobrazovala herní svět pomocí ASCII znaků v~textovém terminálu. Jednotlivé prvky prostředí byly reprezentovány různými znaky, například hráč symbolem~@, stěny znake~\#, nepřátelé písmeny abecedy. Tento způsob zobrazení nebyl pouze důsledkem technických omezení tehdejšího hardware, ale zároveň umožňoval poměrně flexibilní práci s~herním světem a~jeho generováním právě díky jedoduchosti.
 
 Rogue bývá popisována jako jedna z~prvních roguelike her, která výrazně zpopularizovala princip permanentní smrti (permadeath). Postup hrou nebylo možné ukládat a~jakmile hráč zemřel, musel začít zcela od začátku. Hráči tak zůstávaly pouze nabyté zkušenosti a~znalost herních mechanik. Smrt zde proto nepředstavovala pouze neúspěch, ale také nedílnou součást učení se hernímu systému.
 
