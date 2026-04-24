@@ -746,7 +746,7 @@ Tato podkapitola porovnává všechny implementované metody z~hlediska času ge
 
 Graf \ref{fig:comp_avg_time} zobrazuje průměrný čas generování algoritmů přes všechny testované velikosti map. 
 Mezi algoritmy jsou patrné výrazné rozdíly. Nejrychlejšími metodami jsou BSP a~Bludiště, jejichž celkový průměr nepřekračuje 8 ms. 
-Algoritmus místností dosahuje srovnatelného průměru. Náhodná procházka je výrazně pomalejší s~celkovým průměrem přibližně 25 ms. Buněčné automaty jsou řádově nejpomalejší, jejich celkový průměr přesahuje 61 ms, tedy přibližně osmkrát více než u BSP. 
+Místnosti dosahují srovnatelného průměru. Náhodná procházka je výrazně pomalejší s~celkovým průměrem přibližně 25 ms. Buněčné automaty jsou řádově nejpomalejší, jejich celkový průměr přesahuje 61 ms, tedy přibližně osmkrát více než u BSP. 
 
 \begin{figure}[H]
 \centering
@@ -755,7 +755,7 @@ Algoritmus místností dosahuje srovnatelného průměru. Náhodná procházka j
 \label{fig:comp_avg_time}
 \end{figure}
 
-Na největší testované mapě 150$\times$150 jsou absolutní rozdíly ještě výraznější, BSP dosahuje 20,3 ms, bludiště 23,6 ms, místnosti 26,3 ms, náhodná procházka 74,1 ms, zatímco buněčné automaty přibližně 179 ms jak lze vidět na grafu \ref{fig:comp_avg_time_150x150}.
+Na největší testované mapě 150$\times$150 jsou absolutní rozdíly ještě výraznější, BSP dosahuje 20,3 ms, Bludiště 23,6 ms, Místnosti 26,3 ms, Náhodná procházka 74,1 ms, zatímco Buněčné automaty přibližně 179 ms jak lze vidět na grafu \ref{fig:comp_avg_time_150x150}.
 
 \begin{figure}[H]
 \centering
@@ -767,7 +767,7 @@ Na největší testované mapě 150$\times$150 jsou absolutní rozdíly ještě 
 
 \subsubsection{Průměrné pokrytí}
 
-Graf \ref{fig:comp_avg_coverage} zobrazuje průměrné pokrytí mapy průchozím prostorem přes všechny testované velikosti. Nejvyššího celkového pokrytí dosahují Buněčné automaty (přibližně 64 \%), následované algoritmem Bludiště se stabilním pokrytím kolem 60 \%. BSP dosahuje celkového průměru přibližně 49 \%, Náhodná procházka má konstrukčně dané pokrytí 50 \%, které se s~velikostí mapy nemění. Místnosti a chodby dosahují nejnižšího celkového průměru, a to přibližně 42 \%, avšak pokrytí výrazně roste s~velikostí mapy (viz graf \ref{fig:comp_coverage_scaling}).
+Graf \ref{fig:comp_avg_coverage} zobrazuje průměrné pokrytí mapy průchozím prostorem přes všechny testované velikosti. Nejvyššího celkového pokrytí dosahují Buněčné automaty (přibližně 64 \%), následované algoritmem Bludiště se stabilním pokrytím kolem 60 \%. BSP dosahuje celkového průměru téměř 50 \%, Náhodná procházka má konstrukčně dané pokrytí 50 \%, které se s~velikostí mapy nemění. Místnosti a chodby dosahují nejnižšího celkového průměru, a to přibližně 42 \%, avšak pokrytí výrazně roste s~velikostí mapy (viz graf \ref{fig:comp_coverage_scaling}).
 
 \begin{figure}[H]
 \centering
@@ -779,7 +779,7 @@ Graf \ref{fig:comp_avg_coverage} zobrazuje průměrné pokrytí mapy průchozím
 
 \subsubsection{Škálování s velikostí mapy}
 
-Graf \ref{fig:comp_time_scaling} znázorňuje, jak se čas generování mění s~rostoucím počtem buněk mapy. BSP a~Bludiště vykazují přibližně lineární nárůst času. Algoritmus místností roste rovněž přibližně lineárně, avšak s~vyšší konstantou, protože na velkých mapách generuje výrazně více místností. Náhodná procházka roste rychleji, a~to kvůli opakovanému navracení do již odkrytých oblastí. Buněčné automaty vykazují nejstrmější nárůst.
+Graf \ref{fig:comp_time_scaling} znázorňuje, jak se čas generování mění s~rostoucím počtem buněk mapy. BSP a~Bludiště vykazují přibližně lineární nárůst času. Algoritmus Místností roste rovněž přibližně lineárně, avšak s~vyšší konstantou, protože na velkých mapách generuje výrazně více místností. Náhodná procházka roste rychleji, a~to kvůli opakovanému navracení do již odkrytých oblastí. Buněčné automaty vykazují nejstrmější nárůst.
 
 \begin{figure}[H]
 \centering
@@ -788,7 +788,9 @@ Graf \ref{fig:comp_time_scaling} znázorňuje, jak se čas generování mění s
 \label{fig:comp_time_scaling}
 \end{figure}
 
-Graf \ref{fig:comp_coverage_scaling} ukazuje vývoj pokrytí v~závislosti na velikosti mapy. BSP, Buněčné automaty a~Místnosti vykazují rostoucí tendenci, s~větší mapou roste i~podíl průchozího prostoru. U Náhodných místností je tento nárůst dán škálováním počtu místností s~plochou mapy. Bludiště má mírně rostoucí, ale velmi stabilní pokrytí. Náhodná procházka zůstává konstantní na hodnotě 50 \%.
+Graf \ref{fig:comp_coverage_scaling} ukazuje vývoj pokrytí v~závislosti na velikosti mapy. BSP, Buněčné automaty a~Místnosti vykazují rostoucí tendenci, s~větší mapou roste i~podíl průchozího prostoru, což je očekávané. U Místností je tento nárůst dán škálováním počtu místností s~plochou mapy. Bludiště má mírně rostoucí, ale velmi stabilní pokrytí. Náhodná procházka zůstává konstantní na hodnotě 50 \%.
+
+Výjimku tvoří mapa 70$\times$30, u~které pokrytí algoritmů Místností, BSP a~Bludiště klesá pod hodnoty dosažené na mapě 20$\times$50, přestože celkový počet buněk je větší (2\,100 vs. 1\,000). Příčinou je především tvar mapy. Nízký obdélník omezuje rozmístění místností i~dělení prostoru. U Místností se do výšky 30 dlaždic (28, pokud zahrneme okraje) nevejde plný počet místností minimální velikosti a~chodby zabírají větší podíl plochy. U BSP a~Bludiště úzký tvar zmenšuje použitelné oblasti při dělení mřížky, čímž roste podíl stěn a~okrajů vůči prostoru, který je průchozí.
 
 \begin{figure}[H]
 \centering
@@ -802,7 +804,7 @@ Graf \ref{fig:comp_coverage_scaling} ukazuje vývoj pokrytí v~závislosti na ve
 
 Graf \ref{fig:comp_tradeoff} vizualizuje vztah mezi průměrným časem generování a~průměrným pokrytím pro jednotlivé algoritmy (oba průměry přes všechny testované velikosti map). Ideální algoritmus by se nacházel v~levé horní části grafu, tedy s~nízkým časem a~vysokým pokrytím.
 
-BSP a~Bludiště se nacházejí v~oblasti nízkého času a~středně vysokého pokrytí, přičemž Bludiště dosahuje vyššího pokrytí (kolem 60 \%) než BSP (kolem 51 \%). Náhodné místnosti nabízí srovnatelný čas s~nižším celkovým pokrytím. Buněčné automaty dosahují nejvyššího pokrytí ze všech metod, avšak za cenu výrazně vyššího výpočetního času. Náhodná procházka představuje předvídatelné pokrytí 50 \%, avšak s~vyšším časem generování než BSP, Bludiště a~Místnosti.
+BSP a~Bludiště se nacházejí v~oblasti nízkého času a~středně vysokého pokrytí, přičemž Bludiště dosahuje vyššího pokrytí (kolem 60 \%) než BSP (kolem 51 \%). Místnosti nabízí srovnatelný čas s~nižším celkovým pokrytím. Buněčné automaty dosahují nejvyššího pokrytí ze všech metod, avšak za cenu výrazně vyššího výpočetního času. Náhodná procházka představuje předvídatelné pokrytí 50 \%, avšak s~vyšším časem generování než BSP, Bludiště a~Místnosti.
 
 \begin{figure}[H]
 \centering
@@ -814,7 +816,9 @@ BSP a~Bludiště se nacházejí v~oblasti nízkého času a~středně vysokého 
 
 \subsubsection{Rozptyl výsledků na velké mapě}
 
-Pro detailnější pohled na variabilitu výsledků jsou uvedeny boxploty času generování a~pokrytí na největší testované mapě 150$\times$150. Na obrázku \ref{fig:size150_time_box} je patrné, že buněčné automaty vykazují nejmenší relativní rozptyl času (při výrazně vyšším absolutním čase), zatímco Drunkard's Walk má vyšší variabilitu. 
+Pro detailnější pohled na variabilitu výsledků jsou uvedeny boxploty času generování a~pokrytí na největší testované mapě 150$\times$150. 
+
+Na obrázku \ref{fig:size150_time_box} je patrné, že BSP vykazuje nejmenší relativní rozptyl času, zatímco Náhodná procházka má nejvyšší variabilitu. 
 
 \begin{figure}[H]
 \centering
@@ -823,7 +827,7 @@ Pro detailnější pohled na variabilitu výsledků jsou uvedeny boxploty času 
 \label{fig:size150_time_box}
 \end{figure}
 
-Obrázek \ref{fig:size150_cov_box} ukazuje, že Maze a~Drunkard's Walk mají prakticky nulovou variabilitu pokrytí, zatímco Rooms, BSP a~Cellular vykazují větší rozptyl.
+Obrázek \ref{fig:size150_cov_box} ukazuje, že Bludiště a~Náhodná procházka mají prakticky nulovou variabilitu pokrytí, zatímco Místnosti, BSP a~Buněčné automaty vykazují větší rozptyl.
 
 \begin{figure}[H]
 \centering
@@ -868,9 +872,9 @@ Maze     & 57,40 & 60,11 & 56,48 & 61,42 & 64,02 \\
 
 \subsection{Shrnutí výsledků}
 
-Na základě provedených měření lze algoritmy rozdělit do tří skupin podle výpočetní náročnosti. Do první skupiny patří BSP, Maze a~Rooms, jejichž časy generování na mapě 150$\times$150 nepřekračují 26 ms. Drunkard's Walk tvoří střední kategorii s~průměrným časem přibližně 74,1 ms na mapě 150$\times$150. Buněčné automaty jsou nejpomalejší s~průměrným časem přibližně 178,8 ms.
+Na základě provedených měření lze algoritmy rozdělit do tří skupin podle výpočetní náročnosti. Do první skupiny patří BSP, Bludiště a~Místnosti, jejichž časy generování na mapě 150$\times$150 nepřekračují 26 ms. Náhodná procházka tvoří střední kategorii s~průměrným časem přibližně 74,1 ms. Buněčné automaty jsou nejpomalejší s~průměrným časem přibližně 178,8 ms.
 
-Z~hlediska pokrytí mapy se algoritmy rovněž výrazně liší. Buněčné automaty dosahují na velkých mapách nejvyššího pokrytí přes 72 \%. Maze generuje stabilní pokrytí kolem 60--64 \%. BSP dosahuje na mapě 150$\times$150 přibližně 53 \%. Rooms dosahuje přibližně 53 \%. Drunkard's Walk má konstrukčně dané pokrytí 50 \%.
+Z~hlediska pokrytí mapy se algoritmy rovněž výrazně liší. Buněčné automaty dosahují na velkých mapách nejvyššího pokrytí přes 72 \%. Bludiště generuje stabilní pokrytí kolem 60--64 \%. BSP dosahuje na mapě 150$\times$150 přibližně 53 \%. Místnosti dosahují přibližně 53 \%. Náhodná procházka má dané pokrytí 50 \%.
 
 \section{Diskuse}
 
@@ -878,31 +882,31 @@ Z~hlediska pokrytí mapy se algoritmy rovněž výrazně liší. Buněčné auto
 
 Na základě naměřených výsledků a~zkušeností z~implementace lze u každého algoritmu identifikovat specifické silné a~slabé stránky, které ovlivňují jeho vhodnost pro různé typy her.
 
-Algoritmus BSP nabízí dobrou rovnováhu mezi rychlostí generování, pokrytím mapy a~strukturovaností výsledku. Generované mapy obsahují jasně oddělené místnosti propojené chodbami. Nevýhodou je poměrně pravidelný vzhled výsledných map, který může působit uniformně.
+Algoritmus BSP nabízí dobrou rovnováhu mezi rychlostí generování, pokrytím mapy a~strukturovaností výsledku. Generované mapy obsahují jasně oddělené místnosti propojené chodbami. Nevýhodou je poměrně pravidelný vzhled výsledných map.
 
-Rooms po úpravě škálování počtu místností dosahuje na velkých mapách výrazně vyššího pokrytí než bez této úpravy a~zároveň nabízí přirozenější rozložení prostoru. Variabilita mezi běhy je u tohoto algoritmu vyšší, což zvyšuje znovuhratelnost, ale zároveň snižuje předvídatelnost výsledku.
+Algoritmus Místností po úpravě škálování počtu místností dosahuje na velkých mapách výrazně vyššího pokrytí a~zároveň nabízí přirozenější rozložení prostoru. Variabilita mezi běhy je u tohoto algoritmu vyšší, což zvyšuje znovuhratelnost, ale zároveň snižuje předvídatelnost výsledku.
 
 Buněčné automaty generují přirozeně působící jeskynní struktury, které se nejvíce odlišují od klasického dungeonového prostředí. Dosahují nejvyššího pokrytí ze všech testovaných metod. Hlavní nevýhodou je výrazně vyšší výpočetní náročnost a~možný vznik izolovaných oblastí, které nejsou vzájemně průchozí.
 
-Drunkard's Walk vytváří organicky tvarované chodby s~předvídatelným pokrytím. Konstantní pokrytí může být výhodou v~situacích, kdy je požadována přesná kontrola nad poměrem průchozího prostoru. Nevýhodou je nižší strukturovanost výsledného prostředí.
+Náhodná procházka vytváří organicky tvarované chodby s~předvídatelným pokrytím. Konstantní pokrytí může být výhodou v~situacích, kdy je požadována přesná kontrola nad poměrem průchozího prostoru. Nevýhodou je nižší strukturovanost výsledného prostředí.
 
-Algoritmus Maze byl do implementace zahrnut primárně pro demonstraci odlišného přístupu k~procedurálnímu generování. Generuje dokonalé bludiště s~téměř nulovou variabilitou pokrytí a~velmi nízkou variabilitou času. Z~hlediska dungeonových map je však méně vhodný, protože vytváří převážně úzké chodby bez většího otevřeného prostoru.
+Algoritmus Bludiště byl do implementace zahrnut primárně pro demonstraci odlišného přístupu k~procedurálnímu generování. Generuje dokonalé bludiště s~téměř nulovou variabilitou pokrytí a~velmi nízkou variabilitou času. Z~hlediska dungeonových map je však méně vhodný, protože vytváří převážně úzké chodby bez většího otevřeného prostoru.
 
 \subsection{Zkušenosti z implementace}
 
-Při implementaci buněčných automatů bylo nutné řešit problém izolovaných průchozích oblastí. U ostatních metod je průchodnost mapy zajištěna již principem algoritmu, tedy explicitní propojování místností u Rooms a~BSP, návštěva všech buněk u Maze a~spojitá procházka u Drunkard's Walk. U buněčných automatů však mohou po simulaci vzniknout oddělené průchozí ostrovy. Pro umístění hráče tak bylo nutné nejprve pomocí BFS identifikovat největší souvislou oblast průchozích dlaždic a~hráče umístit právě do ní. Navíc je hráč reprezentován kolizním tělesem o~velikosti $2 \times 2$ dlaždic, proto spawn vyžaduje nalezení dlaždice s~volným okolím $3 \times 3$. Pokud taková dlaždice v~největší oblasti neexistuje, je použita záložní pozice.
+U většiny metod byla průchodnost mapy zajištěna již principem algoritmu, tedy explicitní propojování místností u Místností a~BSP, návštěva všech buněk u Bludiště a~spojitá chůze u Náhodné procházky. U Buněčných automatů však mohou po simulaci vzniknout oddělené nepřístupné kapsy. Pro umístění hráče tak bylo nutné nejprve pomocí BFS identifikovat největší souvislou oblast průchozích dlaždic a~hráče umístit právě do ní. Jelikož je hráč reprezentován kolizním tělesem o~velikosti $2 \times 2$ dlaždic, umístění vyžadovalo nalezení dlaždice s~volným okolím $3 \times 3$. Pokud taková dlaždice v~největší souvislé oblasti neexistuje, je použita záložní pozice $2 \times 2$.
 
-Velikost hráče ($2 \times 2$ dlaždice) ovlivnila i~návrh všech generovacích algoritmů. Chodby musí být široké alespoň 2 dlaždice, aby jimi hráč mohl projít. Toto omezení se promítlo například do šířky L-chodeb u BSP a~Rooms, do vykreslování oblastí $2 \times 2$ v~jednotlivých krocích náhodné procházky a~do velikosti buněk $2 \times 2$ u algoritmu Maze.
+Velikost hráče ovlivnila i~návrh všech generovacích algoritmů. Bylo nutné zajisti, aby chodby byly široké alespoň 2 dlaždice, jinak by byla mapa pro hráče neprůchozí. Toto omezení se promítlo například do šířky L-chodeb u BSP a~Místností, do vykreslování oblastí $2 \times 2$ v~jednotlivých krocích Náhodné procházky a~do velikosti buněk $2 \times 2$ u algoritmu Bludiště.
 
-Úprava algoritmu Rooms, při které byl pevný počet místností nahrazen škálováním úměrným ploše mapy, vedla k~výraznému zlepšení pokrytí na velkých mapách. Další významná úprava proběhla v~rámci BSP, kdy místo fixních 4 průchodů do hloubky byl algoritmus pozměněn na rekurzivní dělení, které pokračuje, dokud by výsledné podoblasti nebyly menší než \texttt{MIN\_SIZE~$\times$~2}.
+Úprava algoritmu Místností, při které byl pevný počet místností nahrazen škálováním úměrným ploše mapy, vedla k~výraznému zlepšení pokrytí na velkých mapách. Další významná úprava proběhla v~rámci BSP, kdy místo fixních 4 průchodů do hloubky byl algoritmus pozměněn na rekurzivní dělení, které pokračuje, dokud by výsledné podoblasti nebyly menší než \texttt{MIN\_SIZE~$\times$~2}.
 
-Ladění parametrů buněčných automatů ukázalo vliv počtu simulačních kroků na výsledek. Při 3 krocích zůstávaly v~mapě četné izolované buňky, při 10 krocích se struktury výrazně vyhladily a~pokrytí vzrostlo, avšak za cenu vyššího výpočetního času. Hodnota 5 kroků představuje kompromis mezi kvalitou výsledných struktur a~časovou náročností. Podobně parametr \texttt{TARGET\_COVERAGE} u Drunkard's Walk přímo určuje podíl průchozího prostoru, vyšší hodnota prodlužuje dobu generování, protože procházka musí odkrýt více dlaždic a~přitom se opakovaně vrací do již navštívených oblastí.
+Ladění parametrů Buněčných automatů, v rámci počtu simulačních kroků, mělo značný dopad na výsledek. Při 3 krocích zůstávaly v~mapě četné izolované buňky, při 10 krocích se struktury výrazně vyhladily a~pokrytí vzrostlo, avšak za cenu vyššího výpočetního času a velkého prázdného prostoru bez struktury. Hodnota 5 kroků představuje kompromis mezi kvalitou výsledných struktur a~časovou náročností. Podobně parametr \texttt{TARGET\_COVERAGE} u Náhodné procházky přímo určuje podíl průchozího prostoru, vyšší hodnota prodlužovala dobu generování a struktura byla opět velmi souvislá.
 
 Celkově tyto zkušenosti ukazují, že i~drobná změna parametrizace může zásadně ovlivnit výsledné vlastnosti generovaného prostředí, jeho pokrytí, strukturu i~čas generování.
 
 \subsection{Souvislost s předchozím výzkumem}
 
-Porovnáním efektivity PCG algoritmů pro generování 2D map se zabývala rovněž práce \cite{Monaghan2019}, která měřila čas generování a~spotřebu výpočetních zdrojů kombinací algoritmů pro umísťování místností (Random Room Placement, BSP) a~propojování chodbami (Random Point Connect, Drunkard's Walk, BSP Corridors). Oproti tomuto přístupu se předkládaná práce zaměřuje na pět samostatných generovacích metod (včetně buněčných automatů a~generování bludiště) a~jako metriku používá vedle času generování také pokrytí mapy průchozím prostorem. Obě práce se shodují v~závěru, že BSP patří mezi nejefektivnější přístupy z~hlediska času generování.
+Porovnáním efektivity PCG algoritmů pro generování 2D map se zabývala rovněž práce \cite{Monaghan2019}, která měřila čas generování a~spotřebu výpočetních zdrojů kombinací algoritmů pro umísťování místností (Random Room Placement, BSP) a~propojování chodbami (Random Point Connect, Drunkard's Walk, BSP Corridors). Oproti tomuto přístupu se předkládaná práce zaměřuje na pět samostatných generovacích metod (včetně buněčných automatů a~generování bludiště) a~jako metriku používá vedle času generování také pokrytí mapy průchozím prostorem. Obě práce se však shodují v~závěru, že BSP patří mezi nejefektivnější přístupy z~hlediska času generování.
 
 \subsection{Možnosti dalšího rozšíření práce}
 
@@ -914,29 +918,29 @@ V~neposlední řadě by bylo možné implementovat adaptivní generování, kter
 \begin{kiconclusions}
 Cílem této bakalářské práce bylo představit, implementovat a~porovnat vybrané metody procedurálního generování dungeonových map ve 2D hrách. Tento cíl byl splněn.
 
-V~teoretické části práce byly popsány základní principy procedurálního generování obsahu, jeho historický vývoj a~přehled vybraných metod včetně jejich výhod a~omezení. Na základě provedené rešerše bylo vybráno pět algoritmů reprezentujících různé přístupy ke generování map: náhodné umístění místností, Binary Space Partitioning, náhodná procházka (Drunkard's Walk), buněčné automaty a~generování bludiště.
+V~teoretické části práce byly popsány základní principy procedurálního generování obsahu, jeho historický vývoj a~přehled vybraných metod včetně jejich výhod a~omezení. Na základě provedené rešerše bylo vybráno pět algoritmů reprezentujících různé přístupy ke generování map: Náhodné umístění místností, Binary Space Partitioning, Náhodná procházka (Drunkard's Walk), Buněčné automaty a~generování Bludiště.
 
 Všech pět algoritmů bylo implementováno v~herním enginu Godot s~využitím skriptovacího jazyka GDScript. Systém byl navržen modulárně s~unifikovaným rozhraním, které umožňuje snadné přidávání nových generovacích metod. Součástí aplikace je automatizovaný benchmarkový režim, který zajišťuje objektivní a~opakovatelné měření výkonu jednotlivých algoritmů.
 
-Experimentální měření bylo provedeno na pěti velikostech map v~deseti nezávislých bězích pro každou konfiguraci a~to celkem 5$\times$. Výsledky ukázaly výrazné rozdíly mezi metodami. Algoritmy BSP a~Maze se ukázaly jako nejrychlejší s~časy kolem 21--24 ms na mapě 150$\times$150. Algoritmus Rooms dosahuje po úpravě škálování počtu místností pokrytí přibližně 53 \% na největší mapě. Buněčné automaty generují mapy s~nejvyšším pokrytím (přes 72 \%), avšak s~výrazně vyšším výpočetním časem přibližně 179 ms. Drunkard's Walk poskytuje konstrukčně dané pokrytí 50 \%, avšak s~vyšším časem generování přibližně 57 ms na největší mapě.
+Experimentální měření bylo provedeno na pěti velikostech map v~deseti nezávislých bězích pro každou konfiguraci a~to celkem 5$\times$. Výsledky ukázaly výrazné rozdíly mezi metodami. Algoritmy BSP a~Bludiště se ukázaly jako nejrychlejší s~časy kolem 21--24 ms na mapě 150$\times$150. Algoritmus Místností dosahuje pokrytí přibližně 53 \% na největší mapě. Buněčné automaty generují mapy s~nejvyšším pokrytím (přes 72 \%), avšak s~výrazně vyšším výpočetním časem, a~to přibližně 179 ms. Náhodná procházka poskytuje konstrukčně dané pokrytí 50 \%, avšak s~vyšším časem generování, přibližně 57 ms na největší mapě.
 
-Práce ukázala, že volba generovací metody závisí na konkrétních požadavcích hry. Pro klasické dungeonové prostředí jsou vhodné algoritmy BSP a~Rooms, pro jeskynní struktury buněčné automaty a~pro bludiště algoritmus Maze. Modulární architektura navrženého systému umožňuje tyto metody snadno kombinovat a~rozšiřovat.
+Práce ukázala, že volba generovací metody závisí na konkrétních požadavcích hry, jelikož výsledná struktura je různá. Pro klasické dungeonové prostředí jsou vhodné algoritmy BSP a~Místnosti, pro jeskynní struktury jsou ideální Buněčné automaty a Náhodná procházka a~pro labyrinty algoritmus Bludiště.
 
-Mezi omezení práce patří testování výhradně v~prostředí Godot s~jazykem GDScript a měření na jednom hardwarovém zařízení. Možnosti dalšího rozšíření jsou diskutovány v~kapitole 5.
+Mezi hlavní omezení práce patří testování výhradně v~prostředí Godot s~jazykem GDScript a měření na jednom hardwarovém zařízení.
 \end{kiconclusions}
 
 \begin{kiconclusions}[english]
 The aim of this bachelor's thesis was to present, implement, and compare selected methods of procedural dungeon map generation in 2D games. This goal has been achieved.
 
-The theoretical part described the basic principles of procedural content generation, its historical development, and an overview of selected methods, including their advantages and limitations. Based on the literature review, five algorithms representing different approaches to map generation were selected: random room placement, Binary Space Partitioning, drunkard's walk, cellular automata, and maze generation.
+The theoretical part described the basic principles of procedural content generation, its historical development, and an overview of selected methods, including their advantages and limitations. Based on the literature review, five algorithms representing different approaches to map generation were selected: Random room placement, Binary Space Partitioning, Drunkard's walk, Cellular automata, and Maze generation.
 
 All five algorithms were implemented in the Godot game engine using the GDScript scripting language. The system was designed in a~modular fashion with a~unified interface that allows easy addition of new generation methods. The application includes an automated benchmark mode that ensures objective and repeatable performance measurements.
 
-Experimental measurements were conducted on five map sizes with ten independent runs per configuration, repeated five times (50 runs total per algorithm). The results revealed significant differences between the methods. BSP and Maze proved to be the fastest algorithms, with generation times around 21--24 ms on a~150$\times$150 map. The Rooms algorithm, after adjusting its room count scaling, achieves approximately 53 \% coverage on the largest map. Cellular automata generate maps with the highest coverage (over 72 \%), but at the cost of significantly higher computation time of approximately 179 ms. Drunkard's walk provides a~structurally fixed coverage of 50 \%, but with a~higher generation time of approximately 57 ms on the largest map.
+Experimental measurements were conducted on five map sizes with ten independent runs per configuration, repeated five times in total. The results revealed significant differences between the methods. BSP and Maze proved to be the fastest algorithms, with generation times around 21--24 ms on a~150$\times$150 map. The Rooms algorithm achieves approximately 53 \% coverage on the largest map. Cellular automata generate maps with the highest coverage (over 72 \%), but at the cost of significantly higher computation time of approximately 179 ms. Drunkard's walk provides a~structurally fixed coverage of 50 \%, but with a~higher generation time of approximately 57 ms on the largest map.
 
-The thesis demonstrated that the choice of generation method depends on the specific requirements of the game. BSP and Rooms are suitable for classic dungeon environments, cellular automata for cave-like structures, and the Maze algorithm for labyrinthine layouts. The modular architecture of the designed system allows these methods to be easily combined and extended.
+The thesis demonstrated that the choice of generation method depends on the specific requirements of the game. BSP and Rooms are suitable for classic dungeon environments, cellular automata and drunkard's walk for cave-like structures, and the Maze algorithm for labyrinthine layouts.
 
-Limitations of this work include testing exclusively in the Godot environment with GDScript and measurements on a~single hardware device. Possible extensions are discussed in Chapter 5.
+Limitations of this work include testing exclusively in the Godot environment with GDScript and measurements on a~single hardware device.
 \end{kiconclusions}
 
 %% Přílohy
