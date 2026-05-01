@@ -60,8 +60,8 @@
    biblatex,
 %  language=english,
 %  font=sans,
-   figures=false,
-%  tables=false,
+   figures=true,
+   tables=true,
 %  theorems,
 %  sourcecodes,
    glossaries,
@@ -81,7 +81,7 @@
 
 %% Volitelný podnázev práce, česky a anglicky. Měl by se vysázet na
 %% jeden řádek. Výchozí je prázdný.
-\subtitle{Implementace a srovnání algoritmů v herním enginu Godot}
+\subtitle{Implementace a~srovnání algoritmů v~herním enginu Godot}
 \subtitle[english]{Implementation and Comparison of Algorithms in Godot Game Engine}
 
 %% Jméno autora práce. Makro nemá nepovinný parametr pro uvedení
@@ -152,76 +152,68 @@
 %   a (značně) neúplná verze!!!}
 
 \section{Úvod}
-Procedurální generování obsahu, neboli \textit{Procedural Content Generation} (PCG), představuje v~současném herním vývoji významný přístup, který umožňuje automatizovaně vytvářet části herního světa na základě předem definovaných pravidel a~algoritmů. V~oblasti digitálních her se tento princip uplatňuje zejména tam, kde je žádoucí vysoká variabilita prostředí, znovuhratelnost nebo snížení nároků na ruční tvorbu obsahu. Jednou z~typických oblastí využití je generování dungeonových map, které tvoří důležitou součást 2D her, zejména titulů inspirovaných žánrem roguelike.
+Procedurální generování obsahu, neboli \textit{Procedural Content Generation} (PCG), představuje herním vývoji významný přístup, který umožňuje automatizovaně vytvářet části herního světa na základě předem definovaných pravidel a~algoritmů. V~oblasti digitálních her se tento princip uplatňuje zejména tam, kde je žádoucí vysoká variabilita prostředí, znovuhratelnost nebo snížení nároků na ruční tvorbu obsahu. Jednou z~typických oblastí využití je generování dungeonových map, které tvoří důležitou součást 2D her.
 
-Dungeonové mapy kladou na generování specifické požadavky. Nestačí, aby byly pouze náhodné nebo vizuálně rozmanité, ale musí také splňovat základní podmínky hratelnosti a~vhodné rozmístění jednotlivých prvků prostředí. Volba generovací metody proto výrazně ovlivňuje nejen výsledný vzhled mapy, ale~i herní zážitek hráče.
+Dungeonové mapy kladou na generování specifické požadavky. Nestačí, aby byly pouze náhodné, ale měly by splňovat základní podmínky hratelnosti, jako jsou průchodnost, přiměřené rozložení prostoru a~vhodné rozmístění herních prvků. Volba generovací metody proto výrazně ovlivňuje výsledný vzhled mapy i~herní zážitek hráče.
 
-Cílem této bakalářské práce je představit vybrané metody procedurálního generování dungeonových map ve 2D hrách, analyzovat jejich vlastnosti a~implementovat jejich praktické ukázky v~herním enginu Godot. Součástí práce je návrh systému v~podobě jednoduché hry, který umožní jednotlivé algoritmy realizovat v~jednotném prostředí, vizualizovat jejich výstupy a~následně je mezi sebou porovnat a~ověřit specifické aspekty důležité právě pro generovaný obsah. Důraz je kladen jak na teoretické vymezení problematiky, tak na praktickou implementaci a~zhodnocení výsledků.
+Cílem práce je představit vybrané metody procedurálního generování dungeonových map ve 2D hrách, analyzovat jejich vlastnosti a~implementovat jejich praktické ukázky v~herním enginu Godot. Součástí práce je návrh systému v~podobě jednoduché hry, který umožní vybrané algoritmy realizovat, vizualizovat a~následně je mezi sebou porovnat. Důraz je kladen jak na teoretické vymezení problematiky, tak na praktickou implementaci a~zhodnocení výsledků.
 
-Práce je rozdělena do pěti hlavních kapitol. Druhá kapitola se věnuje současnému stavu řešené problematiky. Nejprve jsou vymezeny základní principy procedurálního generování obsahu, jeho přístupy a~historický vývoj v~kontextu herního průmyslu. Poté jsou definovány požadavky kladené na generování dungeonových map a~představeny vybrané algoritmy, které tvoří teoretický základ pro praktickou část. Třetí kapitola popisuje experimentální část práce, použité technologie, návrh systému, implementaci jednotlivých algoritmů a~metodiku měření. Čtvrtá kapitola zahrnuje naměřené výsledky a~jejich analýzu. Pátá kapitola diskutuje silné a~slabé stránky jednotlivých metod, zkušenosti z~implementace a~možnosti dalšího rozšíření. Závěr práce shrnuje dosažené výsledky a~jejich přínos.
+Práce je rozdělena do pěti hlavních kapitol: teoretické základy PCG a popis vybraných algoritmů generování, návrh a~implementace praktické části, popis naměřených hodnot, diskuse o~metodách a~naměřených výsledcích a~závěr.
 
 \section{Současný stav řešené problematiky}
 
 \subsection{Procedurální generování obsahu ve hrách}
 
 \subsubsection{Vymezení a definice pojmu}
-Procedurální generování ve hrách lze vymezit jako algoritmickou tvorbu herního obsahu s~omezeným nebo nepřímým zásahem člověka. Tento přístup umožňuje automatizovaně vytvářet různé prvky hry bez nutnosti jejich ruční přípravy. Herní obsah přitom zahrnuje široké spektrum částí, například mapy, úrovně, pravidla, úkoly, zbraně či předměty, případně i~samotné vlastnosti jednotlivých předmětů. PCG se tedy neomezuje pouze na herní prostředí, ale může být aplikováno i~na další části herního systému. V~závislosti na konkrétním návrhu může ovlivňovat nejen prostorovou strukturu hry, ale také její mechaniky, obtížnost či samotný průběh hraní \cite{Shaker2016}.
+Procedurální generování ve hrách lze vymezit jako algoritmickou tvorbu herního obsahu s~omezeným nebo nepřímým zásahem člověka. Herní obsah zahrnuje široké spektrum prvků, například mapy, úrovně, pravidla, úkoly, zbraně či předměty a jejich vlastnosti. V~závislosti na konkrétním návrhu může ovlivňovat nejen prostorovou strukturu hry, ale také její mechaniky, obtížnost či samotný průběh hraní \cite{Shaker2016}.
 
-V~současnosti je pojem generování obsahu často spojován s~metodami umělé inteligence, tato práce se však zaměřuje výhradně na algoritmické postupy založené na předem definovaných pravidlech. Nezabývá se tedy adaptivním ani učícím se chováním systémů umělé inteligence.
+V~současnosti je pojem generování obsahu často spojován s~metodami umělé inteligence, tato práce se však zaměřuje výhradně na algoritmické postupy založené na předem definovaných pravidlech.
 
-Pojem hra je v~odborné literatuře obtížné jednoznačně vymezit, protože zahrnuje široké spektrum forem lišících se cíli, pravidly, mírou interaktivity i~použitou platformou. V~kontextu této práce je proto termín hra chápán jako digitální videohra realizovaná v~reálném čase, ve které hráč interaguje s~virtuálním prostředím přes definované herní mechaniky. Pro účely dalšího textu se práce zaměřuje především na 2D videohry určené pro osobní počítače, případně další běžné platformy.
-
-Termíny „procedurální“ a~„generování“ zdůrazňují, že jde o~proces realizovaný pomocí počítačových procedur a~algoritmů. Člověk nastavuje vstupní podmínky a~spouští samotný proces, výsledkem je automaticky vytvořený herní obsah, který není předem pevně daný, ale vzniká až za běhu programu.
+Pojem hra je v~odborné literatuře obtížné jednoznačně vymezit, protože zahrnuje široké spektrum forem lišících se cíli, pravidly, mírou interaktivity i~použitou platformou. V~kontextu této práce je proto termín hra chápán jako digitální videohra realizovaná v~reálném čase, ve které hráč interaguje s~virtuálním prostředím přes definované herní mechaniky. Práce se zaměřuje především na 2D videohry určené pro osobní počítače, případně další běžné platformy.
 
 
 \subsubsection{Výhody a nevýhody procedurálního generování}
 Procedurální generování obsahu přináší řadu výhod. Mezi hlavní patří vysoká variabilita výsledného obsahu a~podpora znovuhratelnosti, protože každé spuštění produkuje unikátní prostředí. Dalšími výhodami jsou snížení nároků na ruční tvorbu obsahu a~možnost generování rozsáhlých herních světů s~minimálními paměťovými nároky, jak demonstruje například hra Elite (viz podkapitola~\ref{sec:elite}). Parametrizací generátoru lze navíc přizpůsobit výsledné prostředí různým herním situacím nebo obtížnostem \cite{Shaker2016,Linden2014}.
 
-Využití PCG s~sebou však nese také několik významných omezení a~úskalí.
+Využití PCG s~sebou však nese také několik významných omezení. Jedním z~hlavních problémů je nižší míra kontroly nad výsledným obsahem. U~ručně navržených úrovní má vývojář plnou kontrolu nad tempem hry, klíčovými momenty, rozmístěním výzev, předmětů či nepřátel. Naproti tomu u~procedurálního generování je výsledná podoba světa závislá na implementovaném algoritmu a~zvolených parametrech. To může vést k~nevyváženým úrovním, nelogickému rozmístění prvků nebo situacím, které jsou příliš jednoduché či naopak extrémně náročné. Vývojář proto musí věnovat značné úsilí návrhu, ladění a~testování generátoru, aby bylo dosaženo uspokojivé kvality výsledného obsahu.
 
-Jedním z~hlavních problémů je nižší míra kontroly nad výsledným obsahem. U~ručně navržených úrovní má vývojář plnou kontrolu nad tempem hry, rozmístěním výzev, předmětů i~klíčových herních momentů. Naproti tomu u~procedurálního generování je výsledná podoba světa závislá na implementovaném algoritmu a~zvolených parametrech. To může vést k~nevyváženým úrovním, nelogickému rozmístění prvků nebo situacím, které jsou příliš jednoduché či naopak extrémně náročné. Vývojář proto musí věnovat značné úsilí návrhu, ladění a~testování generátoru, aby bylo dosaženo uspokojivé kvality výsledného obsahu.
-
-Dalším rizikem je možnost vzniku repetitivního nebo uměle působícího obsahu. I~přes to, že je obsah generován automaticky a~náhodně, často vychází z~omezené množiny předem definovaných pravidel. Pokud není systém navržen dostatečně variabilně, může hráč postupně rozpoznat opakující se vzorce, což může negativně ovlivnit herní zážitek. Tento problém je sice možné minimalizovat vhodným návrhem algoritmu a~důkladným laděním, nicméně zcela eliminovat jej bývá obtížné \cite{Shaker2016}.
-
+Dalším rizikem je možnost vzniku repetitivního nebo uměle působícího obsahu. I~přestože je obsah generován automaticky a~náhodně, vychází z~omezené množiny předem definovaných pravidel. Pokud není systém navržen dostatečně variabilně, může hráč postupně rozpoznat opakující se vzorce, což může negativně ovlivnit herní zážitek. Tento problém je sice možné minimalizovat vhodným návrhem algoritmu a~důkladným laděním, nicméně zcela eliminovat jej bývá obtížné \cite{Shaker2016}.
 
 \subsubsection{Přístupy k procedurálnímu generování}
-Na procedurální generování se lze podívat z~různých úhlů pohledu a~je možné ho rozdělit podle určitých specifik, například podle toho, jak systém reaguje na hráče, případně zda využívá konkrétní vstupní parametry.
+PCG lze klasifikovat podle více kritérií, například podle způsobu reakce na hráče nebo podle deterministické či stochastické povahy výstupu.
 
-Nejčastěji se lze v~praxi setkat s~adaptivním či neadaptivním přístupem, a~to vzhledem k~chování hráče. V~případě neadaptivního (statického) generování je obsah vytvářen bez ohledu na chování hráče a~jeho průběh samotnou hrou. Všechny generované struktury vycházejí ze stejných pravidel a~reakce hráče na podněty neovlivní výsledek. Naopak adaptivní generování pracuje s~informacemi o~hráči. Systém může sledovat úspěšnost hráče,
- rychlost reakcí, délku průchodu úrovní, využívané herní prvky nebo způsob řešení situací a~na základě těchto dat dále upravovat generovaný obsah.
+Nejčastěji se lze v~praxi setkat s~adaptivním či neadaptivním přístupem, a~to vzhledem k~chování hráče. Neadaptivní (statické) generování vytváří obsah bez ohledu na chování hráče a~jeho průběh hrou. Všechny generované struktury vycházejí ze stejných pravidel a~reakce hráče na podněty neovlivní výsledek. Naopak adaptivní generování pracuje s~informacemi o~hráči. Systém může sledovat úspěšnost hráče, rychlost reakcí, délku průchodu úrovní, využívané herní prvky nebo způsob řešení situací a~na základě těchto dat dále upravovat generovaný obsah.
 
-Dalším důležitým rozdělením je deterministický a~stochastický přístup. Deterministické generování vychází z~pevně daných počátečních hodnot, například \textit{seed}, což je specifická textová nebo číselná hodnota, která je výchozím bodem pro generátor mapy a~určuje počáteční podmínky algoritmu, podle kterých je následně obsah generován. Při stejném vstupu vždy produkuje stejný výstup. Tento přístup umožňuje reprodukovatelnost výsledků, což je výhodné například při testování nebo sdílení konkrétních map mezi hráči. Stochastické generování naproti tomu pracuje s~náhodností bez pevně stanoveného počátečního stavu, takže výsledky se budou lišit i~při opakovaném spuštění algoritmu.
+Dalším důležitým rozdělením je deterministický a~stochastický přístup. Deterministické generování vychází z~pevně daných počátečních hodnot, například seed, což je textová nebo číselná hodnota, která je výchozím bodem pro generátor a~určuje počáteční podmínky algoritmu, podle kterých je následně obsah generován. Při stejném vstupu vždy produkuje stejný výstup. Tento přístup umožňuje reprodukovatelnost výsledků, což je výhodné například při testování nebo sdílení konkrétních map mezi hráči. Stochastické generování naproti tomu pracuje s~náhodností bez pevně stanoveného počátečního stavu, takže výsledky se budou lišit i~při opakovaném spuštění algoritmu.
 
-Z~hlediska samotného procesu generování lze rozlišit konstruktivní metody a~přístup označovaný jako \textit{generate-and-test}. Konstruktivní metody vytvářejí obsah postupně podle předem definovaných pravidel a~omezení. Každý krok generování přímo přispívá k~vytvoření výsledné struktury. Naproti tomu metoda generate-and-test nejprve vytvoří potenciální řešení, které je následně ověřeno podle stanovených kritérií. Pokud výsledek nevyhovuje, proces se opakuje. Tento přístup může být výpočetně náročnější, ale umožňuje lépe kontrolovat výsledné vlastnosti mapy.
+Z~hlediska procesu generování lze rozlišit konstruktivní metody a~přístup označovaný jako generate-and-test. Konstruktivní metody vytvářejí obsah postupně podle předem definovaných pravidel. Každý krok generování přímo přispívá k~vytvoření výsledné struktury. Naproti tomu metoda generate-and-test nejprve vytvoří potenciální řešení, které je následně ověřeno podle stanovených kritérií. Pokud výsledek nevyhovuje, proces se opakuje. Tento přístup může být výpočetně náročnější, ale umožňuje lépe kontrolovat výsledné vlastnosti mapy.
 
-V~literatuře se rovněž objevuje pojem \textit{mixed-authorship} (smíšené autorství), kdy se na tvorbě obsahu podílí jak algoritmus, tak lidský návrhář. Systém může například generovat návrhy úrovní, které následně autor upravuje, případně může reagovat na částečně ručně vytvořenou strukturu. Tento přístup kombinuje kreativitu člověka s~rychlostí automatizovaného generování.
+V~literatuře se rovněž objevuje pojem smíšené autorství (mixed-authorship), kdy se na tvorbě obsahu podílí jak algoritmus, tak člověk. Systém může například generovat návrhy úrovní, které následně autor upravuje, případně může reagovat na částečně ručně vytvořenou strukturu.
 
-Plně automatická generace naopak probíhá bez zásahu člověka během samotného vytváření obsahu. Algoritmus pracuje pouze na základě vstupních parametrů. Tento způsob je typický zejména pro roguelike hry a~další tituly, u~nichž je cílem vysoká variabilita jednotlivých průchodů \cite{Shaker2016}.
+Plně automatická generace probíhá bez zásahu člověka během samotného vytváření obsahu. Algoritmus pracuje pouze na základě vstupních parametrů. Tento způsob je typický zejména pro roguelike hry a~další tituly, u~nichž je cílem vysoká variabilita jednotlivých průchodů \cite{Shaker2016}.
 
 \subsection{Historický vývoj procedurálního generování ve hrách}
-S~procedurálním generováním se dnes lze setkat téměř v~každé moderní videohře, jeho počátky však sahají již do 70. let 20. století, kdy byl výpočetní výkon i~dostupná operační paměť velmi omezené. Tyto limity výrazně ovlivnily množství ručně vytvářeného obsahu, a~vývojáři proto hledali způsoby, jak vytvářet variabilní herní prostředí s~minimálními nároky na paměť RAM. Právě z~tohoto důvodu se začaly prosazovat procedurální přístupy \cite{Shaker2016}.
-
-Následující podkapitola představuje tři historicky významné tituly, které zásadně ovlivnily způsob, jakým se PCG ve hrách využívá dodnes.
+Počátky procedurálního generování sahají již do 70. let 20. století, kdy byl výpočetní výkon i~dostupná operační paměť velmi omezené. Tyto limity výrazně ovlivnily množství ručně vytvářeného obsahu, a~vývojáři proto hledali způsoby, jak vytvářet variabilní herní prostředí s~minimálními nároky na operační paměť (RAM). Právě z~tohoto důvodu se začaly prosazovat procedurální přístupy \cite{Shaker2016}.
 
 \subsubsection{Beneath Apple Manor}
-Jednou z~prvních her, které implementovaly PCG, byla Beneath Apple Manor z~roku 1978. Autorem titulu byl Don Worth a~hru vydalo studio The Software Factory. Hra byla primárně vyvíjena pro počítač Apple II.
+Jednou z~prvních her, které implementovaly PCG, byla Beneath Apple Manor z~roku 1978. Autorem titulu byl Don Worth a~hru vydalo studio The Software Factory. Hra byla určena především pro počítač Apple II.
 
-Herní prostředí v~Beneath Apple Manor bylo generováno algoritmicky při každém novém spuštění hry. Díky tomu nebylo rozložení místností, chodeb ani jednotlivých herních prvků či nepřátel nikdy zcela totožné, a~právě tím byla hra přívětivá pro znovuhratelnost. Cílem hry bylo získat zlaté jablko a~postup bylo možné ukládat, takže po smrti hráče se načetla uložená úroveň znovu, avšak hráč přišel o~část svých atributů.
+Herní prostředí v~Beneath Apple Manor bylo generováno algoritmicky při každém novém spuštění. Rozložení místností, chodeb ani jednotlivých herních prvků či nepřátel nebylo nikdy zcela totožné, a~právě tím byla hra přívětivá pro znovuhratelnost. Cílem hry bylo získat zlaté jablko a~postup bylo možné ukládat, takže po smrti hráče se načetla uložená úroveň znovu, avšak hráč přišel o~část svých atributů.
 
 Autor hry čerpal inspiraci z~programu Dragon Maze, který rovněž využíval náhodné výpočty ke generování bludišť. Tento princip však dále rozvinul a~navrhl algoritmus vytvářející funkční a~hratelnou strukturu dungeonů složenou z~místností propojených chodbami. Hra navíc umožňovala hráči ovlivnit některé parametry generování, například počet místností na jednotlivých patrech, barevnou variantu zobrazení nebo samotnou obtížnost. Po vytvoření struktury úrovně algoritmus náhodně rozmístil také nepřátele, poklady a~další herní objekty. S~rostoucí hloubkou dungeonů se zároveň zvyšovala obtížnost hry, a~to zejména síla nepřátel.
 
 Použitý algoritmický přístup lze zařadit mezi rané příklady způsobu generování založeného na místnostech a~chodbách, který se později stal jedním ze základních modelů využívaných v~hrách typu roguelike. Beneath Apple Manor tak představuje významný historický příklad využití těchto metod, jehož principy byly dále rozvíjeny v~následujících dekádách \cite{Schuller_2021,enwiki:1260179812}.
 
-\subsubsection{Rogue}
-Za zmínku stojí především hra Rogue, která si oproti výše zmíněnému Beneath Apple Manor získala výrazně větší popularitu a~měla zásadní vliv na další vývoj podobných her. Právě podle této hry vznikl podžánr označovaný jako \textit{roguelike}, z~jehož principů dodnes vychází celá řada titulů.
+\subsubsection{Rogue a žánr roguelike}
+Hra Rogue si oproti výše zmíněnému Beneath Apple Manor získala výrazně větší popularitu a~měla zásadní vliv na další vývoj podobných her. Právě podle této hry vznikl podžánr označovaný jako roguelike, z~jehož principů dodnes vychází celá řada titulů.
 
 Roguelike hry bývají typické náhodně generovanými úrovněmi, tahovým systémem, permanentní smrtí postavy (permadeath) a~zpravidla i~vyšší obtížností. Náhodné generování zde neplní pouze technickou funkci, ale představuje zásadní designový prvek, který podporuje průzkum, strategické rozhodování i~adaptaci hráče na proměnlivé prostředí.
 
-Hra byla představena v~roce 1980 a~jejími autory jsou Michael Toy, Glenn Wichman a~Ken Arnold. Titul byl původně vyvíjen pro unixové systémy a~zobrazoval herní svět pomocí ASCII znaků v~textovém terminálu. Jednotlivé prvky prostředí byly reprezentovány různými symboly, například hráč symbolem~@, stěny znakem~\#, nepřátelé písmeny abecedy. Tento způsob zobrazení nebyl pouze důsledkem technických omezení tehdejšího výpočetního výkonu, ale zároveň umožňoval poměrně flexibilní práci s~herním světem a~jeho generováním právě díky jednoduchosti.
+Hra vyšla v~roce 1980 a~jejími autory jsou Michael Toy, Glenn Wichman a~Ken Arnold. Titul původně vznikl pro unixové systémy a~zobrazoval herní svět pomocí ASCII znaků v~textovém terminálu. Jednotlivé prvky prostředí byly reprezentovány různými symboly, například hráč symbolem~@, stěny znakem~\#, nepřátelé písmeny abecedy. Tento způsob zobrazení nebyl pouze důsledkem technických omezení tehdejšího výpočetního výkonu, ale umožňoval poměrně flexibilní práci s~herním světem a~jeho generováním.
 
-Rogue bývá popisována jako jedna z~prvních roguelike her, která výrazně zpopularizovala princip permanentní smrti (permadeath). Postup hrou nebylo možné ukládat a~jakmile hráč zemřel, musel začít zcela od začátku. Hráči tak zůstávaly pouze nabyté zkušenosti a~znalost herních mechanik. Smrt zde proto nepředstavovala pouze neúspěch, ale také nedílnou součást učení se hernímu systému.
+Rogue výrazně zpopularizovalo princip permanentní smrti. Postup hrou nebylo možné ukládat a~jakmile hráč zemřel, musel začít zcela od začátku. Hráči tak zůstávaly pouze nabyté zkušenosti a~znalost herních mechanik. Smrt zde proto nepředstavovala pouze neúspěch, ale také nedílnou součást učení se hernímu systému.
 
-Cílem celé hry je najít Amulet of Yendor, který se nachází v~nejhlubším patře dungeonů, a~následně se vrátit zpět na povrch. Dungeon je tvořen několika patry (tradičně 26), přičemž každé z~nich je generováno procedurálně. Patra se skládají z~místností propojených chodbami a~jejich rozložení se při každém novém průchodu mění. Náhodně jsou rozmístěni také nepřátelé, pasti, poklady, zbraně a~další předměty.
+Cílem celé hry je najít Amulet of Yendor, který se nachází v~nejhlubším patře dungeonů, a~následně se vrátit zpět na povrch. Dungeon obsahuje několik pater (tradičně 26) a~každé z~nich je generováno procedurálně. Patra se skládají z~místností propojených chodbami a~jejich rozložení se při každém novém průchodu mění. Náhodně jsou rozmístěni také nepřátelé, pasti, poklady, zbraně a~další předměty.
 
 Prvek náhody se projevuje i~ve vlastnostech předmětů. Například lektvary, svitky či prsteny mají při každé nové hře odlišné označení a~jejich účinek není hráči předem znám. I~pokud hráč nalezne stejný typ předmětu jako v~předchozí hře, jeho vlastnosti se mohou lišit. Tím je posílena nejistota a~nutnost experimentování.
 
@@ -232,23 +224,19 @@ Kombinace procedurálně generovaných úrovní a~permanentní smrti zajišťuje
 
 Dalším významným titulem využívajícím procedurální generování je hra Elite z~roku 1984, kterou vytvořili David Braben a~Ian Bell. Na rozdíl od předchozích her se nejedná o~dungeon, ale o~vesmírný simulátor obchodování a~soubojů. Přesto je Elite z~hlediska procedurálního generování velmi důležitým milníkem.
 
-Hra byla původně vydána pro počítač BBC Micro, který disponoval velmi omezenou pamětí. Z~tohoto důvodu nebylo možné ukládat rozsáhlý herní svět přímo v~paměti. Vývojáři proto zvolili přístup, kdy byl herní svět generován algoritmicky na základě předem definovaného číselného základu (seed). Pomocí tohoto deterministického postupu bylo možné při každém spuštění znovu vytvořit stejnou galaxii bez nutnosti jejího explicitního uložení.
+Hra byla původně vydána pro počítač BBC Micro, který disponoval velmi omezenou pamětí. Z~tohoto důvodu nebylo možné ukládat rozsáhlý herní svět přímo v~paměti. Vývojáři proto zvolili přístup, kdy byl herní svět generován algoritmicky na základě předem definovaného číselného základu. Pomocí tohoto deterministického postupu bylo možné při každém spuštění znovu vytvořit stejnou galaxii bez nutnosti jejího explicitního uložení.
 
-Elite obsahovalo osm galaxií, přičemž každá z~nich zahrnovala stovky hvězdných systémů. Vlastnosti jednotlivých systémů, jako je jejich název, ekonomika, úroveň technologického rozvoje či typ vlády, byly generovány pomocí pseudonáhodných algoritmů. Procedurálně byly generovány také ceny komodit a~další herní parametry.
+Elite obsahovalo osm galaxií a~ každá z~nich zahrnovala stovky hvězdných systémů. Vlastnosti jednotlivých systémů, jako je jejich název, ekonomika, úroveň technologického rozvoje či typ vlády, byly generovány pomocí pseudonáhodných algoritmů. Procedurálně vznikaly také ceny komodit a~další herní parametry.
 
 Tento přístup ukázal, že procedurální generování není omezeno pouze na tvorbu dungeonů nebo jednotlivých úrovní, ale může být využito i~pro vytvoření rozsáhlých herních světů. Elite tak demonstrovalo, že algoritmické generování obsahu představuje efektivní řešení zejména v~podmínkách s~omezeným výpočetním výkonem a~omezenými paměťovými zdroji \cite{EliteWiki}.
 
 \subsection{Generování dungeonů ve 2D hrách}
-Tato kapitola se zaměřuje konkrétněji na generování dungeonových map ve 2D hrách. Dungeonové mapy se typicky skládají z~místností a~chodeb, obsahují jasně definované průchozí a~neprůchozí oblasti a~musí splňovat požadavky na hratelnost. Generování takových struktur proto vyžaduje algoritmy, které dokáží zajistit nejen variabilitu výsledku, ale i~splnění základních strukturálních vlastností.
-
-Nejprve budou definovány požadavky kladené na generování dungeonových map. Následně budou představeny vybrané metody, které tvoří teoretický základ pro implementaci popsanou v~dalších kapitolách.
+Dungeonové mapy se typicky skládají z~místností a~chodeb, obsahují jasně definované průchozí a~neprůchozí oblasti a~musí splňovat požadavky na hratelnost. Generování takových struktur proto vyžaduje algoritmy, které dokáží zajistit nejen variabilitu výsledku, ale i~splnění základních strukturálních vlastností.
 
 \subsubsection{Požadavky na generování dungeonových map}
 Při návrhu algoritmu pro generování dungeonové mapy je nutné zohlednit několik základních požadavků, které vycházejí jak z~technických omezení, tak z~hlediska hratelnosti. Generovaná mapa by neměla být pouze náhodným shlukem místností a~chodeb, ale strukturovaným prostředím, které umožňuje smysluplný průchod.
 
-Jedním ze základních požadavků je tedy průchodnost mapy neboli connectivity.
-Všechny klíčové části mapy by měly být vzájemně dosažitelné, aby nedocházelo k~izolovaným oblastem bez možnosti přístupu.
-Tento požadavek je zásadní zejména u~her, kde je cílem projít celou úroveň nebo nalézt konkrétní objekt. Je důležité zmínit, že někdy je právě neprůchodnost mapy žádoucí a~do izolovaných částí se hráč musí dostat například prokopáním.
+Jedním ze základních požadavků je průchodnost mapy neboli connectivity. Všechny klíčové části mapy by měly být vzájemně dosažitelné, aby nedocházelo k~izolovaným oblastem bez možnosti přístupu. Tento požadavek je zásadní zejména u~her, kde je cílem projít celou úroveň nebo nalézt konkrétní objekt. Výjimkou jsou hry, ve kterých je neprůchodnost záměrná a~hráč se do izolovaných částí dostane například prokopáním.
 
 Dalším důležitým aspektem je kontrola struktury a~rozložení prostoru. Mapa by měla obsahovat přiměřený poměr otevřených a~uzavřených prostor, vhodnou velikost místností a~dostatečně široké průchody, aby hráč mohl bez problémů projít. Příliš husté nebo naopak příliš prázdné prostředí může negativně ovlivnit hratelnost i~orientaci hráče.
 
@@ -256,33 +244,32 @@ Významným požadavkem je rovněž variabilita výsledků. Opakované spuštěn
 
 Z~technického hlediska je důležitá také výpočetní náročnost algoritmu. Generování by mělo probíhat v~přiměřeném čase a~nemělo by výrazně zatěžovat systém, zejména pokud je realizováno za běhu hry (online generování). U~jednodušších 2D dungeonových her je obvykle možné využít algoritmy s~relativně nízkou časovou složitostí, jelikož požadavky na generování jsou značně nižší.
 
-V~neposlední řadě je vhodné umožnit parametrizaci generátoru. Možnost nastavit velikost mapy, počet místností, hustotu chodeb nebo další vlastnosti umožňuje lépe přizpůsobit výsledné prostředí konkrétním požadavkům hry a~zároveň usnadňuje testování různých konfigurací \cite{Linden2014,Shaker2016}.
+Možnost nastavit velikost mapy, počet místností, hustotu chodeb nebo další vlastnosti generátoru umožňuje lépe přizpůsobit výsledné prostředí konkrétním požadavkům hry a~usnadňuje testování různých konfigurací \cite{Linden2014,Shaker2016}.
 
 \subsection{Přehled metod generování}
-Na základě výše uvedených požadavků a~pravidel lze identifikovat několik přístupů a~algoritmů generování dungeonových map. Tyto metody se liší zejména způsobem konstrukce prostoru, mírou kontroly, výslednou strukturou a~výpočetní náročností. Některé algoritmy vytvářejí mapu postupně přidáváním jednotlivých prvků, jiné pracují s~rozdělováním prostoru nebo s~pravidly aplikovanými na mřížku buněk.
+\label{sec:prehledMetod}
+Metody generování dungeonových map se liší způsobem konstrukce prostoru, mírou kontroly nad výslednou strukturou, typem generovaného prostředí a~výpočetní náročností. Některé algoritmy vytvářejí mapu postupně přidáváním jednotlivých prvků, jiné pracují s~rozdělováním prostoru nebo s~pravidly aplikovanými na mřížku buněk.
 
-Ve 2D hrách se nejčastěji setkáváme s~metodami založenými na náhodném umísťování místností a~jejich následném propojování, s~rozdělováním velkého prostoru na menší části nebo s~algoritmy založenými na takzvané Náhodné procházce. Každý z~těchto přístupů má své výhody i~omezení a~je vhodný pro odlišný typ herního prostředí.
-
-Cílem této podkapitoly je stručně představit princip fungování vybraných metod, jejich základní charakteristiky a~typické oblasti využití. Detailnější rozpracování a~samotná implementace vybraných algoritmů budou popsány v~následujících kapitolách.
+Ve 2D hrách převažují metody založené na náhodném umísťování místností a~jejich následném propojování, rozdělování velkého prostoru na menší části nebo algoritmy založenými na takzvané náhodné procházce. Každý z~těchto přístupů má své výhody i~omezení a~je vhodný pro odlišný typ herního prostředí.
 
 \subsubsection{Náhodné umístění místností a chodeb}
 Generování pomocí náhodného umístění místností a~chodeb patří mezi nejpoužívanější a~zároveň nejjednodušší přístupy z~hlediska implementace.
 
-Základní princip spočívá v~tom, že se v~rámci mapy nejprve generují místnosti různých velikostí, obvykle obdélníkového nebo čtvercového tvaru. Během generování se kontroluje, aby se nově vznikající místnost nepřekrývala s~již existujícími. Výsledkem je množina místností reprezentovaných například souřadnicemi a~rozměry. Následně jsou jednotlivé místnosti propojeny pomocí chodeb. Ty bývají realizovány jako jednoduché horizontální a~vertikální průchody spojující středy dvou místností nebo jejich nejbližší body. Častým řešením je také propojení ve tvaru písmene L, kdy jsou dvě místnosti spojeny dvojicí kolmých chodeb.
+Na mapě se nejprve generují místnosti různých velikostí, obvykle obdélníkového nebo čtvercového tvaru. Během generování se kontroluje, aby se nově vznikající místnost nepřekrývala s~již existujícími. Výsledkem je množina místností reprezentovaných například souřadnicemi a~rozměry. Následně jsou jednotlivé místnosti propojeny pomocí chodeb. Ty bývají realizovány jako jednoduché horizontální a~vertikální průchody spojující středy dvou místností nebo jejich nejbližší body. Častým řešením je také propojení ve tvaru písmene L, kdy jsou dvě místnosti spojeny dvojicí kolmých chodeb.
 
 Pro zajištění průchodnosti mapy a~dosažitelnosti všech místností se často využívají algoritmy z~oblasti teorie grafů. Jedním z~typických řešení je použití minimální kostry grafu (Minimum Spanning Tree), která zaručuje propojení všech místností při minimálním počtu chodeb.
 
-Výhodou této metody je především její jednoduchost. Generované dungeony obvykle obsahují přehledně oddělené místnosti a~srozumitelnou síť propojení. Nevýhodou může být menší variabilita, protože místnosti mají často pravidelný tvar a~prostředí tak může působit příliš uniformně. Dalším problémem bývá méně efektivní využití prostoru, kdy mezi jednotlivými místnostmi zůstávají větší nevyužité oblasti. Komplikace může přinášet i~samotné propojování. U~jednodušších implementací může docházet ke kolizím chodeb, nevhodnému křížení nebo ke vzniku příliš dlouhých průchodů, které narušují dynamiku pohybu v~prostředí.
+Výhodou této metody je především její jednoduchost. Generované dungeony obvykle obsahují přehledně oddělené místnosti a~srozumitelnou síť propojení. Nevýhodou může být menší variabilita, protože místnosti mají pravidelný tvar a~prostředí tak může působit příliš uniformně. Dalším problémem bývá méně efektivní využití prostoru, kdy mezi jednotlivými místnostmi zůstávají větší nevyužité oblasti. Komplikace může přinášet i~samotné propojování. U~jednodušších implementací může docházet ke kolizím chodeb, nevhodnému křížení nebo ke vzniku příliš dlouhých průchodů.
 
 Z~těchto důvodů bývá metoda často kombinována s~dalšími postupy nebo doplněna o~dodatečná pravidla, která omezují velikosti a~vzájemné vzdálenosti místností, délku chodeb nebo celkové rozložení prostoru \cite{Linden2014,Shaker2016}.
 
 \subsubsection{Binary Space Partitioning}
 
-Metoda Binary Space Partitioning (BSP) patří mezi přístupy založené na systematickém rozdělování prostoru. Základní princip spočívá v~tom, že se celá mapa nejprve reprezentuje jako jeden velký obdélníkový nebo čtvercový prostor, tedy kořen stromu, který je postupně rozdělován na menší části. Každé rozdělení může probíhat horizontálně nebo vertikálně a~výsledkem je hierarchická struktura podobná binárnímu stromu.
+Metoda Binary Space Partitioning (BSP) patří mezi přístupy založené na systematickém rozdělování prostoru. Celá mapa se nejprve reprezentuje jako jeden velký obdélníkový nebo čtvercový prostor, tedy kořen stromu, který je postupně rozdělován na menší části. Každé rozdělení může probíhat horizontálně nebo vertikálně a~výsledkem je hierarchická struktura podobná binárnímu stromu.
 
-Samotný proces generování obvykle začíná rozdělením celé mapy na dvě části. Tyto části se dále rekurzivně dělí, dokud nedosáhnou určité minimální velikosti. Každé rozdělení vytváří dva nové uzly ve stromové struktuře, přičemž listové uzly představují konečné oblasti. Takto vzniklá stromová reprezentace umožňuje přehledně uchovávat strukturu rozdělení prostoru.
+Generování obvykle začíná rozdělením celé mapy na dvě části. Tyto části se dále rekurzivně dělí, dokud nedosáhnou určité minimální velikosti. Každé rozdělení vytváří dva nové uzly ve stromové struktuře. Listové uzly představují konečné oblasti. Takto vzniklá stromová reprezentace umožňuje přehledně uchovávat strukturu rozdělení prostoru.
 
-V~jednotlivých vzniklých oblastech jsou následně vytvořeny místnosti, jejichž velikost je o~něco menší než velikost dané oblasti. Tím vzniká přirozený prostor mezi místnostmi, který může být využit například pro generování chodeb nebo dalších herních prvků. Po vytvoření místností je nutné zajistit jejich propojení. To se obvykle provádí postupným propojováním místností mezi sousedními částmi stromové struktury, často podobně jako u~metody náhodného umístění místností a~chodeb.
+Ve vzniklých oblastech jsou následně vytvořeny místnosti, jejichž velikost je o~něco menší než velikost dané oblasti. Tím vzniká přirozený prostor mezi místnostmi, který může být využit například pro generování chodeb nebo dalších herních prvků. Místnosti jsou propojovány postupným spojováním sousedních uzlů stromové struktury.
 
 Díky tomuto postupu lze relativně snadno zajistit vzájemnou dosažitelnost všech místností. Zásadní výhodou BSP je dobrá kontrola nad velikostí a~rozmístěním jednotlivých částí mapy. Parametry dělení prostoru umožňují ovlivnit výsledný vzhled prostředí a~předejít situacím, kdy by vznikaly příliš malé nebo naopak příliš velké místnosti.
 
@@ -421,8 +408,7 @@ Výhodou zvoleného řešení je především jeho jednoduchost a~přehlednost. 
 
 \subsubsection{Struktura generátoru}
 
-Systém byl navržen modulárně tak, aby bylo možné jednotlivé algoritmy snadno rozšiřovat a~vzájemně porovnávat.
-Každá metoda je tedy implementována v~samostatném skriptu a~využívá funkci \texttt{generate(width, height)}, která pro zadané rozměry vrací datovou reprezentaci mapy s~výše zmíněnými hodnotami.
+Systém byl navržen modulárně tak, aby bylo možné jednotlivé algoritmy snadno rozšiřovat a~vzájemně porovnávat. Každá metoda je implementována v~samostatném skriptu a~využívá funkci \texttt{generate(width, height, seed\_value)}, která pro zadané rozměry vrací datovou reprezentaci mapy.
 
 Díky tomuto sjednocení lze do aplikace přidávat další generátory bez zásahů do ostatních částí systému. V~rámci vytvořeného prototypu byly právě takto implementovány zvolené metody.
 
@@ -434,7 +420,7 @@ Architektura navrženého systému je schematicky znázorněna na obrázku \ref{
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.4\textwidth]{figures/generator_architecture.png}
+\includegraphics[width=0.4\textwidth]{images/generator_architecture.png}
 \caption{Schéma architektury systému generování dungeonových map}
 \label{fig:generator_architecture}
 \end{figure}
@@ -446,39 +432,39 @@ Zobrazení mapy je realizováno pomocí komponenty \texttt{TileMapLayer}. Po dok
 
 Součástí prototypu je také jednoduchá reprezentace hráče, která slouží především k~ověření průchodnosti mapy. Umísťování hráče zajišťuje funkce \\ \texttt{\_place\_player\_on\_floor()}, která nejprve pomocí prohledávání do šířky (BFS) nalezne největší souvislou oblast průchozích dlaždic. V~této oblasti poté hledá pozici s~volným okolím $3 \times 3$ dlaždic, aby hráč nebyl ihned po vytvoření mapy zaseknut ve stěně. Pokud taková pozice neexistuje, je jako záložní řešení použita náhodná dlaždice z~největší oblasti. S~hráčem se lze jednoduše pohybovat pomocí kláves W, A, S, D. Po mapě se uživatel může pohybovat pravým tlačítkem myši, aniž by ovlivnil pozici hráče, pro návrat k~původní pozici slouží klávesa R.
 
-Pro doplnění testovacího prostředí byly do mapy přidány sběratelné objekty ve formě mincí. Funkce \texttt{\_place\_coins\_on\_floor()} náhodně rozmístí 5 až 50 mincí na průchozí dlaždice v~největší souvislé oblasti mapy. Pokud hráč posbírá všechny mince, automaticky se vygeneruje nová mapa se stejnými parametry, jako v~případě předchozího generování. Tyto prvky neslouží jako hlavní součást PCG, jedná se pouze o~grafické doplnění.
+Pro doplnění testovacího prostředí byly do mapy přidány sběratelné objekty ve formě mincí. Funkce \texttt{\_place\_coins\_on\_floor()} náhodně rozmístí 5 až 50 mincí na podlahové dlaždice v~největší souvislé oblasti mapy. Pokud hráč posbírá všechny mince, automaticky se vygeneruje nová mapa se stejnými parametry, jako v~případě předchozího generování. Tyto prvky neslouží jako hlavní součást PCG, jedná se pouze o~grafické doplnění.
 
-V~rámci implementace byl využit volně dostupný balíček 2D Pixel Dungeon Asset Pack, jehož autorem je grafik vystupující pod jménem Pixel\_Poem. Tento balíček obsahuje základní sadu grafických prvků určených právě pro tvorbu dungeonových 2D her \cite{pixel_dungeon_asset}.
+V implementaci je využit volně dostupný balíček 2D Pixel Dungeon Asset Pack, jehož autorem je grafik vystupující pod jménem Pixel\_Poem. Tento balíček obsahuje základní sadu grafických prvků určených právě pro tvorbu dungeonových 2D her \cite{pixel_dungeon_asset}.
 
-Použité assety mají podobu pixelové grafiky v~top-down perspektivě, tedy seshora dolů, a~jsou navrženy právě pro práci s~dlaždicovou mapou, která je v~enginu využívána. Balíček je poskytován jako volně dostupný asset pack, který lze využít v~nekomerčních i~komerčních projektech.
+Použité assety mají podobu pixelové grafiky v~top-down perspektivě, tedy seshora dolů, a~svým návrhem přímo odpovídají práci s~dlaždicovou mapou, kterou engine využívá. Balíček je volně dostupný a~lze jej využít v~nekomerčních i~komerčních projektech.
 
-Vzhledem k~tomu, že hlavním cílem práce je implementace a~porovnání algoritmů procedurálního generování map, slouží grafická vrstva, a~to především hráč a~mince, pouze jako podpůrný nástroj pro vizualizaci a~prezentaci výsledků generování.
+Grafická vrstva -- hráč a~mince -- slouží pouze jako podpůrný nástroj pro vizualizaci výsledků generování.
 
 \subsubsection{Ovládání generování a zobrazení statistik}
 
-Součástí hry je jednoduché uživatelské rozhraní, které umožňuje výběr konkrétní generovací metody a~nastavení základních parametrů mapy, šířky a~výšky.
+Součástí hry je jednoduché uživatelské rozhraní, které umožňuje výběr konkrétní generovací metody a~nastavení základních parametrů mapy -- šířky, výšky a~volitelného seedu. Je-li zaškrtnuto políčko seedu, je hodnota seedu předána generátoru a~výsledek generování je plně reprodukovatelný. Dále je možné nastavit počet opakování pro benchmarkový režim, přičemž výchozí hodnota je 200. Minimální hodnota seedu je 1.
 
-Uživatelské rozhraní obsahuje dvě hlavní tlačítka, \textit{Generate} a~\textit{Benchmark}. Po stisknutí tlačítka \textit{Generate} skript, na základě uživatelské volby, vybere příslušný generátor pomocí konstrukce \texttt{match} a~zavolá jeho funkci \\ \texttt{generate(width, height)}. Doba generování je dána pomocí funkce \\ \texttt{Time.get\_ticks\_usec()} a~měří výhradně volání generovací funkce, nikoli následné vykreslení mapy ani umísťování herních objektů, což zajistí to, že čas není ovlivněn samotným vykreslováním. Ihned po dokončení generování skript spočítá počet průchozích dlaždic a~procentuální pokrytí mapy a~zobrazí tyto údaje spolu s~časem generování v~uživatelském rozhraní. Výsledná mapa je poté vizualizována postupným vykreslováním jednotlivých řádků.
+Uživatelské rozhraní obsahuje dvě hlavní tlačítka, \textit{Generate} a~\textit{Benchmark}. Po stisknutí tlačítka \textit{Generate} skript, na základě uživatelské volby, vybere příslušný generátor pomocí konstrukce \texttt{match} a~zavolá jeho funkci \\ \texttt{generate(width, height, seed\_value)}, kde \texttt{seed\_value} je zadaná hodnota seedu, nebo 0, pokud seed není aktivní. Doba generování je dána pomocí funkce \\ \texttt{Time.get\_ticks\_usec()} a~měří výhradně volání generovací funkce, nikoli následné vykreslení mapy ani umísťování herních objektů, což zajistí to, že čas není ovlivněn samotným vykreslováním. Ihned po dokončení generování skript spočítá počet průchozích dlaždic a~procentuální pokrytí mapy a~zobrazí tyto údaje spolu s~časem generování v~uživatelském rozhraní. Výsledná mapa je poté vizualizována postupným vykreslováním jednotlivých řádků.
 
-Tlačítko \textit{Benchmark} slouží k~automatizovanému testování všech implementovaných metod. Proces zajišťuje funkce \texttt{run\_benchmark()}, která postupně spustí všech pět algoritmů pro každou z~pěti definovaných velikostí map, přičemž každou konfiguraci opakuje desetkrát. Na rozdíl od běžného generování není při tomto režimu mapa vizualizována ani nejsou umísťovány herní objekty.
+Tlačítko \textit{Benchmark} slouží k~automatizovanému testování všech implementovaných metod. Proces zajišťuje funkce \texttt{run\_benchmark()}, která postupně spustí všech pět algoritmů pro každou z~pěti definovaných velikostí map, přičemž každou konfiguraci opakuje konfigurovatelným počtem opakování (výchozí hodnota 200). Celkový počet generování v~rámci jednoho spuštění benchmarku je dán vzorcem $5 \times 5 \times \texttt{benchmark\_runs}$, kde první pětka odpovídá počtu algoritmů a~druhá počtu velikostí map. Průběh benchmarku je znázorněn pomocí ukazatele průběhu (progress bar), který průběžně zobrazuje procentuální dokončenost celkového počtu generování. Na rozdíl od běžného generování není při tomto režimu mapa vizualizována ani nejsou umísťovány herní objekty.
 
 Výsledky jednotlivých běhů (algoritmus, rozměry, čas generování, pokrytí, počet podlahových dlaždic) jsou po každém běhu ukládány do souboru \\ \texttt{results.csv} pomocí funkce \texttt{\_log\_results()}, jejíž struktura je podrobněji popsána v~podkapitole věnované metodice měření.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\textwidth]{images/ui.png}
+\includegraphics[width=0.8\textwidth]{images/ui_1.png}
 \caption{Uživatelské rozhraní aplikace pro generování map}
 \end{figure}
 
 
 \subsection{Implementace generovacích metod}
-Principy jednotlivých algoritmů byly popsány v~kapitole 2.4. V~následujících podkapitolách je popsána jejich konkrétní implementace v~rámci vytvořené aplikace. Jednotlivé skripty se nacházejí v~adresáři \path{res://dungeons/algorithms}.
+Každý algoritmus z~kapitoly~\ref{sec:prehledMetod} je implementován jako samostatný skript v~adresáři \path{res://dungeons/algorithms}.
 
-Všechny generátory sdílejí několik společných implementačních prvků. Každý skript rozšiřuje třídu \texttt{RefCounted}, nemá tedy vazbu na scénu, a~definuje trojici celočíselných konstant pro typy dlaždic: \texttt{TILE\_EMPTY = 0} (prázdný prostor), \texttt{TILE\_FLOOR = 1} (podlaha) a~\texttt{TILE\_WALL = 2} (stěna). Vstupním bodem je vždy statická funkce \texttt{generate(width, height)}, která vrací dvourozměrné pole představující výslednou mapu.
+Všechny generátory sdílejí několik společných implementačních prvků. Každý skript rozšiřuje třídu \texttt{RefCounted}, nemá tedy vazbu na scénu, a~definuje trojici celočíselných konstant pro typy dlaždic: \texttt{TILE\_EMPTY = 0} (prázdný prostor), \texttt{TILE\_FLOOR = 1} (podlaha) a~\texttt{TILE\_WALL = 2} (stěna). Vstupním bodem je vždy statická funkce \texttt{generate(width, height, seed\_value)}, která vrací dvourozměrné pole představující výslednou mapu.
 
-Na začátku funkce \texttt{generate()} každý generátor vytvoří lokální instanci \texttt{RandomNumberGenerator} a~zavolá metodu \texttt{rng.randomize()}, čímž zajistí unikátní průběh náhodných operací bez ovlivnění zbytku aplikace. Následně inicializuje prázdnou mapu o~rozměrech \texttt{width} $\times$ \texttt{height}, kde jsou všechny buňky nastaveny na hodnotu \texttt{TILE\_EMPTY}. Výjimkou je generátor Buněčných automatů, který inicializaci mapy a~náhodnou počáteční výplň provádí v~jednom kroku. Podrobněji je tento postup popsán v~příslušné podkapitole.
+Na začátku funkce \texttt{generate()} každý generátor vytvoří lokální instanci \texttt{RandomNumberGenerator}. Pokud je předaný parametr \texttt{seed\_value} větší než 0, je seed nastaven voláním \texttt{rng.seed~=~seed\_value}, čímž je zajištěna plná reprodukovatelnost výsledků. V~opačném případě je zavolána metoda \texttt{rng.randomize()}, která zajistí unikátní průběh náhodných operací bez ovlivnění zbytku aplikace. Následně je inicializována prázdná mapu o~rozměrech \texttt{width} $\times$ \texttt{height}, kde jsou všechny buňky nastaveny na hodnotu \texttt{TILE\_EMPTY}. Výjimkou je generátor Buněčných automatů, který inicializaci mapy a~náhodnou počáteční výplň provádí v~jednom kroku. Podrobněji je tento postup popsán v~příslušné podkapitole.
 
-Společným závěrečným krokem všech generátorů je doplnění stěn pomocí funkce \texttt{\_add\_walls()}, jejíž implementace je ve všech skriptech totožná. Funkce prochází celou mapu a~pro každou dlaždici podlahy kontroluje osm okolních buněk (Mooreovo sousedství). Pokud se v~sousedství nachází buňka \texttt{TILE\_EMPTY}, je změněna na \texttt{TILE\_WALL}. Tímto postupem vznikne souvislé ohraničení všech průchozích částí mapy bez nutnosti generovat stěny explicitně během samotného algoritmu. Kontrola hranic mapy zajišťuje, že se při zápisu stěn nepřistupuje mimo rozsah pole.
+Závěrečným krokem je doplnění stěn pomocí funkce \texttt{\_add\_walls()}, jejíž implementace je ve všech skriptech totožná. Funkce prochází celou mapu a~pro každou dlaždici podlahy kontroluje osm okolních buněk (Mooreovo sousedství). Pokud se v~sousedství nachází buňka \texttt{TILE\_EMPTY}, je změněna na \texttt{TILE\_WALL}. Tímto postupem vznikne souvislé ohraničení všech průchozích částí mapy bez nutnosti generovat stěny explicitně během samotného algoritmu. Kontrola hranic mapy zajišťuje, že se při zápisu stěn nepřistupuje mimo rozsah pole.
 
 \subsubsection{Náhodné generování místností a~chodeb}
 
@@ -595,9 +581,9 @@ Výsledkem je takzvané perfektní bludiště, ve kterém mezi libovolnými dvě
 
 Pro objektivní porovnání implementovaných algoritmů byl navržen automatizovaný benchmarkový režim, který je součástí aplikace. Jeho spuštění zajišťuje tlačítko \textit{Benchmark} v~uživatelském rozhraní. Po aktivaci jsou postupně spuštěny všechny implementované generovací metody pro pět předem definovaných velikostí map: 20$\times$50, 60$\times$60, 70$\times$30, 100$\times$100 a~150$\times$150 dlaždic. Tyto velikosti byly zvoleny tak, aby pokrývaly jak malé, tak velké rozměry map a~zároveň umožňovaly posoudit vliv tvaru mapy (čtverec versus obdélník) na chování algoritmů.
 
-Pro každou kombinaci algoritmu a~velikosti mapy je generování provedeno opakovaně v~deseti nezávislých bězích. Benchmark byl spuštěn celkem 5$\times$, čímž bylo získáno celkem 1250 záznamů. Tím je zajištěn dostatečný vzorek dat pro statistické vyhodnocení, zejména pro posouzení průměrných hodnot a~variability výsledků.
+Pro každou kombinaci algoritmu a~velikosti mapy je generování provedeno opakovaně v~2000 bězích se seedem \texttt{05102024}. Celkem bylo pořízeno 50\,000 záznamů. Díky pevnému seedu jsou výsledky plně reprodukovatelné a~pokrytí mapy je pro každou kombinaci algoritmu, velikosti mapy a~seedu vždy totožné.
 
-Pomocí funkce \texttt{Time.get\_ticks\_usec()} bylo zajištěno měření času s~mikrosekundovou přesností. Měřen je výhradně čas funkce \texttt{generate(width, height)} příslušného algoritmu. Vizualizace mapy, vykreslování dlaždic, umisťování hráče a~další operace nejsou součástí měřeného intervalu. Výsledný čas je převeden na milisekundy.
+Pomocí funkce \texttt{Time.get\_ticks\_usec()} bylo zajištěno měření času s~mikrosekundovou přesností. Měřen je výhradně čas funkce \texttt{generate(width, height, seed\_value)} příslušného algoritmu. Vizualizace mapy, vykreslování dlaždic, umisťování hráče a~další operace nejsou součástí měřeného intervalu. Výsledný čas je převeden na milisekundy.
 
 Pro každý běh jsou zaznamenány následující metriky:
 \begin{itemize}
@@ -626,11 +612,11 @@ Všechny grafy v~této kapitole byly vygenerovány z~dat naměřených benchmark
 
 \subsubsection{Místnosti a chodby}
 
-Algoritmus náhodných místností a~chodeb vykazuje nízké časy generování na menších mapách. Na mapě 20$\times$50 přibližně 0,88 ms. S~rostoucí velikostí mapy čas narůstá výrazněji. Na mapě 150$\times$150 dosahuje průměrný čas přibližně 26,3 ms.
+Algoritmus náhodných místností a~chodeb vykazuje nízké časy generování na menších mapách. Na mapě 20$\times$50 přibližně 1,1 ms. S~rostoucí velikostí mapy čas narůstá výrazněji. Na mapě 150$\times$150 dosahuje průměrný čas přibližně 27,2 ms.
 
-Pokrytí mapy průchozím prostorem roste s~velikostí mapy. Na menších mapách (20$\times$50, 70$\times$30) se pohybuje v~rozmezí 31--41 \%, na mapě 100$\times$100 činí přibližně 44 \% a~na mapě 150$\times$150 dosahuje přibližně 53 \%. Tento rostoucí trend je dán tím, že počet místností se odvíjí od celkové plochy mapy. Na větších mapách tak vzniká úměrně více místností, které efektivněji vyplňují dostupný prostor.
+Pokrytí mapy průchozím prostorem roste s~velikostí mapy. Na menších mapách (20$\times$50, 70$\times$30) se pohybuje v~rozmezí 31,1--42,9 \%, na mapě 100$\times$100 činí 43,8 \% a~na mapě 150$\times$150 dosahuje 54,1 \%. Tento rostoucí trend je dán tím, že počet místností se odvíjí od celkové plochy mapy. Na větších mapách tak vzniká úměrně více místností, které efektivněji vyplňují dostupný prostor.
 
-Variabilita mezi jednotlivými běhy je u~tohoto algoritmu patrná jak v~čase generování, tak v~pokrytí. Pokrytí se mění podle velikosti a~rozmístění náhodně vygenerovaných místností. Na menších mapách, kde je generován minimální počet pěti místností, je variabilita pokrytí vyšší.
+Variabilita časů generování je malá a~odpovídá přirozeným výkyvům systému při opakovaném spouštění.
 
 \begin{figure}[H]
 \centering
@@ -649,11 +635,11 @@ Variabilita mezi jednotlivými běhy je u~tohoto algoritmu patrná jak v~čase g
 
 \subsubsection{Binary Space Partitioning}
 
-Algoritmus BSP vytváří mapy s~dobře definovanými místnostmi a~systematickým propojením. Čas generování roste s~velikostí map, od přibližně 0,81 ms na mapě 20$\times$50 po 20,3 ms na mapě 150$\times$150. Tento nárůst odpovídá rekurzivní povaze algoritmu, který musí rozdělit celý prostor mapy a~následně propojit vzniklé místnosti.
+Algoritmus BSP vytváří mapy s~dobře definovanými místnostmi a~systematickým propojením. Čas generování roste s~velikostí map, od přibližně 0,82 ms na mapě 20$\times$50 po 20,3 ms na mapě 150$\times$150. Tento nárůst odpovídá rekurzivní povaze algoritmu, který musí rozdělit celý prostor mapy a~následně propojit vzniklé místnosti.
 
-Pokrytí mapy u~BSP roste s~velikostí mapy. Na nejmenší mapě 20$\times$50 činí pokrytí přibližně 46,3 \%, na mapě 150$\times$150 dosahuje hodnot kolem 53,0 \%. Pokrytí je dáno principem adaptivního dělení prostoru podle minimální velikosti oblasti, které na větších mapách vytváří proporcionálně více menších místností.
+Pokrytí mapy u~BSP roste s~velikostí mapy. Na nejmenší mapě 20$\times$50 činí pokrytí přibližně 42,5 \%, na mapě 150$\times$150 dosahuje hodnot kolem 52,6 \%. Pokrytí je dáno principem adaptivního dělení prostoru podle minimální velikosti oblasti, které na větších mapách vytváří proporcionálně více menších místností.
 
-Variabilita času mezi běhy je u~BSP nízká, směrodatné odchylky jsou malé, což odpovídá determinističtější povaze rekurzivního dělení prostoru. Variabilita pokrytí je střední, výrazně totiž závisí na náhodném průběhu dělení, který ovlivňuje počet a~velikost vzniklých místností.
+Variabilita času mezi běhy je u~BSP nízká, směrodatné odchylky jsou malé, což odpovídá determinističtější povaze rekurzivního dělení prostoru.
 
 \begin{figure}[H]
 \centering
@@ -672,11 +658,9 @@ Variabilita času mezi běhy je u~BSP nízká, směrodatné odchylky jsou malé,
 
 \subsubsection{Náhodná procházka}
 
-Algoritmus Náhodné procházky se od ostatních metod odlišuje především konstantním pokrytím mapy. Výsledné pokrytí se ve všech testovaných konfiguracích pohybuje v~rozmezí 50,0--50,1 \%, což přímo odpovídá implementaci, ve které je cílový počet průchozích dlaždic stanoven pevně. Variabilita pokrytí je tedy prakticky nulová.
+Algoritmus Náhodné procházky se od ostatních metod odlišuje zejména pokrytím mapy. Výsledné pokrytí se ve všech testovaných konfiguracích pohybuje v~rozmezí 50,0--50,1 \%, což přímo odpovídá implementaci, ve které je cílový počet průchozích dlaždic stanoven pevně.
 
-Čas generování vykazuje výraznější variabilitu mezi jednotlivými běhy. Na mapě 20$\times$50 se průměrný čas pohybuje kolem 3,3 ms. Na největší mapě 150$\times$150 dosahuje přibližně 74,1 ms. Rozptyl časů je způsoben stochastickou povahou algoritmu, náhodná procházka může v~některých bězích rychle pokrýt nové oblasti, zatímco v~jiných se opakovaně vrací do již odkrytých částí mapy. Hodnota 50 \% je přitom nastavitelný parametr a~změnou této konstanty lze dosáhnout libovolného cílového pokrytí.
-
-Náhodná procházka tak představuje algoritmus s~předvídatelným pokrytím, avšak výrazně proměnlivým časem generování. Délka výpočtu závisí na tom, jak efektivně procházka pokrývá nové oblasti.
+Čas generování vykazuje výraznější variabilitu mezi jednotlivými běhy. Na mapě 20$\times$50 se průměrný čas pohybuje kolem 2,5 ms. Na největší mapě 150$\times$150 dosahuje přibližně 55,6 ms. Variabilita časů odpovídá přirozeným výkyvům systému při opakovaném spouštění. Hodnota 50 \% je nastavitelný parametr a~změnou této konstanty lze dosáhnout libovolného cílového pokrytí.
 
 \begin{figure}[H]
 \centering
@@ -695,9 +679,9 @@ Náhodná procházka tak představuje algoritmus s~předvídatelným pokrytím, 
 
 \subsubsection{Buněčné automaty}
 
-Buněčné automaty jsou z~testovaných algoritmů jednoznačně nejpomalejší. Na nejmenší mapě 20$\times$50 trvá generování přibližně 7,1 ms, na mapě 100$\times$100 již 78,3 ms a~na největší mapě 150$\times$150 dosahuje průměrný čas přibližně 178,8 ms. Hlavní příčinou je algoritmická náročnost. Algoritmus provádí 5 úplných průchodů přes všechny buňky mapy, přičemž pro každou buňku vyhodnocuje 8 okolních sousedů. To představuje řádově více operací než u~ostatních algoritmů. Interpretovaný jazyk GDScript může tento efekt dále zhoršovat v~porovnání s~kompilovanými jazyky, nicméně primární příčinou vysokého času zůstává samotná struktura algoritmu.
+Buněčné automaty jsou z~testovaných algoritmů jednoznačně nejpomalejší. Na nejmenší mapě 20$\times$50 trvá generování přibližně 7,3 ms, na mapě 100$\times$100 již 78,2 ms a~na největší mapě 150$\times$150 dosahuje průměrný čas přibližně 177,7 ms. Hlavní příčinou je algoritmická náročnost. Algoritmus provádí 5 úplných průchodů přes všechny buňky mapy, přičemž pro každou buňku vyhodnocuje 8 okolních sousedů. To představuje řádově více operací než u~ostatních algoritmů. Interpretovaný jazyk GDScript může tento efekt dále zhoršovat v~porovnání s~kompilovanými jazyky, nicméně primární příčinou vysokého času zůstává samotná struktura algoritmu.
 
-Pokrytí mapy u~Buněčných automatů dosahuje vysokých hodnot a~s~rostoucí velikostí mapy mírně roste. Od přibližně 52 \% na mapě 20$\times$50 po 72,7 \% na mapě 150$\times$150. Variabilita pokrytí je přitom nezanedbatelná, zejména na menších mapách, kde náhodná inicializace má větší vliv na výsledný tvar průchozích oblastí.
+Pokrytí mapy u~Buněčných automatů dosahuje vysokých hodnot a~s~rostoucí velikostí mapy mírně roste. Od přibližně 59,4 \% na mapě 20$\times$50 po 72,3 \% na mapě 150$\times$150.
 
 Čas generování je mezi běhy prakticky konstantní a~směrodatné odchylky jsou velmi malé. Celkový počet operací tak závisí primárně na velikosti mapy.
 
@@ -720,7 +704,7 @@ Pokrytí mapy u~Buněčných automatů dosahuje vysokých hodnot a~s~rostoucí v
 
 Algoritmus generování Bludiště se vyznačuje zcela deterministickým pokrytím mapy. Hodnota pokrytí je pro danou velikost mapy vždy shodná bez ohledu na konkrétní běh. Na mapě 20$\times$50 činí pokrytí 57,4 \%, na mapě 150$\times$150 pak 64,0 \%. Nulová variabilita pokrytí vyplývá z~principu algoritmu recursive backtracker, který vždy navštíví všechny buňky mřížky a~výsledný poměr průchozích dlaždic je dán pouze rozměry mapy a~velikostí buněk.
 
-Čas generování je u~tohoto algoritmu srovnatelný s~BSP. Na nejmenší mapě činí přibližně 0,96 ms, na největší pak 23,6 ms. Variabilita času mezi běhy je velmi nízká, protože algoritmus vždy provede stejný počet kroků.
+Čas generování je u~tohoto algoritmu srovnatelný s~BSP. Na nejmenší mapě činí přibližně 1,18 ms, na největší pak 23,6 ms. Variabilita času mezi běhy je velmi nízká, protože algoritmus vždy provede stejný počet kroků.
 
 \begin{figure}[H]
 \centering
@@ -739,13 +723,12 @@ Algoritmus generování Bludiště se vyznačuje zcela deterministickým pokryt�
 
 \subsection{Srovnání algoritmů}
 
-Tato podkapitola porovnává všechny implementované metody z~hlediska času generování, pokrytí mapy a~jejich vzájemného vztahu. Pokud není uvedeno jinak, zobrazené hodnoty představují průměry přes všechny testované velikosti map (50 měření na každou kombinaci algoritmu a~velikosti, celkem 250 měření na algoritmus, celý cyklus byl spuštěn celkem 5$\times$). Konkrétní hodnoty pro jednotlivé velikosti jsou shrnuty v~tabulce \ref{tab:results_summary}.
+Tato podkapitola porovnává všechny implementované metody z~hlediska času generování, pokrytí mapy a~jejich vzájemného vztahu. Pokud není uvedeno jinak, zobrazené hodnoty představují průměry přes všechny testované velikosti map (2000 měření na každou kombinaci algoritmu a~velikosti, celkem 10\,000 měření na algoritmus). Konkrétní hodnoty pro jednotlivé velikosti jsou shrnuty v~tabulce \ref{tab:results_summary}.
 
 \subsubsection{Průměrný čas generování}
 
 Graf \ref{fig:comp_avg_time} zobrazuje průměrný čas generování algoritmů přes všechny testované velikosti map. 
-Mezi algoritmy jsou patrné výrazné rozdíly. Nejrychlejšími metodami jsou BSP a~Bludiště, jejichž celkový průměr se pohybuje kolem 7--8 ms. 
-Místnosti dosahují srovnatelného průměru. Náhodná procházka je výrazně pomalejší s~celkovým průměrem přibližně 25 ms. Buněčné automaty jsou řádově nejpomalejší, jejich celkový průměr přesahuje 61 ms, tedy přibližně osmkrát více než u~BSP. 
+Mezi algoritmy jsou patrné výrazné rozdíly. Nejrychlejšími metodami jsou BSP s průměrem 8,5 ms a~Bludiště s~průměrem 9,2 ms. Místnosti dosahují průměru 10,1 ms. Náhodná procházka je výrazně pomalejší s~celkovým průměrem 19,8 ms. Buněčné automaty jsou řádově nejpomalejší s~průměrem 61,3 ms, tedy přibližně sedmkrát více než u~BSP. 
 
 \begin{figure}[H]
 \centering
@@ -754,7 +737,7 @@ Místnosti dosahují srovnatelného průměru. Náhodná procházka je výrazně
 \label{fig:comp_avg_time}
 \end{figure}
 
-Na největší testované mapě 150$\times$150 jsou absolutní rozdíly ještě výraznější, BSP dosahuje 20,3 ms, Bludiště 23,6 ms, Místnosti 26,3 ms, Náhodná procházka 74,1 ms, zatímco Buněčné automaty přibližně 178,8 ms, jak lze vidět na grafu \ref{fig:comp_avg_time_150x150}.
+Na největší testované mapě 150$\times$150 jsou absolutní rozdíly ještě výraznější, BSP dosahuje 20,3 ms, Bludiště 23,6 ms, Místnosti 27,2 ms, Náhodná procházka 55,6 ms, zatímco Buněčné automaty přibližně 177,7 ms, jak lze vidět na grafu \ref{fig:comp_avg_time_150x150}.
 
 \begin{figure}[H]
 \centering
@@ -766,7 +749,7 @@ Na největší testované mapě 150$\times$150 jsou absolutní rozdíly ještě 
 
 \subsubsection{Průměrné pokrytí}
 
-Graf \ref{fig:comp_avg_coverage} zobrazuje průměrné pokrytí mapy průchozím prostorem přes všechny testované velikosti. Nejvyššího celkového pokrytí dosahují Buněčné automaty (přibližně 64 \%), následované algoritmem Bludiště se stabilním pokrytím kolem 60 \%. BSP dosahuje celkového průměru téměř 50 \%, Náhodná procházka má konstrukčně dané pokrytí 50 \%, které se s~velikostí mapy nemění. Místnosti a~chodby dosahují nejnižšího celkového průměru, a~to přibližně 42 \%, avšak pokrytí výrazně roste s~velikostí mapy (viz graf \ref{fig:comp_coverage_scaling}).
+Graf \ref{fig:comp_avg_coverage} zobrazuje průměrné pokrytí mapy průchozím prostorem přes všechny testované velikosti. Nejvyššího celkového pokrytí dosahují Buněčné automaty (66,5 \%), následované algoritmem Bludiště se stabilním pokrytím 59,9 \%. BSP dosahuje celkového průměru 48,5 \%, Náhodná procházka má konstrukčně dané pokrytí 50,0 \%, které se s~velikostí mapy nemění. Místnosti a~chodby dosahují nejnižšího celkového průměru, a~to 40,9 \%, avšak pokrytí výrazně roste s~velikostí mapy (viz graf \ref{fig:comp_coverage_scaling}).
 
 \begin{figure}[H]
 \centering
@@ -805,7 +788,7 @@ Výjimku tvoří mapa 70$\times$30, u~které pokrytí algoritmů Místností, BS
 
 Graf \ref{fig:comp_tradeoff} vizualizuje vztah mezi průměrným časem generování a~průměrným pokrytím pro jednotlivé algoritmy (oba průměry přes všechny testované velikosti map). Ideální algoritmus by se nacházel v~levé horní části grafu, tedy s~nízkým časem a~vysokým pokrytím.
 
-BSP a~Bludiště se nacházejí v~oblasti nízkého času a~středně vysokého pokrytí, přičemž Bludiště dosahuje vyššího pokrytí (kolem 60 \%) než BSP (kolem 51 \%). Místnosti nabízí srovnatelný čas s~nižším celkovým pokrytím. Buněčné automaty dosahují nejvyššího pokrytí ze všech metod, avšak za cenu výrazně vyššího výpočetního času. Náhodná procházka představuje předvídatelné pokrytí 50 \%, avšak s~vyšším časem generování než BSP, Bludiště a~Místnosti.
+BSP a~Bludiště se nacházejí v~oblasti nízkého času a~středně vysokého pokrytí, přičemž Bludiště dosahuje vyššího pokrytí (59,9 \%) než BSP (48,5 \%). Místnosti nabízí srovnatelný čas s~nižším celkovým pokrytím. Buněčné automaty dosahují nejvyššího pokrytí ze všech metod, avšak za cenu výrazně vyššího výpočetního času. Náhodná procházka představuje předvídatelné pokrytí 50,0 \%, avšak s~vyšším časem generování než BSP, Bludiště a~Místnosti.
 
 \begin{figure}[H]
 \centering
@@ -828,7 +811,7 @@ Na obrázku \ref{fig:size150_time_box} je patrné, že BSP vykazuje nejmenší r
 \label{fig:size150_time_box}
 \end{figure}
 
-Obrázek \ref{fig:size150_cov_box} ukazuje, že Bludiště a~Náhodná procházka mají prakticky nulovou variabilitu pokrytí, zatímco Místnosti, BSP a~Buněčné automaty vykazují větší rozptyl.
+Obrázek \ref{fig:size150_cov_box} ukazuje, že při použití pevného seedu je pokrytí pro všechny algoritmy zcela deterministické a~variabilita pokrytí je nulová napříč všemi metodami.
 
 \begin{figure}[H]
 \centering
@@ -851,18 +834,18 @@ Tabulka \ref{tab:results_summary} shrnuje průměrné hodnoty času generování
 \hline
 \multicolumn{6}{|c|}{\textit{Průměrný čas generování [ms]}} \\
 \hline
-Rooms    & 0,88  & 5,59  & 1,46  & 10,01  & 26,33  \\
-BSP      & 0,81  & 3,12  & 1,69  & 8,97   & 20,34  \\
-Drunkard's  & 3,29  & 10,41 & 6,63  & 30,18  & 74,14  \\
-Cellular & 7,10  & 27,60 & 15,47 & 78,34  & 178,83 \\
-Maze     & 0,96  & 3,57  & 1,95  & 10,14  & 23,55  \\
+Rooms    & 1,15  & 5,75  & 4,83  & 11,42  & 27,24  \\
+BSP      & 0,82  & 6,21  & 4,31  & 10,67  & 20,30  \\
+Drunkard's  & 2,50  & 9,68  & 8,81  & 22,44  & 55,57  \\
+Cellular & 7,32  & 27,64 & 15,61 & 78,21  & 177,65 \\
+Maze     & 1,18  & 4,20  & 5,62  & 11,40  & 23,63  \\
 \hline
 \multicolumn{6}{|c|}{\textit{Průměrné pokrytí [\%]}} \\
 \hline
-Rooms    & 39,88 & 37,49 & 31,27 & 44,64 & 53,14 \\
-BSP      & 46,31 & 50,28 & 44,86 & 52,90 & 53,01 \\
-Drunkard's  & 50,06 & 50,02 & 50,03 & 50,01 & 50,00 \\
-Cellular & 52,31 & 65,67 & 60,60 & 69,83 & 72,74 \\
+Rooms    & 42,90 & 32,53 & 31,10 & 43,81 & 54,09 \\
+BSP      & 42,50 & 50,92 & 43,29 & 53,42 & 52,56 \\
+Drunkard's  & 50,00 & 50,03 & 50,05 & 50,00 & 50,00 \\
+Cellular & 59,40 & 65,94 & 63,95 & 70,91 & 72,26 \\
 Maze     & 57,40 & 60,11 & 56,48 & 61,42 & 64,02 \\
 \hline
 \end{tabular}
@@ -873,9 +856,9 @@ Maze     & 57,40 & 60,11 & 56,48 & 61,42 & 64,02 \\
 
 \subsection{Shrnutí výsledků}
 
-Na základě provedených měření lze algoritmy rozdělit do tří skupin podle výpočetní náročnosti. Do první skupiny patří BSP, Bludiště a~Místnosti, jejichž časy generování na mapě 150$\times$150 nepřekračují 27 ms. Náhodná procházka tvoří střední kategorii s~průměrným časem přibližně 74,1 ms. Buněčné automaty jsou nejpomalejší s~průměrným časem přibližně 178,8 ms.
+Na základě provedených měření lze algoritmy rozdělit do tří skupin podle výpočetní náročnosti. Do první skupiny patří BSP, Bludiště a~Místnosti, jejichž časy generování na mapě 150$\times$150 nepřekračují 27,2 ms. Náhodná procházka tvoří střední kategorii s~průměrným časem přibližně 55,6 ms. Buněčné automaty jsou nejpomalejší s~průměrným časem přibližně 177,7 ms.
 
-Z~hlediska pokrytí mapy se algoritmy rovněž výrazně liší. Buněčné automaty dosahují na velkých mapách nejvyššího pokrytí přes 72 \%. Bludiště dosahuje pokrytí v~rozmezí 56--64 \% v~závislosti na velikosti mapy. BSP dosahuje relativně stabilního pokrytí v~rozmezí 45--53 \% napříč všemi velikostmi map. Místnosti dosahují na mapě 150$\times$150 přibližně 53 \%, avšak pokrytí výrazně stoupá s~velikostí mapy (od přibližně 31 \% na mapě 70$\times$30). Náhodná procházka má dané pokrytí 50 \%.
+Z~hlediska pokrytí mapy se algoritmy rovněž výrazně liší. Buněčné automaty dosahují na velkých mapách nejvyššího pokrytí 72,3 \%. Bludiště dosahuje pokrytí v~rozmezí 56,5--64,0 \% v~závislosti na velikosti mapy. BSP dosahuje relativně stabilního pokrytí v~rozmezí 42,5--53,4 \% napříč všemi velikostmi map. Místnosti dosahují na mapě 150$\times$150 přibližně 54,1 \%, avšak pokrytí výrazně stoupá s~velikostí mapy (od 31,1 \% na mapě 70$\times$30). Náhodná procházka má dané pokrytí 50,0 \%.
 
 \section{Diskuse}
 
@@ -910,7 +893,7 @@ Celkově tyto zkušenosti ukazují, že i~drobná změna parametrizace může z�
 Porovnáním efektivity PCG algoritmů pro generování 2D map se zabývala rovněž práce \cite{Monaghan2019}, která měřila čas generování a~spotřebu výpočetních zdrojů kombinací algoritmů pro umísťování místností (Random Room Placement, BSP) a~propojování chodbami (Random Point Connect, Drunkard's Walk, BSP Corridors). Oproti tomuto přístupu se předkládaná práce zaměřuje na pět samostatných generovacích metod (včetně Buněčných automatů a~generování Bludiště) a~jako metriku používá vedle času generování také pokrytí mapy průchozím prostorem. Obě práce se však shodují v~závěru, že BSP patří mezi nejefektivnější přístupy z~hlediska času generování.
 
 \subsection{Možnosti dalšího rozšíření práce}
-Prvním směrem rozšíření je zahrnutí strukturálních metrik. Pokrytí mapy průchozím prostorem je snadno měřitelná a~objektivní metrika, avšak sama o~sobě nevypovídá o~strukturální kvalitě generovaného prostředí. Dvě mapy se stejným pokrytím se mohou zásadně lišit z~hlediska hratelnosti. Například Bludiště a~Buněčné automaty dosahují na mapě 60$\times$60 podobného pokrytí (přibližně 60 a~66 \%), přesto jsou výsledné struktury zcela odlišné: Bludiště vytváří spletitou síť úzkých chodeb, zatímco Buněčné automaty generují otevřené jeskynní prostory.
+Prvním směrem rozšíření je zahrnutí strukturálních metrik. Pokrytí mapy průchozím prostorem je snadno měřitelná a~objektivní metrika, avšak sama o~sobě nevypovídá o~strukturální kvalitě generovaného prostředí. Dvě mapy se stejným pokrytím se mohou zásadně lišit z~hlediska hratelnosti. Například Bludiště a~Buněčné automaty dosahují na mapě 60$\times$60 podobného pokrytí (60,1 a~65,9 \%), přesto jsou výsledné struktury zcela odlišné: Bludiště vytváří spletitou síť úzkých chodeb, zatímco Buněčné automaty generují otevřené jeskynní prostory.
 
 Relevantnějšími doplňkovými metrikami by mohly být například průměrná délka nejkratší cesty mezi dvěma náhodně vybranými průchozími dlaždice (měřitelná pomocí BFS), podíl slepých uliček nebo průměrný počet prostorově oddělených místností. Tyto metriky by umožnily kvantitativně zachytit rozdíly, které se v~současném měření projevují pouze vizuálně, a~lépe posoudit vhodnost jednotlivých metod pro konkrétní typy herního prostředí.
 
@@ -927,11 +910,11 @@ V~teoretické části práce byly popsány základní principy procedurálního 
 
 Všech pět algoritmů bylo implementováno v~herním enginu Godot s~využitím skriptovacího jazyka GDScript. Systém byl navržen modulárně s~unifikovaným rozhraním, které umožňuje snadné přidávání nových generovacích metod. Součástí aplikace je automatizovaný benchmarkový režim, který zajišťuje objektivní a~opakovatelné měření výkonu jednotlivých algoritmů.
 
-Experimentální měření bylo provedeno na pěti velikostech map v~deseti nezávislých bězích pro každou konfiguraci, a~to celkem 5$\times$. Výsledky ukázaly výrazné rozdíly mezi metodami. Algoritmy BSP a~Bludiště se ukázaly jako nejrychlejší s~časy kolem 20--24 ms na mapě 150$\times$150. Algoritmus Místností dosahuje pokrytí přibližně 53 \% na největší mapě. Buněčné automaty generují mapy s~nejvyšším pokrytím (přes 72 \%), avšak s~výrazně vyšším výpočetním časem, a~to přibližně 178,8 ms na mapě 150$\times$150. Náhodná procházka poskytuje konstrukčně dané pokrytí 50 \%, avšak s~vyšším časem generování, přibližně 74 ms na největší mapě.
+Experimentální měření bylo provedeno na pěti velikostech map v~2000 opakováních pro každou konfiguraci se seedem 05102024. Výsledky ukázaly výrazné rozdíly mezi metodami. Algoritmy BSP a~Bludiště se ukázaly jako nejrychlejší s~časy 20,3--23,6 ms na mapě 150$\times$150. Algoritmus Místností dosahuje pokrytí přibližně 54,1 \% na největší mapě. Buněčné automaty generují mapy s~nejvyšším pokrytím (72,3 \%), avšak s~výrazně vyšším výpočetním časem, a~to přibližně 177,7 ms na mapě 150$\times$150. Náhodná procházka poskytuje konstrukčně dané pokrytí 50,0 \%, avšak s~vyšším časem generování, přibližně 55,6 ms na největší mapě.
 
 Práce ukázala, že volba generovací metody závisí na konkrétních požadavcích hry, jelikož výsledná struktura je různá. Pro klasické dungeonové prostředí jsou vhodné algoritmy BSP a~Místnosti, pro jeskynní struktury jsou ideální Buněčné automaty a~Náhodná procházka a~pro labyrinty algoritmus Bludiště.
 
-Mezi hlavní omezení práce patří testování výhradně v~prostředí Godot s~jazykem GDScript a~měření na jednom hardwarovém zařízení (MacBook Air 2025, M4, 24~GB RAM). Benchmarkové měření probíhalo bez fixovaného seedu, takže individuální výsledky konkrétního běhu nelze přesně reprodukovat. Statistické závěry jsou však podloženy 50~měřeními na každou konfiguraci.
+Mezi hlavní omezení práce patří testování výhradně v~prostředí Godot s~jazykem GDScript a~měření na jednom hardwarovém zařízení (MacBook Air 2025, M4, 24~GB RAM). Benchmarkové měření probíhalo s~pevným seedem, čímž jsou výsledky plně reprodukovatelné. Statistické závěry jsou podloženy 2000~měřeními na každou konfiguraci.
 \end{kiconclusions}
 
 \begin{kiconclusions}[english]
@@ -941,11 +924,11 @@ The theoretical part described the basic principles of procedural content genera
 
 All five algorithms were implemented in the Godot game engine using the GDScript scripting language. The system was designed in a~modular fashion with a~unified interface that allows easy addition of new generation methods. The application includes an automated benchmark mode that ensures objective and repeatable performance measurements.
 
-Experimental measurements were conducted on five map sizes with ten independent runs per configuration, repeated five times in total. The results revealed significant differences between the methods. BSP and Maze proved to be the fastest algorithms, with generation times around 20--24 ms on a~150$\times$150 map. The Rooms algorithm achieves approximately 53 \% coverage on the largest map. Cellular automata generate maps with the highest coverage (over 72 \%), but at the cost of significantly higher computation time of approximately 178.8 ms on a~150$\times$150 map. Drunkard's walk provides a~structurally fixed coverage of 50 \%, but with a~higher generation time of approximately 74 ms on the largest map.
+Experimental measurements were conducted on five map sizes with 2000 runs per configuration using a~fixed seed (05102024). The results revealed significant differences between the methods. BSP and Maze proved to be the fastest algorithms, with generation times of 20.3--23.6 ms on a~150$\times$150 map. The Rooms algorithm achieves approximately 54.1\,\% coverage on the largest map. Cellular automata generate maps with the highest coverage (72.3\,\%), but at the cost of significantly higher computation time of approximately 177.7 ms on a~150$\times$150 map. Drunkard's walk provides a~structurally fixed coverage of 50.0\,\%, but with a~higher generation time of approximately 55.6 ms on the largest map.
 
 The thesis demonstrated that the choice of generation method depends on the specific requirements of the game. BSP and Rooms are suitable for classic dungeon environments, cellular automata and drunkard's walk for cave-like structures, and the Maze algorithm for labyrinthine layouts.
 
-Limitations of this work include testing exclusively in the Godot environment with GDScript and measurements on a~single hardware device (MacBook Air 2025, M4, 24~GB RAM). The benchmark measurements were conducted without a fixed random seed, meaning individual run results cannot be precisely reproduced; however, the statistical conclusions are supported by 50 measurements per configuration.
+Limitations of this work include testing exclusively in the Godot environment with GDScript and measurements on a~single hardware device (MacBook Air 2025, M4, 24~GB RAM). The benchmark measurements were conducted with a~fixed seed, ensuring full reproducibility of results. The statistical conclusions are supported by 2000 measurements per configuration.
 \end{kiconclusions}
 
 %% Přílohy
