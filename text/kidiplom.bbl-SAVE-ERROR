@@ -59,6 +59,47 @@
       \field{title}{Procedural Content Generation in Games}
       \field{year}{2016}
     \endentry
+    \entry{Linden2014}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=998b129e685fe4f9990ea5c55702942e}{%
+           family={Linden},
+           familyi={L\bibinitperiod},
+           given={Roland},
+           giveni={R\bibinitperiod}}}%
+        {{hash=88d33934e10fd64a746702e0c4172d1a}{%
+           family={Lopes},
+           familyi={L\bibinitperiod},
+           given={Ricardo},
+           giveni={R\bibinitperiod}}}%
+        {{hash=1d3f4766060649d522cb73a599ad27c5}{%
+           family={Bidarra},
+           familyi={B\bibinitperiod},
+           given={Rafael},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{31c9b063c53270630abd37c96ea434ee}
+      \strng{fullhash}{31c9b063c53270630abd37c96ea434ee}
+      \strng{fullhashraw}{31c9b063c53270630abd37c96ea434ee}
+      \strng{bibnamehash}{31c9b063c53270630abd37c96ea434ee}
+      \strng{authorbibnamehash}{31c9b063c53270630abd37c96ea434ee}
+      \strng{authornamehash}{31c9b063c53270630abd37c96ea434ee}
+      \strng{authorfullhash}{31c9b063c53270630abd37c96ea434ee}
+      \strng{authorfullhashraw}{31c9b063c53270630abd37c96ea434ee}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computational Intelligence and AI in Games, IEEE Transactions on}
+      \field{month}{03}
+      \field{title}{Procedural Generation of Dungeons}
+      \field{volume}{6}
+      \field{year}{2014}
+      \field{pages}{78\bibrangedash 89}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1109/TCIAIG.2013.2290371
+      \endverb
+    \endentry
     \entry{Schuller_2021}{online}{}{}
       \name{author}{1}{}{%
         {{hash=38e077516c63477f9a28e4d699210be3}{%
@@ -210,47 +251,6 @@
       \endverb
       \verb{url}
       \verb https://en.wikipedia.org/wiki/Elite_(video_game)
-      \endverb
-    \endentry
-    \entry{Linden2014}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=998b129e685fe4f9990ea5c55702942e}{%
-           family={Linden},
-           familyi={L\bibinitperiod},
-           given={Roland},
-           giveni={R\bibinitperiod}}}%
-        {{hash=88d33934e10fd64a746702e0c4172d1a}{%
-           family={Lopes},
-           familyi={L\bibinitperiod},
-           given={Ricardo},
-           giveni={R\bibinitperiod}}}%
-        {{hash=1d3f4766060649d522cb73a599ad27c5}{%
-           family={Bidarra},
-           familyi={B\bibinitperiod},
-           given={Rafael},
-           giveni={R\bibinitperiod}}}%
-      }
-      \strng{namehash}{31c9b063c53270630abd37c96ea434ee}
-      \strng{fullhash}{31c9b063c53270630abd37c96ea434ee}
-      \strng{fullhashraw}{31c9b063c53270630abd37c96ea434ee}
-      \strng{bibnamehash}{31c9b063c53270630abd37c96ea434ee}
-      \strng{authorbibnamehash}{31c9b063c53270630abd37c96ea434ee}
-      \strng{authornamehash}{31c9b063c53270630abd37c96ea434ee}
-      \strng{authorfullhash}{31c9b063c53270630abd37c96ea434ee}
-      \strng{authorfullhashraw}{31c9b063c53270630abd37c96ea434ee}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Computational Intelligence and AI in Games, IEEE Transactions on}
-      \field{month}{03}
-      \field{title}{Procedural Generation of Dungeons}
-      \field{volume}{6}
-      \field{year}{2014}
-      \field{pages}{78\bibrangedash 89}
-      \range{pages}{12}
-      \verb{doi}
-      \verb 10.1109/TCIAIG.2013.2290371
       \endverb
     \endentry
     \entry{godot_engine}{online}{}{}
