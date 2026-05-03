@@ -129,6 +129,19 @@
 \usepackage{longtable}
 \usepackage{float}
 
+%% Zkratky
+\newacronym{2d}{2D}{Two-Dimensional}
+\newacronym{3d}{3D}{Three-Dimensional}
+\newacronym{ascii}{ASCII}{American Standard Code for Information Interchange}
+\newacronym{bbcmicro}{BBC Micro}{British Broadcasting Corporation Microcomputer}
+\newacronym{bfs}{BFS}{Breadth-First Search}
+\newacronym{bsp}{BSP}{Binary Space Partitioning}
+\newacronym{csv}{CSV}{Comma-Separated Values}
+\newacronym{dfs}{DFS}{Depth-First Search}
+\newacronym{pcg}{PCG}{Procedural Content Generation}
+\newacronym{ram}{RAM}{Random Access Memory}
+\newacronym{ui}{UI}{User Interface}
+
 %% Každá kapitola (\section) začíná na nové stránce
 \AddToHook{cmd/section/before}{\clearpage}
 
@@ -184,7 +197,7 @@ PCG lze klasifikovat podle více kritérií, například podle způsobu reakce n
 
 Nejčastěji se lze v~praxi setkat s~adaptivním či neadaptivním přístupem, a~to vzhledem k~chování hráče. Neadaptivní (statické) generování vytváří obsah bez ohledu na chování hráče a~jeho průběh hrou. Všechny generované struktury vycházejí ze stejných pravidel a~reakce hráče na podněty neovlivní výsledek. Naopak adaptivní generování pracuje s~informacemi o~hráči. Systém může sledovat úspěšnost hráče, rychlost reakcí, délku průchodu úrovní, využívané herní prvky nebo způsob řešení situací a~na základě těchto dat dále upravovat generovaný obsah.
 
-Dalším důležitým rozdělením je deterministický a~stochastický přístup. Deterministické generování vychází z~pevně daných počátečních hodnot, například seed, což je textová nebo číselná hodnota, která je výchozím bodem pro generátor a~určuje počáteční podmínky algoritmu, podle kterých je následně obsah generován. Při stejném vstupu vždy produkuje stejný výstup. Tento přístup umožňuje reprodukovatelnost výsledků, což je výhodné například při testování nebo sdílení konkrétních map mezi hráči. Stochastické generování naproti tomu pracuje s~náhodností bez pevně stanoveného počátečního stavu, takže výsledky se budou lišit i~při opakovaném spuštění algoritmu.
+Dalším důležitým rozdělením je deterministický a~stochastický přístup. Deterministické generování vychází z~pevně daných počátečních hodnot, například seed, což je textová nebo číselná hodnota, která je výchozím bodem pro generátor a~určuje počáteční podmínky algoritmu, podle kterých je následně obsah generován. Při stejném vstupu vždy produkuje stejný výstup. Tento přístup umožňuje reprodukovatelnost výsledků, což je výhodné například při testování nebo sdílení konkrétních map mezi hráči. Stochastické generování naproti tomu pracuje s~náhodností bez pevně stanoveného počátečního stavu, takže výsledky se liší i~při opakovaném spuštění algoritmu.
 
 Z~hlediska procesu generování lze rozlišit konstruktivní metody a~přístup označovaný jako generate-and-test. Konstruktivní metody vytvářejí obsah postupně podle předem definovaných pravidel. Každý krok generování přímo přispívá k~vytvoření výsledné struktury. Naproti tomu metoda generate-and-test nejprve vytvoří potenciální řešení, které je následně ověřeno podle stanovených kritérií. Pokud výsledek nevyhovuje, proces se opakuje. Tento přístup může být výpočetně náročnější, ale umožňuje lépe kontrolovat výsledné vlastnosti mapy.
 
@@ -226,12 +239,12 @@ Dalším významným titulem využívajícím procedurální generování je hra
 
 Hra byla původně vydána pro počítač BBC Micro, který disponoval velmi omezenou pamětí. Z~tohoto důvodu nebylo možné ukládat rozsáhlý herní svět přímo v~paměti. Vývojáři proto zvolili přístup, kdy byl herní svět generován algoritmicky na základě předem definovaného číselného základu. Pomocí tohoto deterministického postupu bylo možné při každém spuštění znovu vytvořit stejnou galaxii bez nutnosti jejího explicitního uložení.
 
-Elite obsahovalo osm galaxií a~ každá z~nich zahrnovala stovky hvězdných systémů. Vlastnosti jednotlivých systémů, jako je jejich název, ekonomika, úroveň technologického rozvoje či typ vlády, byly generovány pomocí pseudonáhodných algoritmů. Procedurálně vznikaly také ceny komodit a~další herní parametry.
+Elite obsahovalo osm galaxií a~každá z~nich zahrnovala stovky hvězdných systémů. Vlastnosti jednotlivých systémů, jako je jejich název, ekonomika, úroveň technologického rozvoje či typ vlády, byly generovány pomocí pseudonáhodných algoritmů. Procedurálně vznikaly také ceny komodit a~další herní parametry.
 
 Tento přístup ukázal, že procedurální generování není omezeno pouze na tvorbu dungeonů nebo jednotlivých úrovní, ale může být využito i~pro vytvoření rozsáhlých herních světů. Elite tak demonstrovalo, že algoritmické generování obsahu představuje efektivní řešení zejména v~podmínkách s~omezeným výpočetním výkonem a~omezenými paměťovými zdroji \cite{EliteWiki}.
 
 \subsection{Generování dungeonů ve 2D hrách}
-Dungeonové mapy se typicky skládají z~místností a~chodeb, obsahují jasně definované průchozí a~neprůchozí oblasti a~musí splňovat požadavky na hratelnost. Generování takových struktur proto vyžaduje algoritmy, které dokáží zajistit nejen variabilitu výsledku, ale i~splnění základních strukturálních vlastností.
+Dungeonové mapy se typicky skládají z~místností a~chodeb, obsahují jasně definované průchozí a~neprůchozí oblasti a~musí splňovat požadavky na hratelnost. Generování takových struktur proto vyžaduje algoritmy, které dokáží zajistit nejen variabilitu výsledku, ale i~splnění základních strukturálních vlastností \cite{Linden2014,Shaker2016}.
 
 \subsubsection{Požadavky na generování dungeonových map}
 Při návrhu algoritmu pro generování dungeonové mapy je nutné zohlednit několik základních požadavků, které vycházejí jak z~technických omezení, tak z~hlediska hratelnosti. Generovaná mapa by neměla být pouze náhodným shlukem místností a~chodeb, ale strukturovaným prostředím, které umožňuje smysluplný průchod.
@@ -250,9 +263,9 @@ Možnost nastavit velikost mapy, počet místností, hustotu chodeb nebo další
 \label{sec:prehledMetod}
 Metody generování dungeonových map se liší způsobem konstrukce prostoru, mírou kontroly nad výslednou strukturou, typem generovaného prostředí a~výpočetní náročností. Některé algoritmy vytvářejí mapu postupně přidáváním jednotlivých prvků, jiné pracují s~rozdělováním prostoru nebo s~pravidly aplikovanými na mřížku buněk.
 
-Ve 2D hrách převažují metody založené na náhodném umísťování místností a~jejich následném propojování, rozdělování velkého prostoru na menší části nebo algoritmy založenými na takzvané náhodné procházce. Každý z~těchto přístupů má své výhody i~omezení a~je vhodný pro odlišný typ herního prostředí.
+Ve 2D hrách převažují metody založené na náhodném umísťování místností a~jejich následném propojování, rozdělování velkého prostoru na menší části nebo algoritmy založenými na takzvané náhodné procházce. Každý z~těchto přístupů má své výhody i~omezení a~je vhodný pro odlišný typ herního prostředí \cite{Linden2014,Shaker2016}.
 
-\subsubsection{Náhodné umístění místností a chodeb}
+\subsubsection{Náhodné místnosti a~chodby}
 Generování pomocí náhodného umístění místností a~chodeb patří mezi nejpoužívanější a~zároveň nejjednodušší přístupy z~hlediska implementace.
 
 Na mapě se nejprve generují místnosti různých velikostí, obvykle obdélníkového nebo čtvercového tvaru. Během generování se kontroluje, aby se nově vznikající místnost nepřekrývala s~již existujícími. Výsledkem je množina místností reprezentovaných například souřadnicemi a~rozměry. Místnosti jsou následně propojeny chodbami. Ty bývají realizovány jako jednoduché horizontální a~vertikální průchody spojující středy dvou místností nebo jejich nejbližší body. Častým řešením je propojení ve tvaru písmene L, kdy jsou dvě místnosti spojeny dvojicí kolmých chodeb.
@@ -271,11 +284,11 @@ Generování obvykle začíná rozdělením celé mapy na dvě části. Tyto č�
 
 Ve vzniklých oblastech jsou vytvořeny místnosti, jejichž velikost je o~něco menší než velikost daného listu. Tím vzniká přirozený prostor mezi místnostmi, který může být využit například pro generování chodeb nebo dalších herních struktur. Místnosti jsou propojovány postupným spojováním sousedních místností stromové struktury.
 
-Zmíněný postup nám umožňuje relativně snadno zajistit vzájemnou dosažitelnost všech místností. Zásadní výhodou BSP je dobrá kontrola nad velikostí a~rozmístěním jednotlivých částí mapy. Parametry dělení prostoru umožňují ovlivnit výsledný vzhled prostředí a~předejít situacím, kdy by vznikaly příliš malé nebo naopak příliš velké místnosti.
+Zmíněný postup umožňuje relativně snadno zajistit vzájemnou dosažitelnost všech místností. Zásadní výhodou BSP je dobrá kontrola nad velikostí a~rozmístěním jednotlivých částí mapy. Parametry dělení prostoru umožňují ovlivnit výsledný vzhled prostředí a~předejít situacím, kdy by vznikaly příliš malé nebo naopak příliš velké místnosti.
 
-Nevýhodou této metody je poměrně pravidelný a~místy uniformní vzhled generovaného prostředí, protože výsledná struktura často odráží samotný způsob dělení prostoru.\cite{Linden2014,Shaker2016}.
+Nevýhodou této metody je poměrně pravidelný a~místy uniformní vzhled generovaného prostředí, protože výsledná struktura často odráží samotný způsob dělení prostoru \cite{Linden2014,Shaker2016}.
 
-\subsubsection{Metoda Náhodné procházky}
+\subsubsection{Náhodná procházka}
 
 Metoda Náhodné procházky (Drunkard's Walk) je založena na jednoduchém principu postupného rozšiřování prostoru pomocí pohybu náhodným směrem. Algoritmus začíná na předem dané počáteční pozici na mapě a~v~každém kroku se náhodně přesune do jednoho ze sousedních polí. Směr pohybu je obvykle vybírán ze čtyř základních směrů v~mřížce, tedy nahoru, dolů, doleva nebo doprava.
 
@@ -298,7 +311,7 @@ Opakovaným aplikováním těchto pravidel dochází k~postupnému vyhlazování
 
 Výhodou této metody je schopnost generovat organicky působící prostředí, které se liší od klasických dungeonů. V~literatuře je algoritmus popisován jako výpočetně efektivní, protože každý simulační krok prochází mapu v~lineárním čase vzhledem k~počtu buněk. Nevýhodou může být menší kontrola nad přesnou strukturou mapy a~také nutnost dodatečných kroků, které zajistí průchodnost celé mapy. V~implementaci může často docházet k~vytváření izolovaných částí a~v~některých případech je proto nutné je zcela odstranit nebo dodatečně propojit, což negativně ovlivňuje složitost algoritmu \cite{Linden2014,Shaker2016}.
 
-\subsubsection{Metoda Bludiště}
+\subsubsection{Bludiště}
 
 Metody generování bludišť vytvářejí struktury tvořené převážně úzkými chodbami, které tvoří souvislou síť průchodů. Mapa je v~tomto případě reprezentována jako mřížka buněk oddělených stěnami. Samotné generování spočívá v~postupném odstraňování těchto stěn tak, aby vznikly propojené průchody.
 
@@ -320,9 +333,9 @@ Další možností je využití procedurálních gramatik, které definují prav
 
 V~literatuře se vyskytují i~metody založené na evolučních algoritmech nebo optimalizačních metodách, které se snaží generované mapy postupně vylepšovat podle specifických kritérií. Obvykle se pracuje s množinou map, která je upravována pomocí genetických operací, jako je mutace nebo křížení.
 
-Modernější přístupy zahrnují metody založené na splňování různých omezení. Jedná se o~takzvanou constraint-based generation nebo algoritmy typu Wave Function Collapse, které generují mapy postupným výběrem kompatibilních prvků z~předem definované množiny vzorů.
+Modernější přístupy zahrnují metody založené na splňování různých omezení. Jedná se o~takzvanou constraint-based generation nebo algoritmy typu Wave Function Collapse, které generují mapy postupným výběrem kompatibilních prvků z~předem definované množiny vzorů \cite{Gumin2016}.
 
-Uvedené přístupy jsou často náročnější na implementaci a výpočetní výkon a než základní algoritmy popsané v~předchozích podkapitolách, a~proto se v~praxi využívají spíše při offline generování obsahu nebo při návrhu komplexnějších herních světů \cite{Linden2014,Shaker2016}.
+Uvedené přístupy jsou často náročnější na implementaci a~výpočetní výkon než základní algoritmy popsané v~předchozích podkapitolách, a~proto se v~praxi využívají spíše při offline generování obsahu nebo při návrhu komplexnějších herních světů \cite{Linden2014,Shaker2016}.
 
 \subsection{Shrnutí způsobů generování}
 
@@ -343,7 +356,7 @@ Náhodná procházka & nízká & vysoká & organické struktury \\
 Bludiště & střední & střední & labyrinty \\
 \hline
 \end{tabular}
-\caption{Srovnání vybraných metod generování dungeonových map}
+\caption{Srovnání vybraných metod generování dungeonových map \cite{Linden2014,Shaker2016}. Variabilita se vztahuje ke strukturální podobě generovaného prostředí.}
 \label{tab:dungeon_methods}
 \end{table}
 
@@ -424,7 +437,7 @@ Grafická vrstva -- hráč a~mince -- slouží pouze jako podpůrný nástroj pr
 
 \subsubsection{Ovládání generování a zobrazení statistik}
 
-Uživatelské rozhraní (UI) umožňuje výběr konkrétní generovací metody a~nastavení základních parametrů mapy -- šířky, výšky, seedu a počet opakování měřícího režimu. Pokud chce uživatel využít seed, je nutné zaškrtnuto příslušné políčko (checkbox), hodnota seedu následně předána generátoru a~výsledek je plně reprodukovatelný.
+Uživatelské rozhraní (UI) umožňuje výběr konkrétní generovací metody a~nastavení základních parametrů mapy -- šířky, výšky, seedu a počtu opakování měřícího režimu. Pokud chce uživatel využít seed, je nutné zaškrtnout příslušné políčko (checkbox), hodnota seedu je následně předána generátoru a~výsledek je plně reprodukovatelný.
 
 Rozhraní obsahuje dvě hlavní tlačítka, \textit{Generate} a~\textit{Benchmark}. Po stisknutí tlačítka \textit{Generate} skript, na základě uživatelské volby, vybere příslušný generátor pomocí konstrukce \texttt{match} a~zavolá jeho funkci \\ \texttt{generate(width, height, seed\_value)}, kde \texttt{seed\_value} je zadaná hodnota seedu, nebo 0, pokud seed není aktivní. Doba generování je dána pomocí funkce \\ \texttt{Time.get\_ticks\_usec()} a~měří výhradně volání generovací funkce, což zajistí, že čas není ovlivněn samotným vykreslováním. Ihned po dokončení generování skript spočítá počet průchozích dlaždic a~procentuální pokrytí mapy. Údaje se spolu s~časem generování zobrazí v~UI. Výsledná mapa je poté vizualizována postupným vykreslováním jednotlivých řádků.
 
@@ -448,7 +461,7 @@ Na začátku funkce \texttt{generate()} každý generátor vytvoří lokální i
 
 Závěrečnou fází každého generátoru je doplnění stěn pomocí funkce \\\texttt{\_add\_walls()}, jejíž implementace je ve všech skriptech totožná. Funkce prochází celou mapu a~pro každou dlaždici podlahy kontroluje osm okolních buněk (Mooreovo sousedství). Pokud se v~sousedství nachází buňka \texttt{TILE\_EMPTY}, je změněna na \texttt{TILE\_WALL}. Stěny jsou tedy odvozeny dodatečně z~již vytvořené podlahy, nikoli určovány průběžně v~každém kroku generování. Kontrola hranic mapy zajišťuje, že se při zápisu stěn nepřistupuje mimo rozsah pole.
 
-\subsubsection{Náhodné generování místností a~chodeb}
+\subsubsection{Náhodné místnosti a~chodby}
 
 Implementace algoritmu se nachází v~souboru \texttt{rooms\_generator.gd}.
 
@@ -492,7 +505,7 @@ Po dokončení celého stromu jsou chodby získány metodou \\\texttt{get\_corri
 \label{fig:bsp_45x45}
 \end{figure}
 
-\subsubsection{Metoda Náhodné procházky}
+\subsubsection{Náhodná procházka}
 
 Metoda se nachází v~souboru \texttt{drunkards\_generator.gd}. 
 
@@ -533,7 +546,7 @@ U map generovaných touto metodou se mohou vyskytovat izolované oblasti, proto�
 \label{fig:cellular_45x45}
 \end{figure}
 
-\subsubsection{Metoda Bludiště}
+\subsubsection{Bludiště}
 
 Metoda Bludiště je implementována v~souboru \texttt{maze\_generator.gd}.
 
@@ -583,7 +596,7 @@ Všechny grafy v~této kapitole byly vygenerovány z~dat naměřených benchmark
 
 \subsection{Výsledky jednotlivých algoritmů}
 
-\subsubsection{Místnosti a chodby}
+\subsubsection{Náhodné místnosti a~chodby}
 
 Algoritmus náhodných místností a~chodeb vykazuje nízké časy generování na menších mapách. Na mapě 20$\times$50 přibližně 3,8 ms. S~rostoucí velikostí mapy čas narůstá výrazněji. Na mapě 150$\times$150 dosahuje průměrný čas přibližně 27,2 ms.
 
@@ -919,21 +932,6 @@ Zdrojový kód aplikace je dostupný v~repozitáři na platformě GitHub:
 \url{https://github.com/Jim-23/ProceduralGenerationBP}
 \end{center}
 
-\section{Zkratky}
-\begin{description}
-\item[2D] Two-Dimensional
-\item[3D] Three-Dimensional
-\item[ASCII] American Standard Code for Information Interchange
-\item[BBC Micro] British Broadcasting Corporation Microcomputer
-\item[BFS] Breadth-first search
-\item[BSP] Binary Space Partitioning
-\item[CSV] Comma-Separated Values
-\item[DFS] Depth-First Search
-\item[PCG] Procedural Content Generation
-\item[RAM] Random Access Memory
-\item[UI] User Interface
-\end{description}
-
 %% Obsah elektronických dat.
 \section{Obsah elektronických dat} \label{sec:ObsahData}
 
@@ -953,6 +951,7 @@ Elektronická data práce jsou odevzdána ve formě ZIP archivu celého projektu
 %% -------------------------------------------------------------------
 
 %% Sazba volitelného seznamu zkratek, za přílohami.
+\glsaddall
 \printglossary
 
 %% Sazba povinné bibliografie, za přílohami (případně i za seznamem
@@ -960,7 +959,7 @@ Elektronická data práce jsou odevzdána ve formě ZIP archivu celého projektu
 %% \printbibliography. jinak prostředí thebibliography. Ne obojí!
 
 %% Vlastní sazba bibliografie při použití BibLaTeXu.
-%%\printbibliography
+\printbibliography
 
 %% Bibliografie, včetně sazby, při NEpoužití BibLaTeXu.
 % \begin{thebibliography}{9}
@@ -972,7 +971,7 @@ Elektronická data práce jsou odevzdána ve formě ZIP archivu celého projektu
 % \end{thebibliography}
 
 %% Sazba volitelného rejstříku, za bibliografií.
-\printindex
+%%\printindex
 
 \end{document}
 

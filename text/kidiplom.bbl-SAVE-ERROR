@@ -48,8 +48,8 @@
       \strng{authornamehash}{f94d337436520f5209d3360e69b11bc0}
       \strng{authorfullhash}{f94d337436520f5209d3360e69b11bc0}
       \strng{authorfullhashraw}{f94d337436520f5209d3360e69b11bc0}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{isbn}{978-3-319-42714-0}
@@ -85,8 +85,8 @@
       \strng{authornamehash}{31c9b063c53270630abd37c96ea434ee}
       \strng{authorfullhash}{31c9b063c53270630abd37c96ea434ee}
       \strng{authorfullhashraw}{31c9b063c53270630abd37c96ea434ee}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Computational Intelligence and AI in Games, IEEE Transactions on}
@@ -116,11 +116,10 @@
       \strng{authornamehash}{38e077516c63477f9a28e4d699210be3}
       \strng{authorfullhash}{38e077516c63477f9a28e4d699210be3}
       \strng{authorfullhashraw}{38e077516c63477f9a28e4d699210be3}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Dive into Beneath Apple Manor: A Pre-Rogue Roguelike}
       \field{month}{03}
       \field{title}{Dive into beneath Apple Manor: A pre-rogue roguelike}
       \field{year}{2021}
@@ -145,19 +144,18 @@
       \strng{authornamehash}{535bebf06af273c7e2d9ff9d7fc43470}
       \strng{authorfullhash}{535bebf06af273c7e2d9ff9d7fc43470}
       \strng{authorfullhashraw}{535bebf06af273c7e2d9ff9d7fc43470}
-      \field{extraname}{1}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Wikipedia, The Free Encyclopedia}
       \field{title}{Beneath Apple Manor --- {Wikipedia}{,} The Free Encyclopedia}
       \field{year}{2024}
       \verb{urlraw}
-      \verb https://en.wikipedia.org/w/index.php?title=Beneath_Apple_Manor&oldid=1260179812"
+      \verb https://en.wikipedia.org/w/index.php?title=Beneath_Apple_Manor&oldid=1260179812
       \endverb
       \verb{url}
-      \verb https://en.wikipedia.org/w/index.php?title=Beneath_Apple_Manor&oldid=1260179812%22
+      \verb https://en.wikipedia.org/w/index.php?title=Beneath_Apple_Manor&oldid=1260179812
       \endverb
     \endentry
     \entry{PCGRogue}{online}{}{}
@@ -177,8 +175,8 @@
       \strng{authornamehash}{e5806657387ca6619d7a53b4cad5ca4b}
       \strng{authorfullhash}{e5806657387ca6619d7a53b4cad5ca4b}
       \strng{authorfullhashraw}{e5806657387ca6619d7a53b4cad5ca4b}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{month}{05}
@@ -197,26 +195,27 @@
     \endentry
     \entry{enwiki:1337873899}{online}{}{}
       \name{author}{1}{}{%
-        {{hash=535bebf06af273c7e2d9ff9d7fc43470}{%
-           family={{Wikipedia Contributors}},
-           familyi={W\bibinitperiod}}}%
+        {{hash=c2897d4738d8fd643743ca427344b1f3}{%
+           family={Contributors},
+           familyi={C\bibinitperiod},
+           given={Wikipedia},
+           giveni={W\bibinitperiod}}}%
       }
-      \strng{namehash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{fullhash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{fullhashraw}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{bibnamehash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{authorbibnamehash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{authornamehash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{authorfullhash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{authorfullhashraw}{535bebf06af273c7e2d9ff9d7fc43470}
-      \field{extraname}{2}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \strng{namehash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{fullhash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{fullhashraw}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{bibnamehash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{authorbibnamehash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{authornamehash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{authorfullhash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{authorfullhashraw}{c2897d4738d8fd643743ca427344b1f3}
+      \field{extraname}{1}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{note}{[Online; accessed 2026]}
       \field{title}{Rogue (video game) --- {Wikipedia}{,} The Free Encyclopedia}
-      \field{year}{2026}
+      \field{year}{2011}
       \verb{urlraw}
       \verb https://en.wikipedia.org/w/index.php?title=Rogue_(video_game)&oldid=1337873899
       \endverb
@@ -226,26 +225,27 @@
     \endentry
     \entry{EliteWiki}{online}{}{}
       \name{author}{1}{}{%
-        {{hash=535bebf06af273c7e2d9ff9d7fc43470}{%
-           family={{Wikipedia Contributors}},
-           familyi={W\bibinitperiod}}}%
+        {{hash=c2897d4738d8fd643743ca427344b1f3}{%
+           family={Contributors},
+           familyi={C\bibinitperiod},
+           given={Wikipedia},
+           giveni={W\bibinitperiod}}}%
       }
-      \strng{namehash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{fullhash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{fullhashraw}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{bibnamehash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{authorbibnamehash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{authornamehash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{authorfullhash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{authorfullhashraw}{535bebf06af273c7e2d9ff9d7fc43470}
-      \field{extraname}{3}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \strng{namehash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{fullhash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{fullhashraw}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{bibnamehash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{authorbibnamehash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{authornamehash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{authorfullhash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{authorfullhashraw}{c2897d4738d8fd643743ca427344b1f3}
+      \field{extraname}{2}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{note}{[Online; accessed 22-February-2026]}
       \field{title}{Elite (video game) --- {Wikipedia}{,} The Free Encyclopedia}
-      \field{year}{2026}
+      \field{year}{2005}
       \verb{urlraw}
       \verb https://en.wikipedia.org/wiki/Elite_(video_game)
       \endverb
@@ -253,11 +253,39 @@
       \verb https://en.wikipedia.org/wiki/Elite_(video_game)
       \endverb
     \endentry
-    \entry{godot_engine}{online}{}{}
+    \entry{Gumin2016}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=46c2caad2d1433d5a224bdbf82de6ffb}{%
+           family={Gumin},
+           familyi={G\bibinitperiod},
+           given={Maxim},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{46c2caad2d1433d5a224bdbf82de6ffb}
+      \strng{fullhash}{46c2caad2d1433d5a224bdbf82de6ffb}
+      \strng{fullhashraw}{46c2caad2d1433d5a224bdbf82de6ffb}
+      \strng{bibnamehash}{46c2caad2d1433d5a224bdbf82de6ffb}
+      \strng{authorbibnamehash}{46c2caad2d1433d5a224bdbf82de6ffb}
+      \strng{authornamehash}{46c2caad2d1433d5a224bdbf82de6ffb}
+      \strng{authorfullhash}{46c2caad2d1433d5a224bdbf82de6ffb}
+      \strng{authorfullhashraw}{46c2caad2d1433d5a224bdbf82de6ffb}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{note}{[Online; accessed 2026]}
+      \field{title}{WaveFunctionCollapse}
+      \field{year}{2016}
+      \verb{urlraw}
+      \verb https://github.com/mxgmn/WaveFunctionCollapse
+      \endverb
+      \verb{url}
+      \verb https://github.com/mxgmn/WaveFunctionCollapse
+      \endverb
+    \endentry
+    \entry{godot_engine}{online}{}{}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labeltitlesource}{title}
       \field{title}{Godot Engine Documentation}
       \field{year}{2024}
       \verb{urlraw}
@@ -268,10 +296,9 @@
       \endverb
     \endentry
     \entry{godot_gdscript}{online}{}{}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
-      \field{note}{[Online; accessed 2026]}
       \field{title}{GDScript Reference}
       \field{year}{2024}
       \verb{urlraw}
@@ -295,11 +322,10 @@
       \strng{authornamehash}{0430e6db9086d191f5fbaa58dbcab7f3}
       \strng{authorfullhash}{0430e6db9086d191f5fbaa58dbcab7f3}
       \strng{authorfullhashraw}{0430e6db9086d191f5fbaa58dbcab7f3}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{note}{[Online; accessed 2026]}
       \field{title}{2D Pixel Dungeon Asset Pack}
       \field{year}{2023}
       \verb{urlraw}
@@ -309,7 +335,7 @@
       \verb https://pixel-poem.itch.io/dungeon-assetpack
       \endverb
     \endentry
-    \entry{Monaghan2019}{misc}{}{}
+    \entry{Monaghan2019}{thesis}{}{}
       \name{author}{1}{}{%
         {{hash=342e5042dac297b252ccd25813c9a55b}{%
            family={Monaghan},
@@ -328,11 +354,10 @@
       \strng{authornamehash}{342e5042dac297b252ccd25813c9a55b}
       \strng{authorfullhash}{342e5042dac297b252ccd25813c9a55b}
       \strng{authorfullhashraw}{342e5042dac297b252ccd25813c9a55b}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{note}{[Online; accessed 2026]}
       \field{title}{Comparing Procedural Content Generation Algorithms for Creating Levels in Video Games}
       \field{year}{2019}
       \verb{urlraw}
