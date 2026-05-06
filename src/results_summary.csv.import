@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cb0lm7sh0lk2l"
+
+[deps]
+
+files=["res://results_summary.size.translation", "res://results_summary.cells.translation", "res://results_summary.n.translation", "res://results_summary.time.translation", "res://results_summary.time.translation", "res://results_summary.time.translation", "res://results_summary.time.translation", "res://results_summary.coverage.translation", "res://results_summary.coverage.translation", "res://results_summary.coverage.translation", "res://results_summary.coverage.translation"]
+
+source_file="res://results_summary.csv"
+dest_files=["res://results_summary.size.translation", "res://results_summary.cells.translation", "res://results_summary.n.translation", "res://results_summary.time.translation", "res://results_summary.time.translation", "res://results_summary.time.translation", "res://results_summary.time.translation", "res://results_summary.coverage.translation", "res://results_summary.coverage.translation", "res://results_summary.coverage.translation", "res://results_summary.coverage.translation"]
+
+[params]
+
+compress=true
+delimiter=0

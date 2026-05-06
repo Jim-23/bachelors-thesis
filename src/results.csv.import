@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dqfka24le7pws"
+
+[deps]
+
+files=["res://results.width.translation", "res://results.height.translation", "res://results.run.translation", "res://results.gen.translation", "res://results.coverage.translation", "res://results.floor.translation"]
+
+source_file="res://results.csv"
+dest_files=["res://results.width.translation", "res://results.height.translation", "res://results.run.translation", "res://results.gen.translation", "res://results.coverage.translation", "res://results.floor.translation"]
+
+[params]
+
+compress=true
+delimiter=0

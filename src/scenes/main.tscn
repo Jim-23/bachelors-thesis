@@ -1,0 +1,207 @@
+[gd_scene load_steps=9 format=3 uid="uid://rdewhubj2ubp"]
+
+[ext_resource type="Script" uid="uid://bw100akeb6e3m" path="res://scripts/main.gd" id="1_0wfyh"]
+[ext_resource type="TileSet" uid="uid://htsy2stofpfi" path="res://tilesets/DungeonTileset.tres" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://ci6xv1na1j7qb" path="res://scenes/player.tscn" id="3_sugp2"]
+[ext_resource type="Script" uid="uid://bc2b7ms3s8xpf" path="res://scripts/camera_2d.gd" id="4_jyhfs"]
+[ext_resource type="Theme" uid="uid://b7w35du7aalk6" path="res://main_theme.tres" id="4_tbgi4"]
+
+[sub_resource type="GDScript" id="GDScript_sugp2"]
+script/source = "extends CanvasLayer
+"
+
+[sub_resource type="Theme" id="Theme_jyhfs"]
+default_font_size = 30
+
+[sub_resource type="Theme" id="Theme_tefeu"]
+default_font_size = 35
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_0wfyh")
+
+[node name="Player" parent="." instance=ExtResource("3_sugp2")]
+
+[node name="DungeonLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("1_o5qli")
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = SubResource("GDScript_sugp2")
+
+[node name="Panel" type="Panel" parent="UI"]
+custom_minimum_size = Vector2(0, 120)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 230.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_tbgi4")
+
+[node name="MarginContainerUI" type="MarginContainer" parent="UI/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 210.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Panel/MarginContainerUI"]
+layout_mode = 2
+theme = SubResource("Theme_jyhfs")
+theme_override_constants/separation = 25
+
+[node name="FirstRow" type="HBoxContainer" parent="UI/Panel/MarginContainerUI/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="LabelDungeon" type="Label" parent="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Dungeon:"
+
+[node name="DungeonType" type="OptionButton" parent="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow"]
+layout_mode = 2
+tooltip_text = "Select a type of algorithm you want to use"
+theme_override_font_sizes/font_size = 35
+alignment = 1
+icon_alignment = 1
+
+[node name="LabelWidth" type="Label" parent="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Width:"
+
+[node name="Width" type="SpinBox" parent="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow"]
+layout_mode = 2
+tooltip_text = "Min: 20, Max: 200"
+min_value = 20.0
+max_value = 200.0
+value = 80.0
+alignment = 1
+
+[node name="LabelHeight" type="Label" parent="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Height:"
+
+[node name="Height" type="SpinBox" parent="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow"]
+layout_mode = 2
+tooltip_text = "Min: 20, Max: 200"
+theme = SubResource("Theme_tefeu")
+min_value = 20.0
+max_value = 200.0
+value = 80.0
+alignment = 1
+
+[node name="GenerateButton" type="Button" parent="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Generate"
+
+[node name="Benchmark Runs" type="Label" parent="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Runs:"
+
+[node name="BenchmarkInput" type="SpinBox" parent="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow"]
+layout_mode = 2
+tooltip_text = "Number of Benchmark runs.
+1 run = 250 results (50 per algorithm, 10 per size)"
+min_value = 1.0
+max_value = 5000.0
+value = 1.0
+alignment = 1
+
+[node name="BenchmarkButton" type="Button" parent="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Benchmark"
+
+[node name="ProgressBar" type="ProgressBar" parent="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+tooltip_text = "Current progress of Benchmark run"
+
+[node name="Seed" type="HBoxContainer" parent="UI/Panel/MarginContainerUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 25
+
+[node name="LabelSeed" type="Label" parent="UI/Panel/MarginContainerUI/VBoxContainer/Seed"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Seed:"
+
+[node name="SeedInput" type="SpinBox" parent="UI/Panel/MarginContainerUI/VBoxContainer/Seed"]
+layout_mode = 2
+max_value = 1e+07
+alignment = 1
+
+[node name="SeedCheckBox" type="CheckBox" parent="UI/Panel/MarginContainerUI/VBoxContainer/Seed"]
+layout_mode = 2
+tooltip_text = "Allow seed?"
+theme = ExtResource("4_tbgi4")
+alignment = 1
+icon_alignment = 1
+
+[node name="Stats" type="HBoxContainer" parent="UI/Panel/MarginContainerUI/VBoxContainer"]
+layout_mode = 2
+
+[node name="GenTimeLabel" type="Label" parent="UI/Panel/MarginContainerUI/VBoxContainer/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Gen time: --"
+
+[node name="FloorLabel" type="Label" parent="UI/Panel/MarginContainerUI/VBoxContainer/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Floor tiles: --"
+
+[node name="CoverageLabel" type="Label" parent="UI/Panel/MarginContainerUI/VBoxContainer/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Coverage: --%"
+
+[node name="SizeLabel" type="Label" parent="UI/Panel/MarginContainerUI/VBoxContainer/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Size: --"
+
+[node name="StatusLabel" type="Label" parent="UI/Panel/MarginContainerUI/VBoxContainer/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Ready"
+
+[node name="MarginContainerCoins" type="MarginContainer" parent="UI"]
+offset_top = 247.0
+offset_right = 195.0
+offset_bottom = 302.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="CoinsLabel" type="Label" parent="UI/MarginContainerCoins"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Coins: --/--"
+
+[node name="Camera2D2" type="Camera2D" parent="."]
+position = Vector2(68, 8)
+scale = Vector2(1, 6.44)
+zoom = Vector2(4, 4)
+editor_draw_limits = true
+editor_draw_drag_margin = true
+script = ExtResource("4_jyhfs")
+follow_target = NodePath("../Player")
+
+[connection signal="pressed" from="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow/GenerateButton" to="." method="_on_generate_button_pressed"]
+[connection signal="pressed" from="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow/BenchmarkButton" to="." method="_on_benchmark_button_pressed"]
