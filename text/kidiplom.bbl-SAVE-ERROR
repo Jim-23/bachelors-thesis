@@ -129,28 +129,35 @@
       \verb{url}
       \verb https://howtomakeanrpg.com/r/l/g/apple-manor.html
       \endverb
+      \warn{\item online entry 'Schuller_2021' (bibliografie.bib): Invalid format '2025-12-5' of date field 'urldate' - ignoring}
     \endentry
     \entry{enwiki:1260179812}{online}{}{}
       \name{author}{1}{}{%
-        {{hash=535bebf06af273c7e2d9ff9d7fc43470}{%
-           family={{Wikipedia Contributors}},
-           familyi={W\bibinitperiod}}}%
+        {{hash=c2897d4738d8fd643743ca427344b1f3}{%
+           family={Contributors},
+           familyi={C\bibinitperiod},
+           given={Wikipedia},
+           giveni={W\bibinitperiod}}}%
       }
-      \strng{namehash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{fullhash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{fullhashraw}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{bibnamehash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{authorbibnamehash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{authornamehash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{authorfullhash}{535bebf06af273c7e2d9ff9d7fc43470}
-      \strng{authorfullhashraw}{535bebf06af273c7e2d9ff9d7fc43470}
+      \strng{namehash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{fullhash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{fullhashraw}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{bibnamehash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{authorbibnamehash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{authornamehash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{authorfullhash}{c2897d4738d8fd643743ca427344b1f3}
+      \strng{authorfullhashraw}{c2897d4738d8fd643743ca427344b1f3}
+      \field{extraname}{1}
       \field{sortinit}{7}
       \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Wikipedia, The Free Encyclopedia}
       \field{title}{Beneath Apple Manor --- {Wikipedia}{,} The Free Encyclopedia}
+      \field{urlday}{15}
+      \field{urlmonth}{1}
+      \field{urlyear}{2026}
       \field{year}{2024}
+      \field{urldateera}{ce}
       \verb{urlraw}
       \verb https://en.wikipedia.org/w/index.php?title=Beneath_Apple_Manor&oldid=1260179812
       \endverb
@@ -160,30 +167,32 @@
     \endentry
     \entry{PCGRogue}{online}{}{}
       \name{author}{1}{}{%
-        {{hash=e5806657387ca6619d7a53b4cad5ca4b}{%
-           family={{Procedural Content Generation Wiki}},
-           familyi={P\bibinitperiod}}}%
+        {{hash=817644c087addf3ecf380ea021061eaf}{%
+           family={Wiki},
+           familyi={W\bibinitperiod},
+           given={Procedural\bibnamedelimb Content\bibnamedelima Generation},
+           giveni={P\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
       }
       \list{organization}{1}{%
         {Wikidot}%
       }
-      \strng{namehash}{e5806657387ca6619d7a53b4cad5ca4b}
-      \strng{fullhash}{e5806657387ca6619d7a53b4cad5ca4b}
-      \strng{fullhashraw}{e5806657387ca6619d7a53b4cad5ca4b}
-      \strng{bibnamehash}{e5806657387ca6619d7a53b4cad5ca4b}
-      \strng{authorbibnamehash}{e5806657387ca6619d7a53b4cad5ca4b}
-      \strng{authornamehash}{e5806657387ca6619d7a53b4cad5ca4b}
-      \strng{authorfullhash}{e5806657387ca6619d7a53b4cad5ca4b}
-      \strng{authorfullhashraw}{e5806657387ca6619d7a53b4cad5ca4b}
+      \strng{namehash}{817644c087addf3ecf380ea021061eaf}
+      \strng{fullhash}{817644c087addf3ecf380ea021061eaf}
+      \strng{fullhashraw}{817644c087addf3ecf380ea021061eaf}
+      \strng{bibnamehash}{817644c087addf3ecf380ea021061eaf}
+      \strng{authorbibnamehash}{817644c087addf3ecf380ea021061eaf}
+      \strng{authornamehash}{817644c087addf3ecf380ea021061eaf}
+      \strng{authorfullhash}{817644c087addf3ecf380ea021061eaf}
+      \strng{authorfullhashraw}{817644c087addf3ecf380ea021061eaf}
       \field{sortinit}{8}
       \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{month}{05}
       \field{title}{Rogue}
-      \field{urlday}{22}
-      \field{urlmonth}{5}
-      \field{urlyear}{2024}
+      \field{urlday}{17}
+      \field{urlmonth}{1}
+      \field{urlyear}{2026}
       \field{year}{2016}
       \field{urldateera}{ce}
       \verb{urlraw}
@@ -209,18 +218,53 @@
       \strng{authornamehash}{c2897d4738d8fd643743ca427344b1f3}
       \strng{authorfullhash}{c2897d4738d8fd643743ca427344b1f3}
       \strng{authorfullhashraw}{c2897d4738d8fd643743ca427344b1f3}
-      \field{extraname}{1}
+      \field{extraname}{2}
       \field{sortinit}{8}
       \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Rogue (video game) --- {Wikipedia}{,} The Free Encyclopedia}
+      \field{urlday}{17}
+      \field{urlmonth}{1}
+      \field{urlyear}{2026}
       \field{year}{2011}
+      \field{urldateera}{ce}
       \verb{urlraw}
       \verb https://en.wikipedia.org/w/index.php?title=Rogue_(video_game)&oldid=1337873899
       \endverb
       \verb{url}
       \verb https://en.wikipedia.org/w/index.php?title=Rogue_(video_game)&oldid=1337873899
+      \endverb
+    \endentry
+    \entry{BerlinInterpretation2008}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=7a9b6b3c282a00160d017a75289e8fdc}{%
+           family={{International Roguelike Development Conference}},
+           familyi={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{7a9b6b3c282a00160d017a75289e8fdc}
+      \strng{fullhash}{7a9b6b3c282a00160d017a75289e8fdc}
+      \strng{fullhashraw}{7a9b6b3c282a00160d017a75289e8fdc}
+      \strng{bibnamehash}{7a9b6b3c282a00160d017a75289e8fdc}
+      \strng{authorbibnamehash}{7a9b6b3c282a00160d017a75289e8fdc}
+      \strng{authornamehash}{7a9b6b3c282a00160d017a75289e8fdc}
+      \strng{authorfullhash}{7a9b6b3c282a00160d017a75289e8fdc}
+      \strng{authorfullhashraw}{7a9b6b3c282a00160d017a75289e8fdc}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Berlin Interpretation}
+      \field{urlday}{17}
+      \field{urlmonth}{1}
+      \field{urlyear}{2026}
+      \field{year}{2008}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.roguebasin.com/index.php/Berlin_Interpretation
+      \endverb
+      \verb{url}
+      \verb https://www.roguebasin.com/index.php/Berlin_Interpretation
       \endverb
     \endentry
     \entry{EliteWiki}{online}{}{}
@@ -239,18 +283,62 @@
       \strng{authornamehash}{c2897d4738d8fd643743ca427344b1f3}
       \strng{authorfullhash}{c2897d4738d8fd643743ca427344b1f3}
       \strng{authorfullhashraw}{c2897d4738d8fd643743ca427344b1f3}
-      \field{extraname}{2}
+      \field{extraname}{3}
       \field{sortinit}{9}
       \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Elite (video game) --- {Wikipedia}{,} The Free Encyclopedia}
+      \field{urlday}{18}
+      \field{urlmonth}{1}
+      \field{urlyear}{2026}
       \field{year}{2005}
+      \field{urldateera}{ce}
       \verb{urlraw}
       \verb https://en.wikipedia.org/wiki/Elite_(video_game)
       \endverb
       \verb{url}
       \verb https://en.wikipedia.org/wiki/Elite_(video_game)
+      \endverb
+    \endentry
+    \entry{Kozlova2015}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=fd33562d38d46e3e519415608e92cd06}{%
+           family={Kozlova},
+           familyi={K\bibinitperiod},
+           given={Aliona},
+           giveni={A\bibinitperiod}}}%
+        {{hash=b241a80e7222d29244e86dddaafee6cd}{%
+           family={Brown},
+           familyi={B\bibinitperiod},
+           given={Joseph\bibnamedelima Alexander},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=c68600b0a15876c1ca3fed9aa208a678}{%
+           family={Reading},
+           familyi={R\bibinitperiod},
+           given={Elizabeth},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{83df91f6cbe946c2e80f8a091ed04351}
+      \strng{fullhash}{83df91f6cbe946c2e80f8a091ed04351}
+      \strng{fullhashraw}{83df91f6cbe946c2e80f8a091ed04351}
+      \strng{bibnamehash}{83df91f6cbe946c2e80f8a091ed04351}
+      \strng{authorbibnamehash}{83df91f6cbe946c2e80f8a091ed04351}
+      \strng{authornamehash}{83df91f6cbe946c2e80f8a091ed04351}
+      \strng{authorfullhash}{83df91f6cbe946c2e80f8a091ed04351}
+      \strng{authorfullhashraw}{83df91f6cbe946c2e80f8a091ed04351}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2015 IEEE Conference on Computational Intelligence and Games (CIG)}
+      \field{langid}{english}
+      \field{title}{Examination of Representational Expression in Maze Generation Algorithms}
+      \field{year}{2015}
+      \field{pages}{532\bibrangedash 533}
+      \range{pages}{2}
+      \verb{doi}
+      \verb 10.1109/CIG.2015.7317902
       \endverb
     \endentry
     \entry{Gumin2016}{online}{}{}
@@ -274,7 +362,11 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{WaveFunctionCollapse}
+      \field{urlday}{15}
+      \field{urlmonth}{2}
+      \field{urlyear}{2026}
       \field{year}{2016}
+      \field{urldateera}{ce}
       \verb{urlraw}
       \verb https://github.com/mxgmn/WaveFunctionCollapse
       \endverb
@@ -287,7 +379,11 @@
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
       \field{title}{Godot Engine Documentation}
+      \field{urlday}{4}
+      \field{urlmonth}{10}
+      \field{urlyear}{2025}
       \field{year}{2024}
+      \field{urldateera}{ce}
       \verb{urlraw}
       \verb https://docs.godotengine.org
       \endverb
@@ -300,7 +396,11 @@
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
       \field{title}{GDScript Reference}
+      \field{urlday}{4}
+      \field{urlmonth}{10}
+      \field{urlyear}{2025}
       \field{year}{2024}
+      \field{urldateera}{ce}
       \verb{urlraw}
       \verb https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/
       \endverb
@@ -327,7 +427,11 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{2D Pixel Dungeon Asset Pack}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2025}
       \field{year}{2023}
+      \field{urldateera}{ce}
       \verb{urlraw}
       \verb https://pixel-poem.itch.io/dungeon-assetpack
       \endverb
@@ -359,7 +463,11 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Comparing Procedural Content Generation Algorithms for Creating Levels in Video Games}
+      \field{urlday}{23}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
       \field{year}{2019}
+      \field{urldateera}{ce}
       \verb{urlraw}
       \verb https://arrow.tudublin.ie/cgi/viewcontent.cgi?article=1189&context=scschcomdis
       \endverb
