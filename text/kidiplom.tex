@@ -166,11 +166,11 @@ science}
 %   a (značně) neúplná verze!!!}
 
 \section{Úvod}
-Procedurální generování obsahu, neboli \textit{Procedural Content Generation} (PCG), představuje v~herním vývoji významný přístup, který umožňuje automatizovaně vytvářet části herního světa na základě předem definovaných pravidel a~algoritmů. V~oblasti digitálních her se tento princip uplatňuje zejména tam, kde je žádoucí vysoká variabilita prostředí, znovuhratelnost nebo snížení nároků na ruční tvorbu obsahu. Jednou z~typických oblastí využití je generování dungeonových map, které tvoří důležitou součást 2D her.
+Procedurální generování obsahu, neboli Procedural Content Generation (PCG), představuje v~herním vývoji významný přístup, který umožňuje automatizovaně vytvářet části herního světa na základě předem definovaných pravidel a~algoritmů. V~oblasti digitálních her se tento princip uplatňuje zejména tam, kde je žádoucí vysoká variabilita prostředí, znovuhratelnost nebo snížení nároků na ruční tvorbu obsahu. Jednou z~typických oblastí využití je generování dungeonových map, které tvoří důležitou součást 2D her.
 
 Dungeonové mapy kladou na generování specifické požadavky. Nestačí, aby byly pouze náhodné, ale měly by splňovat základní podmínky hratelnosti, jako jsou průchodnost, přiměřené rozložení prostoru a~vhodné rozmístění herních prvků. Volba generovací metody proto výrazně ovlivňuje výsledný vzhled mapy i~herní zážitek hráče.
 
-Cílem práce je představit vybrané metody procedurálního generování dungeonových map ve 2D hrách, analyzovat jejich vlastnosti a~implementovat jejich praktické ukázky v~herním enginu Godot. Součástí práce je návrh systému v~podobě jednoduché hry, který umožní vybrané algoritmy realizovat, vizualizovat a~následně je mezi sebou porovnat. Důraz je kladen jak na teoretické vymezení problematiky, tak na praktickou implementaci a~zhodnocení výsledků.
+Cílem práce je představit vybrané metody procedurálního generování dungeonových map ve 2D hrách, analyzovat jejich vlastnosti a~implementovat jejich praktické ukázky v~herním enginu Godot. Součástí práce je návrh vizualizační a~benchmarkovací aplikace s~herními prvky, který umožní vybrané algoritmy realizovat, vizualizovat a~následně je mezi sebou porovnat. Důraz je kladen jak na teoretické vymezení problematiky, tak na praktickou implementaci a~zhodnocení výsledků.
 
 Práce je rozdělena do pěti hlavních kapitol: teoretické základy PCG a popis vybraných algoritmů generování, návrh a~implementace praktické části, popis naměřených hodnot, diskuse o~metodách a~naměřených výsledcích a~závěr.
 
@@ -397,17 +397,21 @@ Součástí prototypu je také jednoduchá reprezentace hráče, která slouží
 
 S~hráčem se lze pohybovat pomocí kláves W, A, S, D. Uživatel může pohybovat kamerou stisknutím a držením pravého tlačítka myši, aniž by ovlivnil pozici hráče. Pro návrat kamery se zameřením na hráče slouží klávesa R, případně klávesy pro pohyb.
 
-Pro doplnění testovacího prostředí byly do mapy přidány sběratelné objekty ve formě mincí. Funkce \texttt{\_place\_coins\_on\_floor()} náhodně rozmístí 5 až 50 mincí na podlahové dlaždice v~největší souvislé oblasti mapy. Pokud hráč posbírá všechny mince, automaticky se vygeneruje nová mapa se stejnými parametry, jako v~případě předchozího generování. Tyto prvky neslouží jako hlavní součást PCG, jedná se pouze o~grafické doplnění.
+Pro doplnění prostředí byly do mapy přidány sběratelné objekty ve formě mincí. Funkce \texttt{\_place\_coins\_on\_floor()} náhodně rozmístí 5 až 50 mincí na podlahové dlaždice v~největší souvislé oblasti mapy. Pokud hráč posbírá všechny mince, automaticky se vygeneruje nová mapa se stejnými parametry, jako v~případě předchozího generování. Tyto prvky neslouží jako hlavní součást PCG, jedná se pouze o~grafické doplnění.
 
 V implementaci je využit volně dostupný balíček 2D Pixel Dungeon Asset Pack, jehož autorem je grafik vystupující pod jménem Pixel\_Poem. Tento balíček obsahuje základní sadu grafických prvků určených právě pro tvorbu dungeonových 2D her \cite{pixel_dungeon_asset}. Použité assety mají podobu pixelové grafiky v~top-down perspektivě, tedy seshora dolů, a~svým návrhem přímo odpovídají práci s~dlaždicovou mapou, kterou engine využívá. Balíček je volně dostupný a~lze jej využít v~nekomerčních i~komerčních projektech.
 
-Grafická vrstva -- hráč a~mince -- slouží pouze jako podpůrný nástroj pro vizualizaci výsledků generování.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/player_and_coin.png}
+\caption{Ukázka herní postavy a mince}
+\end{figure}
 
 \subsubsection{Ovládání generování a zobrazení statistik}
 
 Uživatelské rozhraní (UI) umožňuje výběr konkrétní generovací metody a~nastavení základních parametrů mapy -- šířky, výšky, seedu a počtu opakování měřícího režimu. Pokud chce uživatel využít seed, je nutné zaškrtnout příslušné políčko (checkbox), hodnota seedu je následně předána generátoru a~výsledek je plně reprodukovatelný.
 
-Rozhraní obsahuje dvě hlavní tlačítka, \textit{Generate} a~\textit{Benchmark}. Po stisknutí tlačítka \textit{Generate} skript, na základě uživatelské volby, vybere příslušný generátor pomocí konstrukce \texttt{match} a~zavolá jeho funkci \\ \texttt{generate(width, height, seed\_value)}, kde \texttt{seed\_value} je zadaná hodnota seedu, nebo 0, pokud seed není aktivní. Doba generování je dána pomocí funkce \\ \texttt{Time.get\_ticks\_usec()} a~měří výhradně volání generovací funkce, což zajistí, že čas není ovlivněn samotným vykreslováním. Ihned po dokončení generování skript spočítá počet průchozích dlaždic a~procentuální pokrytí mapy. Údaje se spolu s~časem generování zobrazí v~UI. Výsledná mapa je poté vizualizována postupným vykreslováním jednotlivých řádků.
+Rozhraní obsahuje dvě hlavní tlačítka, \textit{Generate} a~\textit{Benchmark}. Po stisknutí tlačítka \textit{Generate} skript, na základě uživatelské volby, vybere příslušný generátor pomocí konstrukce \texttt{match} a~zavolá jeho funkci \\ \texttt{generate(width, height, seed\_value)}, kde \texttt{seed\_value} je zadaná hodnota seedu, nebo 0, pokud seed není aktivní. Doba generování je dána pomocí funkce \texttt{Time.get\_ticks\_usec()} a~měří výhradně volání generovací funkce, což zajistí, že čas není ovlivněn samotným vykreslováním. Ihned po dokončení generování skript spočítá počet průchozích dlaždic a~procentuální pokrytí mapy. Údaje se spolu s~časem generování zobrazí v~UI. Výsledná mapa je poté vizualizována postupným vykreslováním jednotlivých řádků.
 
 Tlačítko \textit{Benchmark} slouží k~automatizovanému testování všech implementovaných metod. Proces zajišťuje funkce \texttt{run\_benchmark()}, která postupně spustí všech pět algoritmů pro každou z~pěti definovaných velikostí map, přičemž každou konfiguraci opakuje konfigurovatelným počtem opakování (výchozí hodnota je 200, lze ji měnit). Celkový počet generování v~rámci jednoho spuštění benchmarku je dán vzorcem $5 \times 5 \times \texttt{benchmark\_runs}$, kde první hodnota odpovídá počtu algoritmů, druhá počtu velikostí map a~třetí je počet opakování. Průběh benchmarku je znázorněn pomocí ukazatele průběhu (progress bar), který průběžně zobrazuje procentuální dokončenost generování. Při tomto režimu není mapa vizualizována ani nejsou umísťovány herní objekty. Jakmile je proces dokončen, uživatel je informován změnou popisku v UI.
 
@@ -421,7 +425,7 @@ Výsledky jednotlivých běhů (algoritmus, rozměry, čas generování, pokryt�
 
 
 \subsection{Implementace generovacích metod}
-Každý algoritmus z~kapitoly~\ref{sec:prehledMetod} je implementován jako samostatný skript v~adresáři \path{res://dungeons/algorithms}.
+Každý algoritmus je implementován jako samostatný skript v~adresáři \path{res://dungeons/algorithms}.
 
 Generátory sdílejí několik společných implementačních prvků. Každý skript rozšiřuje třídu \texttt{RefCounted}, nemá tedy vazbu na scénu, a~definuje trojici celočíselných konstant pro typy dlaždic: \texttt{TILE\_EMPTY = 0} (prázdný prostor), \texttt{TILE\_FLOOR = 1} (podlaha) a~\texttt{TILE\_WALL = 2} (stěna). Vstupním bodem je vždy statická funkce \texttt{generate(width, height, seed\_value)}, která vrací dvourozměrné pole představující výslednou mapu.
 
@@ -435,7 +439,7 @@ Implementace algoritmu se nachází v~souboru \texttt{rooms\_generator.gd}.
 
 Počet generovaných místností je odvozen od celkové plochy mapy podle vzorce \\ \texttt{room\_count = max(5, width * height / AREA\_PER\_ROOM)}. \\ Hodnota konstanty \texttt{AREA\_PER\_ROOM = 360} vychází z~odhadu průměrné plochy, kterou jedna místnost včetně svého okolí v~mapě zabírá. Šířka i~výška místnosti jsou generovány náhodně v~rozmezí 6 až 16 dlaždic, průměrná velikost místnosti tedy činí přibližně $11 \times 11 = 121$ dlaždic. 
 
-Kromě samotné plochy místnosti je však nutné počítat také s~prostorem, který zabírají chodby, stěny a~povinné jednopolíčkové mezery mezi místnostmi. Na základě empirického pozorování je tento faktor přibližně trojnásobkem plochy místnosti, tedy $121 \times 3 \approx 360$ dlaždic na jednu místnost. Výraz \texttt{max(5, ...)} určuje cílovou hodnotu, o~kterou se algoritmus pokouší. Na malých mapách bývá výsledný počet místností zpravidla nižší, protože další pokusy často selžou kvůli překryvu nebo nedostatku volného prostoru, zatímco na větších mapách počet úspěšně umístěných místností obvykle roste s~plochou. Maximální počet pokusů o~umístění místnosti je stanoven jako \texttt{room\_count * 10}, což zajišťuje dostatečný prostor pro opakované pokusy v~případě kolizí s~již umístěnými místnostmi, a~zároveň zabraňuje nekonečnému cyklování na mapách.
+Kromě samotné plochy místnosti je však nutné počítat také s~prostorem, který zabírají chodby, stěny a~povinné jednopolíčkové mezery mezi místnostmi. Na základě empirického pozorování je tento faktor přibližně trojnásobkem plochy místnosti, tedy $121 \times 3 \approx 360$ dlaždic na jednu místnost. Výraz \texttt{max(5, ...)} určuje cílovou hodnotu, o~kterou se algoritmus pokouší. Maximální počet pokusů o~umístění místnosti je stanoven jako \texttt{room\_count * 10}, což dává prostor pro opakované pokusy v~případě kolizí s~již umístěnými místnostmi, a~zároveň zabraňuje nekonečnému cyklování na mapách.
 
 Každá nová místnost je reprezentována obdélníkem, případně čtvercem, typu \texttt{Rect2} s~náhodně vygenerovanými rozměry. Pozice levého horního rohu místnosti je následně určena tak, aby místnost zůstala uvnitř hranic mapy a~zároveň nebyla umístěna přímo na jejím okraji.
 
@@ -464,7 +468,7 @@ Kořenový uzel pokrývá celou mapu zmenšenou o~jednu dlaždici na každé str
 
 Rekurzivní dělení prostoru provádí funkce \texttt{split(min\_size, rng)}. Směr řezu je určen deterministicky. Pokud je výška oblasti větší nebo rovna šířce (\texttt{size.y >= size.x}), dělí se horizontálně, jinak vertikálně. Dělení je ukončeno, pokud by výsledné podoblasti byly menší než \texttt{min\_size $\times$ 2}, minimální velikost je konstanta \texttt{MIN\_SIZE = 13}. Pozice řezu je volena náhodně v~rozmezí 35--65\,\% délky dělené části, takže vzniklé listy nemusí být stejně velké. V~každém vzniklém listu je vykreslena místnost odpovídající ploše uzlu zmenšené o~jeho odsazení \texttt{padding}.
 
-Po dokončení celého stromu jsou chodby získány metodou \\\texttt{get\_corridor\_pairs()}. Ta prochází strom rekurzivně a~pro každý vnitřní uzel vybere první listový uzel z~levého a~pravého podstromu a~uloží dvojici jejich středů. Středy místností jsou vypočítány metodou \texttt{get\_room\_center()}, která zohledňuje odsazení \texttt{padding}, takže výsledný bod leží vždy uvnitř skutečné průchozí plochy místnosti. Každá chodba má tvar písmene L, nejprve vede ve vodorovném, a~poté ve svislém směru. Chodba je široká 2 dlaždice.
+Po dokončení celého stromu jsou chodby získány metodou \\\texttt{get\_corridor\_pairs()}. Ta prochází strom rekurzivně a~pro každý vnitřní uzel vybere první listový uzel z~levého a~pravého podstromu a~uloží dvojici jejich středů. Středy místností jsou vypočítány metodou \texttt{get\_room\_center()}, která zohledňuje odsazení \texttt{padding}, takže výsledný bod leží vždy uvnitř skutečné průchozí plochy místnosti. Každá chodba má tvar písmene L, nejprve vede ve vodorovném, a~poté ve svislém směru. Chodba je široká 2 dlaždice. Protože BSP přirozeně vytváří sousední oblasti, jejichž středy jsou zpravidla posunuty převážně v~jedné ose, bývá jeden ze segmentů chodby výrazně kratší než druhý, a~chodba tak vizuálně může působit rovně.
 
 \begin{figure}[H]
 \centering
@@ -477,7 +481,7 @@ Po dokončení celého stromu jsou chodby získány metodou \\\texttt{get\_corri
 
 Metoda se nachází v~souboru \texttt{drunkards\_generator.gd}. 
 
-Algoritmus začíná ve středu mapy na pozici \\ \texttt{width/2}, \texttt{height/2}. Kolem počáteční pozice je ihned vytvořena oblast podlahy o~velikosti $3 \times 3$ dlaždic pomocí funkce \texttt{\_carve\_area()}. Cílový počet průchozích dlaždic je stanoven na 50\,\% celkové plochy mapy podle vzorce~(\ref{eq:drunkards_target}), kde konstanta \textit{TARGET\_COVERAGE} má hodnotu 50.
+Algoritmus začíná ve středu mapy na pozici \texttt{width/2}, \texttt{height/2}. Kolem počáteční pozice je ihned vytvořena oblast podlahy o~velikosti $3 \times 3$ dlaždic pomocí funkce \texttt{\_carve\_area()}. Cílový počet průchozích dlaždic je odvozen od celkové plochy mapy pomocí konstanty \textit{TARGET\_COVERAGE}, která je nastavena na 50\,\%, podle vzorce~(\ref{eq:drunkards_target}).
 
 \begin{equation}
 \label{eq:drunkards_target}
@@ -503,7 +507,7 @@ V~první fázi je každá vnitřní buňka mapy náhodně nastavena na podlahu s
 
 Algoritmus provede celkem 5 simulačních kroků, které určuje konstanta \\\texttt{SIMULATION\_STEPS = 5}. V~každém kroku je vytvořena nová mapa, aby se průběžné změny nepromítaly do výpočtu sousedů v~témže kroku. Pro každou buňku funkce \texttt{\_count\_floor\_neighbours()} spočítá počet podlahových \\sousedů v~Mooreově sousedství (osm přilehlých buněk). Pokud je tento počet alespoň 4, buňka se stane podlahou, v~opačném případě zůstane prázdná. Okrajové buňky ve všech krocích zůstávají prázdné.
 
-Opakováním tohoto pravidla se náhodný šum postupně vyhladí do organických tvarů připomínajících jeskynní systémy. Volba počáteční pravděpodobnosti 45\,\% a~prahu 4 sousedů představuje kompromis mezi dostatečně otevřenými prostory a~přirozeně působícími stěnami. Při vyšší hodnotě by vznikaly příliš velké otevřené části, při nižší by byly oblasti méně průchozí, protože by velká část buněk tvořila stěny.
+Opakováním tohoto pravidla se náhodný šum postupně vyhladí. Volba počáteční pravděpodobnosti 45\,\% a~prahu 4 sousedů představuje kompromis mezi dostatečně otevřenými prostory a~přirozeně působícími stěnami. Při vyšší hodnotě by vznikaly příliš velké otevřené části, při nižší by byly oblasti méně průchozí, protože by velká část buněk tvořila stěny.
 
 U map generovaných touto metodou se mohou vyskytovat izolované oblasti, protože algoritmus nezaručuje souvislost prostoru. Z~tohoto důvodu bylo při umisťování hráče nutné zohlednit průchozí plochu a~upřednostnit umístění do největší spojité oblasti mapy, což bylo nakonec zahrnuto do všech metod.
 
@@ -518,7 +522,7 @@ U map generovaných touto metodou se mohou vyskytovat izolované oblasti, proto�
 
 Metoda Bludiště je implementována v~souboru \texttt{maze\_generator.gd}.
 
-Implementace Bludiště vychází z~algoritmu \textit{recursive backtracker} (prohledávání do hloubky se zásobníkem). Mapa je nejprve rozdělena na mřížku abstraktních buněk. Každá buňka zabírá $2 \times 2$ dlaždic podlahy a~mezi sousedními buňkami je jednodlaždicová mezera, takže na jednu buňku připadá úsek $3 \times 3$ dlaždic. Počet buněk závisí na rozměrech mapy, kde odečtení 2 zohledňuje jednodlaždicový okraj mapy na obou stranách:
+Implementace Bludiště vychází z~algoritmu recursive backtracker (prohledávání do hloubky se zásobníkem). Mapa je nejprve rozdělena na mřížku abstraktních buněk. Každá buňka zabírá $2 \times 2$ dlaždic podlahy a~mezi sousedními buňkami je jednodlaždicová mezera, takže na jednu buňku připadá úsek $3 \times 3$ dlaždic. Počet buněk závisí na rozměrech mapy, kde odečtení 2 zohledňuje jednodlaždicový okraj mapy na obou stranách:
 \begin{equation}
     \texttt{cells\_w} = \max\!\Bigl(1,\, \Bigl\lfloor\frac{\texttt{width} - 2}{3}\Bigr\rfloor\Bigr), \qquad
     \texttt{cells\_h} = \max\!\Bigl(1,\, \Bigl\lfloor\frac{\texttt{height} - 2}{3}\Bigr\rfloor\Bigr).
@@ -540,7 +544,7 @@ Výsledkem je takzvané perfektní bludiště, ve kterém mezi libovolnými dvě
 
 Pro objektivní porovnání implementovaných algoritmů byl navržen automatizovaný benchmarkový režim, který je součástí aplikace. Jeho spuštění zajišťuje tlačítko \textit{Benchmark} v~uživatelském rozhraní. Po aktivaci jsou postupně spuštěny všechny implementované generovací metody pro pět předem definovaných velikostí map: 20$\times$50, 70$\times$30, 60$\times$60, 100$\times$100 a~150$\times$150 dlaždic. Tyto velikosti byly zvoleny tak, aby pokrývaly jak malé, tak velké rozměry map a~zároveň umožňovaly posoudit vliv tvaru mapy (čtverec versus obdélník) na chování algoritmů.
 
-Pro každou kombinaci algoritmu a~velikosti mapy je generování provedeno opakovaně v~2000 bězích se seedem \texttt{05102024}. Celkem bylo pořízeno 50\,000 záznamů. Díky pevnému seedu jsou výsledky plně reprodukovatelné a~pokrytí mapy je pro každou kombinaci algoritmu, velikosti mapy a~seedu vždy totožné.
+Pro každou kombinaci algoritmu a~velikosti mapy je generování provedeno opakovaně v~2000 bězích se seedem \texttt{05102024}. Celkem bylo pořízeno 50\,000 záznamů. Vysoký počet opakování zajišťuje statistickou stabilitu naměřených časů generování a~spolehlivou detekci odlehlých hodnot. Díky pevnému seedu jsou výsledky plně reprodukovatelné, avšak pokrytí mapy je pro každou kombinaci algoritmu a~velikosti mapy vždy totožné.
 
 Pomocí funkce \texttt{Time.get\_ticks\_usec()} bylo zajištěno měření času s~mikrosekundovou přesností. Měřen je výhradně čas funkce \texttt{generate(width, height, seed\_value)} příslušného algoritmu. Výsledný čas je převeden na milisekundy.
 
@@ -568,9 +572,7 @@ Všechny grafy v~této kapitole byly vygenerovány z~dat naměřených benchmark
 
 Algoritmus náhodných místností a~chodeb vykazuje nízké časy generování na menších mapách. Na mapě 20$\times$50 přibližně 3,8 ms. S~rostoucí velikostí mapy čas narůstá výrazněji. Na mapě 150$\times$150 dosahuje průměrný čas přibližně 27,2 ms.
 
-Pokrytí mapy průchozím prostorem u~tohoto algoritmu nevykazuje monotónní trend. Na mapě 20$\times$50 činí 42,9 \%, na mapě 70$\times$30 klesá na 31,1 \% a~na mapě 60$\times$60 dosahuje 32,5 \%. Na mapě 100$\times$100 následně stoupá na 43,8 \% a~na mapě 150$\times$150 dosahuje 54,1 \%. Pokles na mapách 70$\times$30 a~60$\times$60 je diskutován v~sekci Diskuse.
-
-Variabilita časů generování je nízká.
+Pokrytí mapy průchozím prostorem u~tohoto algoritmu nevykazuje monotónní trend. Na mapě 20$\times$50 činí 42,9 \%, na mapě 70$\times$30 klesá na 31,1 \% a~na mapě 60$\times$60 dosahuje 32,5 \%. Na mapě 100$\times$100 následně stoupá na 43,8 \% a~na mapě 150$\times$150 dosahuje 54,1 \%. Pokles na mapách 70$\times$30 a~60$\times$60 je diskutován v~sekci~\ref{sec:diskuse}. Variabilita časů generování je nízká.
 
 \begin{figure}[H]
 \centering
@@ -589,11 +591,9 @@ Variabilita časů generování je nízká.
 
 \subsubsection{Binary Space Partitioning}
 
-Algoritmus BSP vytváří mapy s~dobře definovanými místnostmi a~systematickým propojením. Čas generování roste s~velikostí map, od přibližně 2,9 ms na mapě 20$\times$50 po 20,4 ms na mapě 150$\times$150. Tento nárůst odpovídá rekurzivní povaze algoritmu, který musí rozdělit celý prostor mapy a~následně propojit vzniklé místnosti.
+Algoritmus BSP vytváří mapy s~dobře definovanými místnostmi a~systematickým propojením. Čas generování roste s~velikostí map, od přibližně 2,9 ms na mapě 20$\times$50, až po 20,4 ms na mapě 150$\times$150. Tento nárůst odpovídá rekurzivní povaze algoritmu, který musí rozdělit celý prostor mapy a~následně propojit vzniklé místnosti.
 
-Pokrytí mapy u~BSP má celkově rostoucí trend s~velikostí mapy. Na mapě 20$\times$50 činí 42,5 \%, na mapě 70$\times$30 mírně roste na 43,3 \%, na mapě 60$\times$60 stoupá na 50,9 \% a~na mapě 100$\times$100 dosahuje 53,4 \%. Na mapě 150$\times$150 pak pokrytí mírně klesá na 52,6 \%.
-
-Variabilita času mezi běhy je u~BSP nízká.
+Pokrytí mapy u~BSP má celkově rostoucí trend s~velikostí mapy. Na mapě 20$\times$50 činí 42,5 \%, na mapě 70$\times$30 mírně roste na 43,3 \%, na mapě 60$\times$60 stoupá na 50,9 \% a~na mapě 100$\times$100 dosahuje 53,4 \%. Na mapě 150$\times$150 pak pokrytí mírně klesá na 52,6 \%. Variabilita času mezi běhy je u~BSP nízká.
 
 \begin{figure}[H]
 \centering
@@ -612,9 +612,9 @@ Variabilita času mezi běhy je u~BSP nízká.
 
 \subsubsection{Náhodná procházka}
 
-Algoritmus Náhodné procházky se od ostatních metod odlišuje zejména pokrytím mapy. Výsledné pokrytí se ve všech testovaných konfiguracích pohybuje v~rozmezí 50,0--50,1 \%, což přímo odpovídá implementaci, ve které je cílový počet průchozích dlaždic stanoven pevně. Variabilita pokrytí je tedy prakticky nulová.
+Algoritmus Náhodné procházky se od ostatních metod odlišuje zejména pokrytím mapy. Výsledné pokrytí se ve všech testovaných konfiguracích pohybuje okolo 50,0 \%, což přímo odpovídá implementaci, ve které je cílový počet průchozích dlaždic stanoven pevně. Variabilita pokrytí je tedy prakticky nulová.
 
-Čas generování vykazuje výraznější variabilitu mezi jednotlivými běhy. Na mapě 20$\times$50 se průměrný čas pohybuje kolem 4,6 ms. Na největší mapě 150$\times$150 dosahuje přibližně 55,7 ms. Variabilita časů odpovídá přirozeným výkyvům systému při opakovaném spouštění. Hodnota 50 \% je nastavitelný parametr a~změnou této konstanty lze dosáhnout libovolného cílového pokrytí.
+Čas generování vykazuje výraznější variabilitu mezi jednotlivými běhy. Na mapě 20$\times$50 se průměrný čas pohybuje kolem 4,6 ms. Na největší mapě 150$\times$150 dosahuje přibližně 55,7 ms. Variabilita časů odpovídá přirozeným výkyvům systému při opakovaném spouštění.
 
 \begin{figure}[H]
 \centering
@@ -656,9 +656,9 @@ Pokrytí mapy u~Buněčných automatů dosahuje vysokých hodnot a~s~rostoucí v
 
 \subsubsection{Bludiště}
 
-Algoritmus generování Bludiště se vyznačuje zcela deterministickým pokrytím mapy. Hodnota pokrytí je pro danou velikost mapy vždy shodná bez ohledu na konkrétní běh. Na mapě 20$\times$50 činí pokrytí 57,4 \%, na mapě 150$\times$150 pak 64,0 \%. Nulová variabilita pokrytí vyplývá z~principu algoritmu recursive backtracker, který vždy navštíví všechny buňky mřížky a~výsledný poměr průchozích dlaždic je dán pouze rozměry mapy a~velikostí buněk.
+Algoritmus generování Bludiště se vyznačuje velmi stabilním a~s~velikostí mapy pozvolna rostoucím pokrytím. Na mapě 20$\times$50 činí pokrytí 57,4 \%, na mapě 70$\times$30 pak 51,9 \% a~na největší mapě 150$\times$150 dosahuje 64,0 \%. Stabilita pokrytí napříč velikostmi map je dána principem algoritmu -- bludiště pokrývá mřížku rovnoměrně, protože každá buňka je navštívena právě jednou. Pokles na mapě 70$\times$30 je diskutován v~sekci~\ref{sec:diskuse}.
 
-Čas generování je u~tohoto algoritmu srovnatelný s~BSP. Na nejmenší mapě činí přibližně 3,6 ms, na největší pak 23,6 ms. Variabilita času mezi běhy je nízká.
+Čas generování dosahuje nízkých hodnot, podobně jako BSP. Na nejmenší mapě 20$\times$50 činí průměrný čas přibližně 3,6 ms, na největší mapě 150$\times$150 pak 23,6 ms. Variabilita časů mezi jednotlivými běhy je nízká, což je způsobeno deterministickým průchodem mřížky bez opakovaného navštěvování buněk.
 
 \begin{figure}[H]
 \centering
@@ -681,8 +681,7 @@ Zobrazené hodnoty představují průměry přes všechny testované velikosti m
 
 \subsubsection{Průměrný čas generování}
 
-Graf \ref{fig:comp_avg_time} zobrazuje průměrný čas generování algoritmů přes všechny testované velikosti map. 
-Mezi algoritmy jsou patrné výrazné rozdíly. Nejrychlejšími metodami jsou BSP s průměrem 8,3 ms a~Bludiště s~průměrem 9,6 ms. Místnosti dosahují průměru 9,9 ms. Náhodná procházka je výrazně pomalejší s~celkovým průměrem 19,7 ms. Buněčné automaty jsou nejpomalejší s~průměrem 61,4 ms, tedy přibližně sedmkrát více než u~BSP. 
+Graf \ref{fig:comp_avg_time} zobrazuje průměrný čas generování algoritmů přes všechny testované velikosti map. Mezi algoritmy jsou patrné výrazné rozdíly. Nejrychlejšími metodami jsou BSP s průměrem 8,3 ms a~Bludiště s~průměrem 9,6 ms. Místnosti dosahují průměru 9,9 ms. Náhodná procházka je výrazně pomalejší s~celkovým průměrem 19,7 ms. Buněčné automaty jsou nejpomalejší s~průměrem 61,4 ms, tedy přibližně sedmkrát více než u~BSP. 
 
 \begin{figure}[H]
 \centering
@@ -724,7 +723,7 @@ Graf \ref{fig:comp_time_scaling} znázorňuje, jak se čas generování mění s
 \label{fig:comp_time_scaling}
 \end{figure}
 
-Graf \ref{fig:comp_coverage_scaling} ukazuje vývoj pokrytí v~závislosti na velikosti mapy. BSP, Buněčné automaty a~Místnosti vykazují celkově rostoucí tendenci, s~větší mapou obecně roste i~podíl průchozího prostoru, což je očekávané. U~Místností je tento nárůst dán škálováním počtu místností s~plochou mapy. Bludiště má mírně rostoucí, ale velmi stabilní pokrytí. Náhodná procházka zůstává konstantní na hodnotě 50 \%. V~grafu jsou patrné výjimky z~tohoto trendu, jejich možné příčiny jsou diskutovány v~sekci Diskuse.
+Graf \ref{fig:comp_coverage_scaling} ukazuje vývoj pokrytí v~závislosti na velikosti mapy. BSP, Buněčné automaty a~Místnosti vykazují celkově rostoucí tendenci, s~větší mapou obecně roste i~podíl průchozího prostoru, což je očekávané. U~Místností je tento nárůst dán škálováním počtu místností s~plochou mapy. Bludiště má mírně rostoucí, ale velmi stabilní pokrytí. Náhodná procházka zůstává konstantní na hodnotě 50 \%. V~grafu jsou patrné výjimky z~tohoto trendu, jejich možné příčiny jsou diskutovány v~sekci~\ref{sec:diskuse}.
 
 \begin{figure}[H]
 \centering
@@ -794,12 +793,12 @@ Maze     & 3,64 & 4,63 & 5,79 & 10,09 & 23,62  \\
 \hline
 Rooms    & 42,90 & 31,10 & 32,53 & 43,81 & 54,09 \\
 BSP      & 42,50 & 43,29 & 50,92 & 53,42 & 52,56 \\
-Drunkard's  & 50,00 & 50,05 & 50,03 & 50,00 & 50,00 \\
+Drunkard's  & 50,00 & 50,05$^*$ & 50,03$^*$ & 50,00 & 50,00 \\
 Cellular & 59,40 & 63,95 & 65,94 & 70,91 & 72,26 \\
 Maze     & 57,40 & 56,48 & 60,11 & 61,42 & 64,02 \\
 \hline
 \end{tabular}
-\caption{Průměrný čas generování a~pokrytí}
+\caption{Průměrný čas generování a~pokrytí. Hodnoty označené $^*$ se od cílového pokrytí 50,0\,\% odchylují vlivem zaokrouhlování při dělení celkového počtu dlaždic.}
 \label{tab:results_summary}
 \end{table}
 
@@ -811,14 +810,15 @@ Na základě provedených měření lze algoritmy rozdělit do tří skupin podl
 Z~hlediska pokrytí mapy se algoritmy rovněž výrazně liší. Buněčné automaty dosahují na velkých mapách nejvyššího pokrytí 72,3 \%. Bludiště dosahuje pokrytí v~rozmezí 56,5--64,0 \% v~závislosti na velikosti mapy. BSP dosahuje pokrytí v~rozmezí 42,5--53,4 \%. Místnosti dosahují na mapě 150$\times$150 přibližně 54,1 \%, avšak pokrytí výrazně stoupá s~velikostí mapy (od 31,1 \% na mapě 70$\times$30). Náhodná procházka má dané pokrytí 50,0 \%.
 
 \section{Diskuse}
+\label{sec:diskuse}
 
 \subsection{Interpretace výsledků}
 
-Naměřené časy generování jsou v~souladu s~teoretickou časovou složitostí algoritmů. Všechny implementované metody dosahují lineární složitosti $O(n)$, kde $n = w \cdot h$ označuje celkový počet buněk mapy. Rozdíly v~rychlosti jsou způsobeny konstantními koeficienty. Buněčné automaty provádějí pro každou buňku $s = 5$ průchodů s~vyhodnocením 8~sousedů, tedy přibližně $40 \cdot n$ operací, což odpovídá přibližně osminásobnému rozdílu oproti algoritmům BSP a~Bludiště. Interpretovaný jazyk GDScript může vysoký čas Buněčných automatů dále zhoršovat v~porovnání s~kompilovanými jazyky, avšak primární příčinou zůstává samotná struktura algoritmu. Algoritmus Místností provádí kontrolu překryvů v~čase $O(r^2)$, kde $r = O(n/360)$, avšak tento výpočet je v~praxi zanedbatelný a~dominuje lineární průchod mapou při přidávání stěn. Stochastická povaha Náhodné procházky způsobuje opakované navštěvování odkrytých oblastí a~výraznou variabilitu doby generování, i~přes lineární průměrnou složitost.
+Naměřené časy generování jsou v~souladu s~teoretickou časovou složitostí algoritmů. Všechny implementované metody dosahují lineární složitosti $O(n)$, kde $n = w \cdot h$ označuje celkový počet buněk mapy. Rozdíly v~rychlosti jsou způsobeny konstantními koeficienty. Buněčné automaty provádějí pro každou buňku $s = 5$ průchodů s~vyhodnocením 8~sousedů, tedy přibližně $40 \cdot n$ operací, což odpovídá přibližně osminásobnému rozdílu oproti algoritmům BSP a~Bludiště. Algoritmus Místností provádí kontrolu překryvů v~čase $O(r^2)$, kde $r = O(n/360)$, avšak tento výpočet je v~praxi zanedbatelný a~dominuje lineární průchod mapou při přidávání stěn. Stochastická povaha Náhodné procházky způsobuje opakované navštěvování odkrytých oblastí a~výraznou variabilitu doby generování, i~přes lineární průměrnou složitost.
 
 Z~hlediska pokrytí se v~naměřených výsledcích vyskytují anomálie způsobené tvarem mapy nebo škálováním počtu místností. Mapa 70$\times$30 dosahuje u~algoritmů Místností a~Bludiště nižšího pokrytí než mapa 20$\times$50, přestože celkový počet buněk je větší (2\,100 vs. 1\,000). Příčinou je úzký tvar mapy -- nízký obdélník omezuje rozmístění místností i~dělení prostoru. U~Místností se do výšky 30 dlaždic nevejde plný počet místností minimální velikosti a~chodby zabírají větší podíl plochy. U Bludiště úzký tvar zmenšuje použitelné oblasti při dělení mřížky, čímž roste podíl stěn a~okrajů vůči průchozímu prostoru.
 
-U~algoritmu Místností se obdobná anomálie projevuje i~na mapě 60$\times$60, kde pokrytí (32,5 \%) zůstává nižší než na mapě 20$\times$50 (42,9 \%). Příčinou je v~tomto případě vliv použitého seedu. S~daným seedem algoritmus generuje výrazně delší chodby, které zabírají velký podíl plochy, což celkové pokrytí snižuje.
+U~algoritmu Místností se obdobná anomálie projevuje i~na mapě 60$\times$60, kde pokrytí (32,5 \%) zůstává nižší než na mapě 20$\times$50 (42,9 \%). Příčinou je v~tomto případě vliv použitého seedu. S~daným seedem algoritmus generuje výrazně delší chodby, které zabírají velký podíl plochy, což celkové pokrytí snižuje. Tato odchylka sama o~sobě ilustruje limitaci přístupu s~jediným seedem. Hodnota pokrytí pro danou velikost mapy nemusí být pro konkrétní seed reprezentativní.
 
 U~algoritmu BSP se navíc pokrytí na mapě 100$\times$100 (53,4 \%) mírně převyšuje hodnotu dosaženou na mapě 150$\times$150 (52,6 \%). Rozdíl je malý, ale naznačuje, že nárůst pokrytí BSP s~plochou mapy není vždy zcela lineární.
 
@@ -830,11 +830,13 @@ Implementace Místností dosahuje na velkých mapách výrazně vyššího pokry
 
 Algoritmus BSP má dobrou rovnováhu mezi rychlostí generování, pokrytím mapy a~strukturovaností výsledku. Generované mapy obsahují jasně oddělené místnosti propojené chodbami. Nevýhodou je poměrně pravidelný vzhled výsledných map.
 
-Buněčné automaty generují přirozeně působící jeskynní struktury a~dosahují nejvyššího pokrytí ze všech testovaných metod. Hlavní nevýhodou je výrazně vyšší výpočetní náročnost a~možný vznik izolovaných oblastí, které nejsou vzájemně průchozí. Důsledkem těchto izolovaných oblastí je, že reportované pokrytí zahrnuje i~nepřístupné části mapy. Skutečné přístupné pokrytí je proto mírně nižší, než jakou hodnotu udává měřená metrika.
+Buněčné automaty generují přirozeně působící jeskynní struktury a~dosahují nejvyššího pokrytí ze všech testovaných metod. Hlavní nevýhodou je výrazně vyšší výpočetní náročnost a~možný vznik izolovaných oblastí, které nejsou vzájemně průchozí. Důsledkem těchto izolovaných oblastí je, že reportované pokrytí zahrnuje i~nepřístupné části mapy a~představuje tak horní odhad skutečně přístupného prostoru. Přístupné pokrytí je proto systematicky nižší než hodnota udávaná měřenou metrikou, a~přímé srovnání s~ostatními algoritmy je v~tomto ohledu třeba interpretovat s~rezervou.
 
 Náhodná procházka vytváří organicky tvarované chodby s~předvídatelným pokrytím. Konstantní pokrytí může být výhodou v~situacích, kdy je požadována přesná kontrola nad poměrem průchozího prostoru. Nevýhodou je nižší strukturovanost výsledného prostředí.
 
 Algoritmus Bludiště byl do implementace zahrnut primárně pro demonstraci odlišného přístupu k~procedurálnímu generování. Generuje dokonalé bludiště. Z~hlediska dungeonových map je však méně vhodný, protože vytváří úzké chodby bez většího otevřeného prostoru.
+
+Na základě naměřených výsledků a~popsaných vlastností lze algoritmům přiřadit konkrétní doporučené oblasti použití. Pro klasické dungeonové prostředí s~jasně oddělenými místnostmi jsou nejvhodnější algoritmy BSP a~Místnosti, přičemž BSP nabízí lepší kontrolu nad rozložením místností a~nižší čas generování. Pro generování jeskynních a~organicky tvarovaných struktur jsou vhodné Buněčné automaty a~Náhodná procházka. Buněčné automaty poskytují vyšší pokrytí, avšak za cenu výrazně vyšší výpočetní náročnosti. Algoritmus Bludiště je vhodný zejména pro hry zaměřené na průzkum labyrintů, kde je záměrem, aby hráč procházel spletitou sítí úzkých chodeb.
 
 \subsection{Zkušenosti z implementace}
 
@@ -854,8 +856,14 @@ Porovnáním efektivity PCG algoritmů pro generování 2D map se zabývala rovn
 
 Oproti zmíněnému přístupu se předkládaná práce zaměřuje na pět samostatných generovacích metod a~jako metriku používá vedle času generování také pokrytí mapy průchozím prostorem. Obě práce se však shodují v~závěru, že BSP patří mezi nejefektivnější přístupy z~hlediska času generování.
 
+\subsection{Omezení měření}
+
+Předkládané výsledky je nutné interpretovat s~ohledem na několik omezení. Veškerá měření byla provedena výhradně v~prostředí herního enginu Godot s~využitím skriptovacího jazyka GDScript. Tento jazyk je interpretovaný, a~naměřené časy generování proto nemohou být přímo srovnávány s~implementacemi v~kompilovaných jazycích, jako jsou C++ nebo C\#. Absolutní hodnoty časů tak charakterizují konkrétní implementaci v~GDScriptu, nikoli algoritmy obecně.
+
+Měření bylo provedeno na jediném hardwarovém zařízení (MacBook Air 2025, M4, 24~GB RAM). Výsledky mohou být závislé na konkrétní hardwarové architektuře a~na jiném zařízení se mohou poměry mezi algoritmy mírně lišit, zejména u~metod s~odlišnými vzory přístupu do paměti.
+
 \subsection{Možnosti dalšího rozšíření práce}
-Prvním směrem rozšíření je zahrnutí strukturálních metrik. Pokrytí mapy průchozím prostorem je snadno měřitelná a~objektivní metrika, avšak sama o~sobě nevypovídá o~strukturální kvalitě generovaného prostředí. Dvě mapy se stejným pokrytím se mohou zásadně lišit z~hlediska hratelnosti. Například BSP a~Náhodná procházka dosahují na mapě 60$\times$60 prakticky shodného pokrytí (50,9 a~50,0 \%), přesto jsou výsledné struktury zcela odlišné: BSP vytváří jasně oddělené místnosti propojené chodbami, zatímco Náhodná procházka generuje organicky tvarované chodby bez pevné struktury.
+Prvním možným směrem rozšíření je zahrnutí strukturálních metrik. Pokrytí mapy průchozím prostorem je snadno měřitelná a~objektivní metrika, avšak sama o~sobě nevypovídá o~strukturální kvalitě generovaného prostředí. Dvě mapy se stejným pokrytím se mohou zásadně lišit z~hlediska hratelnosti. Například BSP a~Náhodná procházka dosahují na mapě 60$\times$60 prakticky shodného pokrytí (50,9 a~50,0 \%), přesto jsou výsledné struktury zcela odlišné: BSP vytváří jasně oddělené místnosti propojené chodbami, zatímco Náhodná procházka generuje organicky tvarované chodby bez pevné struktury.
 
 Relevantnějšími doplňkovými metrikami by mohly být například průměrná délka nejkratší cesty mezi dvěma náhodně vybranými průchozími dlaždicemi (měřitelná pomocí BFS), podíl slepých uliček nebo průměrný počet prostorově oddělených místností. Tyto metriky by umožnily kvantitativně zachytit rozdíly, které se v~současném měření projevují pouze vizuálně, a~lépe posoudit vhodnost jednotlivých metod pro konkrétní typy herního prostředí.
 
@@ -869,7 +877,7 @@ V~neposlední řadě by bylo možné implementovat adaptivní generování, kter
 \begin{kiconclusions}
 Cílem této bakalářské práce bylo představit, implementovat a~porovnat vybrané metody procedurálního generování dungeonových map ve 2D hrách.
 
-V~teoretické části práce byly popsány základní principy procedurálního generování obsahu, jeho historický vývoj a~přehled vybraných metod včetně jejich výhod a~omezení. Na základě provedené rešerše bylo vybráno pět algoritmů reprezentujících různé přístupy ke generování map: Náhodné umístění místností, Binary Space Partitioning, Náhodná procházka (Drunkard's Walk), Buněčné automaty a~generování Bludiště.
+V~teoretické části práce byly popsány základní principy procedurálního generování obsahu, jeho historický vývoj a~přehled vybraných metod včetně jejich výhod a~omezení. Na základě provedené rešerše bylo vybráno pět algoritmů reprezentujících různé přístupy ke generování map: Náhodné umístění místností, Binary Space Partitioning, Náhodná procházka, Buněčné automaty a~generování Bludiště.
 
 Všech pět algoritmů bylo implementováno v~herním enginu Godot s~využitím skriptovacího jazyka GDScript. Systém byl navržen modulárně s~unifikovaným rozhraním, které umožňuje snadné přidávání nových generovacích metod. Součástí aplikace je automatizovaný benchmarkový režim, který zajišťuje objektivní a~opakovatelné měření výkonu jednotlivých algoritmů.
 
@@ -891,7 +899,7 @@ Experimental measurements were conducted on five map sizes with 2000 runs per co
 
 The thesis demonstrated that the choice of generation method depends on the specific requirements of the game. BSP and Rooms are suitable for classic dungeon environments, cellular automata and drunkard's walk for cave-like structures, and the Maze algorithm for labyrinthine layouts.
 
-Limitations of this work include testing exclusively in the Godot environment with GDScript and measurements on a~single hardware device (MacBook Air 2025, M4, 24~GB RAM). The benchmark measurements were conducted with a~fixed seed, ensuring full reproducibility of results, however variability in coverage across different seeds was not captured. The statistical conclusions are supported by 2000 measurements per configuration.
+Limitations of this work include testing exclusively in the Godot environment with GDScript and measurements on a~single hardware device. The benchmark measurements were conducted with a~fixed seed, ensuring full reproducibility of results, however variability in coverage across different seeds was not captured. The statistical conclusions are supported by 2000 measurements per configuration.
 \end{kiconclusions}
 
 %% Přílohy
