@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 import os
 
 # load results
@@ -52,6 +53,39 @@ def save(name):
     plt.savefig(path, dpi=200)
     plt.close()
     print(f"  Saved {path}")
+
+
+def make_boxplot(box_data, labels, xlabel, ylabel, title, colors=None):
+    #Boxplot with jittered points, mean marker, colored boxes, and grid.
+    _default = ["#4C72B0", "#DD8452", "#55A868", "#C44E52", "#8172B3"]
+    if colors is None:
+        colors = (_default * ((len(labels) // len(_default)) + 1))[:len(labels)]
+    _fig, ax = plt.subplots(figsize=(8, 5))
+    bplot = ax.boxplot(
+        box_data, tick_labels=labels, patch_artist=True,
+        medianprops=dict(color="black", linewidth=2, zorder=5),
+        meanprops=dict(marker="D", markerfacecolor="crimson",
+                       markeredgecolor="white", markeredgewidth=0.8,
+                       markersize=8, zorder=6),
+        showmeans=True,
+    )
+    for patch, color in zip(bplot["boxes"], colors):
+        patch.set_facecolor(color)
+        patch.set_alpha(0.55)
+    for i, d in enumerate(box_data):
+        jitter = np.random.normal(i + 1, 0.07, size=len(d))
+        ax.scatter(jitter, d, alpha=0.35, s=16, color=colors[i], zorder=3, linewidths=0)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.set_title(title)
+    ax.yaxis.grid(True, alpha=0.35)
+    ax.set_axisbelow(True)
+    from matplotlib.lines import Line2D
+    ax.legend(
+        handles=[Line2D([0], [0], marker="D", color="w",
+                        markerfacecolor="crimson", markersize=7, label="mean")],
+        loc="upper right", framealpha=0.7,
+    )
 
 
 def annotate_bars(fmt="{:.1f}", yerr=None):
@@ -184,9 +218,6 @@ plt.grid(True, alpha=0.3)
 save("comparison_tradeoff.png")
 
 
-
-# PER-ALGORITHM GRAPHS
-
 print("\nGenerating per-algorithm graphs...")
 
 for alg in algorithms:
@@ -242,47 +273,34 @@ for alg in algorithms:
     save(f"{alg.lower()}_coverage_per_run.png")
 
     # boxplot - time distribution per size
-    plt.figure(figsize=(8, 5))
     box_data = [alg_df[alg_df["size"] == s]["gen_time_ms"].values for s in sizes]
-    plt.boxplot(box_data, tick_labels=sizes)
-    plt.xlabel("Map size")
-    plt.ylabel("Generation time [ms]")
-    plt.title(f"{alg} - Time Distribution by Map Size")
+    make_boxplot(box_data, sizes, "Map size", "Generation time [ms]",
+                 f"{alg} - Time Distribution by Map Size")
     save(f"{alg.lower()}_time_boxplot.png")
 
     # boxplot - coverage distribution per size
-    plt.figure(figsize=(8, 5))
     box_data = [alg_df[alg_df["size"] == s]["coverage"].values for s in sizes]
-    plt.boxplot(box_data, tick_labels=sizes)
-    plt.xlabel("Map size")
-    plt.ylabel("Coverage [%]")
-    plt.title(f"{alg} - Coverage Distribution by Map Size")
+    make_boxplot(box_data, sizes, "Map size", "Coverage [%]",
+                 f"{alg} - Coverage Distribution by Map Size")
     save(f"{alg.lower()}_coverage_boxplot.png")
 
 
-# PER-SIZE COMPARISON GRAPHS
 print("\nGenerating per-size comparison graphs...")
 
 for size_label in sizes:
     size_df = df[df["size"] == size_label]
 
     # boxplot - time for all algorithms at this size
-    plt.figure(figsize=(8, 5))
     box_data = [size_df[size_df["algorithm"] == a]["gen_time_ms"].values for a in algorithms]
-    plt.boxplot(box_data, tick_labels=algorithms)
-    plt.xlabel("Algorithm")
-    plt.ylabel("Generation time [ms]")
-    plt.title(f"Time Distribution - Map {size_label}")
+    make_boxplot(box_data, algorithms, "Algorithm", "Generation time [ms]",
+                 f"Time Distribution - Map {size_label}")
     save(f"size_{size_label}_time_boxplot.png")
 
     # boxplot - coverage for all algorithms at this size
-    plt.figure(figsize=(8, 5))
     box_data = [size_df[size_df["algorithm"] == a]["coverage"].values for a in algorithms]
-    plt.boxplot(box_data, tick_labels=algorithms)
-    plt.xlabel("Algorithm")
-    plt.ylabel("Coverage [%]")
-    plt.title(f"Coverage Distribution - Map {size_label}")
+    make_boxplot(box_data, algorithms, "Algorithm", "Coverage [%]",
+                 f"Coverage Distribution - Map {size_label}")
     save(f"size_{size_label}_coverage_boxplot.png")
 
 
-print("\nDone! All graphs saved in /plots folder.")
+print("All graphs saved in /plots folder.")

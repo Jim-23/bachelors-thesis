@@ -9,25 +9,24 @@ extends Node2D
 @onready var dungeon_layer: TileMapLayer = $DungeonLayer
 @onready var player: CharacterBody2D = $Player
 
-# ui interactive buttons and spinboxes 
+# ui
 @onready var dungeon_type_option: OptionButton = $UI/Panel/MarginContainerUI/VBoxContainer/FirstRow/DungeonType
 @onready var width_input: SpinBox = $UI/Panel/MarginContainerUI/VBoxContainer/FirstRow/Width
 @onready var height_input: SpinBox = $UI/Panel/MarginContainerUI/VBoxContainer/FirstRow/Height
 @onready var generate_button: Button = $UI/Panel/MarginContainerUI/VBoxContainer/FirstRow/GenerateButton
 @onready var benchmark_button: Button = $UI/Panel/MarginContainerUI/VBoxContainer/FirstRow/BenchmarkButton
-
-#TODO add to gui in the engine
 @onready var benchmark_input: SpinBox = $UI/Panel/MarginContainerUI/VBoxContainer/FirstRow/BenchmarkInput
-@onready var seed_input: SpinBox = $UI/Panel/MarginContainerUI/VBoxContainer/Seed/SeedInput
-@onready var seed_checkbox: CheckBox = $UI/Panel/MarginContainerUI/VBoxContainer/Seed/SeedCheckBox
-@onready var progress_bar: ProgressBar = $UI/Panel/MarginContainerUI/VBoxContainer/FirstRow/ProgressBar
 
-# UI labels
+@onready var seed_input: SpinBox = $UI/Panel/MarginContainerUI/VBoxContainer/SecondRow/SeedInput
+@onready var seed_checkbox: CheckBox = $UI/Panel/MarginContainerUI/VBoxContainer/SecondRow/SeedCheckBox
+@onready var progress_bar: ProgressBar = $UI/Panel/MarginContainerUI/VBoxContainer/SecondRow/ProgressBar
+
 @onready var gen_time_label:  Label = $UI/Panel/MarginContainerUI/VBoxContainer/Stats/GenTimeLabel
 @onready var floor_label:     Label = $UI/Panel/MarginContainerUI/VBoxContainer/Stats/FloorLabel
 @onready var coverage_label:  Label = $UI/Panel/MarginContainerUI/VBoxContainer/Stats/CoverageLabel
 @onready var size_label:      Label = $UI/Panel/MarginContainerUI/VBoxContainer/Stats/SizeLabel
-@onready var status_label:    Label = $UI/Panel/MarginContainerUI/VBoxContainer/Stats/StatusLabel
+@onready var status_label:    Label = $UI/Panel/MarginContainerUI/VBoxContainer/Stats/StatusScroll/StatusLabel
+
 @onready var coins_label: Label = $UI/MarginContainerCoins/CoinsLabel
 
 # import generators scripts + coin scene
@@ -122,9 +121,12 @@ func _on_generate_button_pressed() -> void:
 	if player:
 		player.hide()
 	
-	# disable generate button so the user can't press it while processing
+	# disable generate button so the user can't press it while processing and sets progress bar to 0
 	generate_button.disabled = true
+	progress_bar.max_value = 100.0
+	progress_bar.value = 0.0
 
+	# resets all previously collected coins
 	_reset_coins_state()
 
 	# get choosen width and height + seed if checked
@@ -189,9 +191,7 @@ func _on_generate_button_pressed() -> void:
 
 
 func run_benchmark() -> void: 
-	# TODO add more benchmarks with specific seed!
-	# TODO add status label and progress bar or something so you can see something is happening during benchmark
-	# TODO maybe spinning character to make it more interesting?
+
 	print("Benchmark starts")
 	var algorithms = [
 		{"name":"Rooms", "func": RoomsGenerator.generate},
@@ -263,8 +263,8 @@ func _update_camera_limits(map_width: int, map_height: int) -> void:
 		# try to find camera as sibling in main scene
 		camera = get_node_or_null("Camera2D")
 	
+	# if camera is still null, return
 	if camera == null:
-		push_warning("No Camera2D found!")
 		return
 
 	# get current tile sizes and set the limits
@@ -310,6 +310,7 @@ func _draw_map_animated(map: Array) -> Array[Vector2i]:
 		# short pause between rows so the reveal effect is visible
 		await get_tree().create_timer(0.01).timeout
 
+		progress_bar.value = float(y + 1) / float(map.size()) * 100.0
 		var elapsed: float = (Time.get_ticks_usec() - render_start) / 1_000_000.0
 		status_label.text = "Rendering: %.2f s" % elapsed
 
@@ -433,8 +434,13 @@ func _place_coins_on_floor(floor_tiles: Array[Vector2i]) -> void:
 
 	# pick a random coin_count between MIN and MAX, still consideres the floor count
 	var coin_count: int = randi_range(MIN_COINS, MAX_COINS)
+	# filter to only tiles with a 3x3 area so coins aren't stuck in corners
+	var main_region_set: Dictionary = _build_tile_set(main_region)
+	var open_tiles: Array[Vector2i] = main_region.filter(
+		func(t): return _is_clear_3x3_center(t, main_region_set) #lambda function for returning true/false area for the coin
+	)
 	# duplicate and shuffle the region so we pick random positions
-	var shuffled: Array[Vector2i] = main_region.duplicate()
+	var shuffled: Array[Vector2i] = (open_tiles if not open_tiles.is_empty() else main_region).duplicate()
 	shuffled.shuffle()
 
 	# cap coin count to available floor tiles in case the region is small
@@ -467,9 +473,10 @@ func _on_coin_collected() -> void:
 		coins_label.text = "ALL COINS COLLECTED! NEW DUNGEON IS BEING GENERATED"
 		_on_generate_button_pressed()
 		
+
 func _log_results(algorithm:String, width:int, height:int, run:int, gen_time:float, coverage:float, floor_tiles:int):
 	# function for logging benchmark results
-	var path := "results.csv"
+	var path := ProjectSettings.globalize_path("user://results.csv")
 	var file: FileAccess
 
 	if FileAccess.file_exists(path):
@@ -497,6 +504,6 @@ func _on_benchmark_button_pressed() -> void:
 	benchmark_button.disabled = true
 	status_label.text = "Benchmark is running ..."
 	await run_benchmark()
-	status_label.text = "Benchmark has finished. Data were saved to results.csv"
+	status_label.text = "Benchmark done. Saved to: %s" % ProjectSettings.globalize_path("user://results.csv")
 	generate_button.disabled = false
 	benchmark_button.disabled = false

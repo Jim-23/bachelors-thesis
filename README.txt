@@ -6,10 +6,12 @@ Univerzita: Katedra informatiky, PřF UP v Olomouci, 2026
 
 Struktura projektu:
 
-    src/          — zdrojový kód (kompletní Godot projekt)
-    src/README.md — instrukce ke spuštění aplikace
-    text/         — text bakalářské práce (LaTeX, obrázky, PDF)
-    README.txt    — tento soubor
+    src/            — zdrojový kód (kompletní Godot projekt)
+    src/results.csv - naměřené výsledky
+    src/README.md   — instrukce ke spuštění projektu
+    text/           — text bakalářské práce (LaTeX, PDF)
+    README.txt      — tento soubor
+    README.md       — Markdown verze txt soubor
 
 src/
 ----
@@ -22,3 +24,15 @@ text/
 -----
 Obsahuje text bakalářské práce — zdrojový kód v LaTeXu, bibliografii,
 obrázky a styl kidiplom.cls potřebný pro sestavení PDF dokumentu.
+
+Spuštění projektu
+-----------------
+Možnost A – spustitelný soubor:
+  macOS   — otevřete src/executables/ProceduralGenerationProject_MacOS.dmg
+  Windows — spusťte src/executables/ProceduralGenerationProject_WIN.exe
+
+Možnost B – Godot Engine 4.4+:
+  Otevřete Godot Engine, zvolte Import a vyberte
+  src/proceduralgenerationproject/project.godot
+
+Podrobnější instrukce a popis ovládání viz src/README.md.

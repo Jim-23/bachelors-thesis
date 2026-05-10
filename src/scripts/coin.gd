@@ -13,7 +13,7 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 
 	# disable monitoring so it can't be triggered again mid-animation
-	monitoring = false
+	set_deferred("monitoring", false)
 	$CollisionShape2D.set_deferred("disabled", true)
 
 	collected.emit()

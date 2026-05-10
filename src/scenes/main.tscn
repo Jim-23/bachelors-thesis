@@ -28,19 +28,17 @@ tile_set = ExtResource("1_o5qli")
 script = SubResource("GDScript_sugp2")
 
 [node name="Panel" type="Panel" parent="UI"]
-custom_minimum_size = Vector2(0, 120)
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 230.0
 grow_horizontal = 2
-size_flags_horizontal = 3
 theme = ExtResource("4_tbgi4")
 
 [node name="MarginContainerUI" type="MarginContainer" parent="UI/Panel"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 210.0
+offset_bottom = 230.0
 grow_horizontal = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 10
@@ -121,33 +119,33 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Benchmark"
 
-[node name="ProgressBar" type="ProgressBar" parent="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-tooltip_text = "Current progress of Benchmark run"
-
-[node name="Seed" type="HBoxContainer" parent="UI/Panel/MarginContainerUI/VBoxContainer"]
+[node name="SecondRow" type="HBoxContainer" parent="UI/Panel/MarginContainerUI/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 25
 
-[node name="LabelSeed" type="Label" parent="UI/Panel/MarginContainerUI/VBoxContainer/Seed"]
+[node name="LabelSeed" type="Label" parent="UI/Panel/MarginContainerUI/VBoxContainer/SecondRow"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Seed:"
 
-[node name="SeedInput" type="SpinBox" parent="UI/Panel/MarginContainerUI/VBoxContainer/Seed"]
+[node name="SeedInput" type="SpinBox" parent="UI/Panel/MarginContainerUI/VBoxContainer/SecondRow"]
 layout_mode = 2
 max_value = 1e+07
 alignment = 1
 
-[node name="SeedCheckBox" type="CheckBox" parent="UI/Panel/MarginContainerUI/VBoxContainer/Seed"]
+[node name="SeedCheckBox" type="CheckBox" parent="UI/Panel/MarginContainerUI/VBoxContainer/SecondRow"]
 layout_mode = 2
 tooltip_text = "Allow seed?"
 theme = ExtResource("4_tbgi4")
 alignment = 1
 icon_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="UI/Panel/MarginContainerUI/VBoxContainer/SecondRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+tooltip_text = "Current progress of Benchmark run"
 
 [node name="Stats" type="HBoxContainer" parent="UI/Panel/MarginContainerUI/VBoxContainer"]
 layout_mode = 2
@@ -176,9 +174,14 @@ size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 30
 text = "Size: --"
 
-[node name="StatusLabel" type="Label" parent="UI/Panel/MarginContainerUI/VBoxContainer/Stats"]
+[node name="StatusScroll" type="ScrollContainer" parent="UI/Panel/MarginContainerUI/VBoxContainer/Stats"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
+vertical_scroll_mode = 0
+
+[node name="StatusLabel" type="Label" parent="UI/Panel/MarginContainerUI/VBoxContainer/Stats/StatusScroll"]
+layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Ready"
 
@@ -202,6 +205,7 @@ editor_draw_limits = true
 editor_draw_drag_margin = true
 script = ExtResource("4_jyhfs")
 follow_target = NodePath("../Player")
+follow_offset = Vector2(49, 6)
 
 [connection signal="pressed" from="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow/GenerateButton" to="." method="_on_generate_button_pressed"]
 [connection signal="pressed" from="UI/Panel/MarginContainerUI/VBoxContainer/FirstRow/BenchmarkButton" to="." method="_on_benchmark_button_pressed"]
