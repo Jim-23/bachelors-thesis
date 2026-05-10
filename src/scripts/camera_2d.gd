@@ -71,11 +71,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 		# zoom with mouse wheel
 		if mb.pressed and mb.button_index == MOUSE_BUTTON_WHEEL_UP:
-			_set_zoom(zoom.x - zoom_step)
+			_set_zoom(zoom.x + zoom_step)
 			return
 
 		if mb.pressed and mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			_set_zoom(zoom.x + zoom_step)
+			_set_zoom(zoom.x - zoom_step)
 			return
 
 
