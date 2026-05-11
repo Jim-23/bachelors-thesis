@@ -123,6 +123,7 @@ func _on_generate_button_pressed() -> void:
 	
 	# disable generate button so the user can't press it while processing and sets progress bar to 0
 	generate_button.disabled = true
+	benchmark_button.disabled = true
 	progress_bar.max_value = 100.0
 	progress_bar.value = 0.0
 
@@ -188,7 +189,7 @@ func _on_generate_button_pressed() -> void:
 
 	# reenable the button
 	generate_button.disabled = false
-
+	benchmark_button.disabled = false
 
 func run_benchmark() -> void: 
 
