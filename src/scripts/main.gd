@@ -471,8 +471,10 @@ func _on_coin_collected() -> void:
 	_coins_collected += 1
 	coins_label.text = "Coins: %d/%d" % [_coins_collected, _coins_total]
 	if _coins_collected == _coins_total:
-		coins_label.text = "ALL COINS COLLECTED! NEW DUNGEON IS BEING GENERATED"
-		_on_generate_button_pressed()
+		coins_label.text = "ALL COINS COLLECTED!"
+		# only generate if the generate button is enabled
+		if not generate_button.disabled:
+			_on_generate_button_pressed()
 		
 
 func _log_results(algorithm:String, width:int, height:int, run:int, gen_time:float, coverage:float, floor_tiles:int):
