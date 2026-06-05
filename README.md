@@ -8,8 +8,6 @@
 
 - `text/` - thesis source files (LaTeX, figures, PDF)
 - `README.md` - this file
-- `README.txt` - plain text version of this README
-
 
 ### `text/`
 
@@ -38,8 +36,6 @@ https://github.com/Jim-23/ProceduralGenerationBP
 
 - text/ - text bakalářské práce (LaTeX, obrázky, PDF)
 - README.md - tento soubor
-- README.txt - txt verze Markdown souboru
-
 
 ### `text/`
 
