@@ -1,9 +1,0 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://b7w35du7aalk6"]
-
-[ext_resource type="Texture2D" uid="uid://do2atnfkicymn" path="res://assets/ui/Check-Square--Streamline-Sharp-Remix.png" id="1_a2l2q"]
-[ext_resource type="Texture2D" uid="uid://dvj2dth1nuaqv" path="res://assets/ui/Layout-Square--Streamline-Sharp-Remix.png" id="2_0omi4"]
-
-[resource]
-CheckBox/font_sizes/font_size = 16
-CheckBox/icons/checked = ExtResource("1_a2l2q")
-CheckBox/icons/unchecked = ExtResource("2_0omi4")
