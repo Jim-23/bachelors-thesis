@@ -1,4 +1,4 @@
-# Bachelor's Thesis — Procedural Dungeon Generation in 2D Games
+ # Bachelor's Thesis — Procedural Dungeon Generation in 2D Games
 
 **Author:** Jesse Sadowý  
 **Supervisor:** Jan Konečný, Ph.D.  
@@ -6,36 +6,24 @@
 
 ## Project Structure
 
-- `src/` - source code (complete Godot project)
-  - `README.md` - application setup and usage instructions
-  - `results.csv` - benchmark results
 - `text/` - thesis source files (LaTeX, figures, PDF)
 - `README.md` - this file
 - `README.txt` - plain text version of this README
 
-### `src/`
-
-Contains the complete Godot 4.4 project, including game scripts, scenes, graphical assets, benchmark data, and generated plots. Detailed instructions for running the application and using its features can be found in `src/README.md`.
 
 ### `text/`
 
-Contains the bachelor's thesis source files, including the LaTeX document, bibliography, figures, and the `kidiplom.cls` class file required to build the final PDF.
+- Contains the bachelor's thesis source files, including the LaTeX document, bibliography, figures, and the `kidiplom.cls` class file required to build the final PDF.
 
-## Running the Project
+### Related Project
 
-### Option A – Prebuilt Executables
+- The implementation developed as part of this thesis is available in a separate repository:
 
-Precompiled executables are available in the `src/executables/` directory:
+https://github.com/Jim-23/ProceduralGenerationBP
 
-- **macOS** – open `ProceduralGenerationProject_MacOS.dmg` and launch the application.
-- **Windows** – run `ProceduralGenerationProject_WIN.exe`.
+## License
 
-### Option B – Godot Engine
-
-- Open Godot Engine 4.4 or newer, select **Import**, and choose the file:
-`src/proceduralgenerationproject/project.godot`
-- For detailed setup instructions and a complete description of the controls, see `src/README.md`.
-
+- The thesis text and accompanying documentation are licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0).
 
 ---
 
@@ -48,32 +36,21 @@ Precompiled executables are available in the `src/executables/` directory:
 
 ## Struktura projektu
 
-
-- src/ - zdrojový kód (kompletní Godot projekt)
-    - README.md - instrukce ke spuštění aplikace
-    - results.csv - naměřené hodnoty
 - text/ - text bakalářské práce (LaTeX, obrázky, PDF)
 - README.md - tento soubor
 - README.txt - txt verze Markdown souboru
 
 
-### `src/`
-
-Obsahuje kompletní projekt v herním enginu Godot 4.4, herními skripty, scény, grafické prostředky, naměřená data z benchmarků a vygenerované grafy. Podrobné instrukce pro spuštění aplikace a ovládání naleznete v `src/README.md`.
-
 ### `text/`
 
-Obsahuje text bakalářské práce — zdrojový kód v LaTeXu, bibliografii, obrázky a styl `kidiplom.cls` potřebný pro sestavení PDF dokumentu.
+- Obsahuje text bakalářské práce — zdrojový kód v LaTeXu, bibliografii, obrázky a styl `kidiplom.cls` potřebný pro sestavení PDF dokumentu.
 
-## Spuštění projektu
+### Projekt
 
-**Možnost A – spustitelný soubor**
+- Implementace vytvořená v rámci této bakalářské práce je dostupná v samostatném repozitáři:
 
-Ve složce `src/executables/` jsou předkompilované spustitelné soubory:
-- **macOS** – otevřete `ProceduralGenerationProject_MacOS.dmg` a spusťte aplikaci.
-- **Windows** – spusťte `ProceduralGenerationProject_WIN.exe`.
+https://github.com/Jim-23/ProceduralGenerationBP
 
-**Možnost B – Godot Engine**
+## Licence
 
-- Otevřete Godot Engine 4.4+, zvolte **Import** a vyberte soubor `src/proceduralgenerationproject/project.godot`.
-- Podrobnější instrukce a popis ovládání naleznete v `src/README.md`.
+- Text bakalářské práce a související dokumentace jsou licencovány pod licencí Creative Commons Attribution 4.0 International (CC BY 4.0).
