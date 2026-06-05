@@ -1,3 +1,45 @@
+# Bachelor's Thesis — Procedural Dungeon Generation in 2D Games
+
+**Author:** Jesse Sadowý  
+**Supervisor:** Jan Konečný, Ph.D.  
+**University:** Department of Computer Science, Faculty of Science, Palacký University Olomouc, 2026
+
+## Project Structure
+
+- `src/` - source code (complete Godot project)
+  - `README.md` - application setup and usage instructions
+  - `results.csv` - benchmark results
+- `text/` - thesis source files (LaTeX, figures, PDF)
+- `README.md` - this file
+- `README.txt` - plain text version of this README
+
+### `src/`
+
+Contains the complete Godot 4.4 project, including game scripts, scenes, graphical assets, benchmark data, and generated plots. Detailed instructions for running the application and using its features can be found in `src/README.md`.
+
+### `text/`
+
+Contains the bachelor's thesis source files, including the LaTeX document, bibliography, figures, and the `kidiplom.cls` class file required to build the final PDF.
+
+## Running the Project
+
+### Option A – Prebuilt Executables
+
+Precompiled executables are available in the `src/executables/` directory:
+
+- **macOS** – open `ProceduralGenerationProject_MacOS.dmg` and launch the application.
+- **Windows** – run `ProceduralGenerationProject_WIN.exe`.
+
+### Option B – Godot Engine
+
+- Open Godot Engine 4.4 or newer, select **Import**, and choose the file:
+`src/proceduralgenerationproject/project.godot`
+- For detailed setup instructions and a complete description of the controls, see `src/README.md`.
+
+
+---
+
+
 # Bakalářská práce — Procedurální generování dungeonů ve 2D hrách
 
 **Autor:** Jesse Sadowý  
@@ -33,6 +75,5 @@ Ve složce `src/executables/` jsou předkompilované spustitelné soubory:
 
 **Možnost B – Godot Engine**
 
-Otevřete Godot Engine 4.4+, zvolte **Import** a vyberte soubor `src/proceduralgenerationproject/project.godot`.
-
-Podrobnější instrukce a popis ovládání naleznete v `src/README.md`.
+- Otevřete Godot Engine 4.4+, zvolte **Import** a vyberte soubor `src/proceduralgenerationproject/project.godot`.
+- Podrobnější instrukce a popis ovládání naleznete v `src/README.md`.
